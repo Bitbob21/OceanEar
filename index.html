@@ -13,7 +13,7 @@
             --primary: #1a5f6d;
             --secondary: #2a7f8f;
             --accent: #00bcd4;
-            --highlight: #f56565; /* Kina Red/Orange from the app */
+            --highlight: #f56565; /* Kina Orange/Red */
             --bg: #f5fafb;
             --text: #1a1a1a;
             --text-light: #666666;
@@ -113,31 +113,29 @@
             margin: 0 auto;
         }
 
-        .flagship-grid {
+        .app-showcase {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
         }
 
-        .feature-card {
-            background: var(--surface);
-            padding: 2rem;
-            border-radius: 12px;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid var(--accent);
+        .app-card {
+            text-align: center;
         }
 
-        .feature-card h3 {
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .app-preview-secondary {
-            max-width: 250px;
+        .app-card img {
+            max-width: 100%;
             border-radius: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            border: 4px solid white;
+        }
+
+        .app-card h3 {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary);
+            font-size: 1rem;
         }
 
         .tech-badge {
@@ -152,6 +150,20 @@
             font-weight: 700;
         }
 
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--highlight);
+        }
+
         footer {
             padding: 4rem 2rem;
             text-align: center;
@@ -161,9 +173,9 @@
         }
 
         @media (max-width: 900px) {
-            .hero, .flagship-grid { flex-direction: column; grid-template-columns: 1fr; text-align: center; }
+            .hero { flex-direction: column; text-align: center; }
             h1 { font-size: 2.5rem; }
-            .hero-image img { max-width: 280px; }
+            .feature-list { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -179,34 +191,46 @@
             <div class="tech-badge">Flagship: App + Hydrophone</div>
             <h1>The Pulse of the <span>Ocean</span> in your Hand.</h1>
             <p class="subtitle">
-                Professional underwater acoustic monitoring, simplified. Connect our high-precision hydrophone and watch the sea come alive in real-time.
+                Professional underwater acoustic monitoring, simplified. Connect your hydrophone and watch the sea come alive in real-time.
             </p>
-            <a href="#" class="btn btn-primary">Start Monitoring</a>
+            <a href="#" class="btn btn-primary">Download Beta</a>
         </div>
         <div class="hero-image">
-            <img src="assets/app_interface.jpg" alt="Ocean Ear App Interface with Spectrogram">
+            <img src="assets/app_recording.jpg" alt="Ocean Ear Recording Interface">
         </div>
     </section>
 
     <section class="section" style="background: white;">
-        <div class="flagship-grid">
-            <div style="text-align: center;">
-                <img src="assets/app_splash.jpg" alt="Ocean Ear Splash Screen" class="app-preview-secondary">
+        <h2 style="text-align: center; color: var(--primary); margin-bottom: 1rem;">Experience the App</h2>
+        <p style="text-align: center; color: var(--text-light); margin-bottom: 3rem;">From live recording to intelligent library management.</p>
+        
+        <div class="app-showcase">
+            <div class="app-card">
+                <img src="assets/app_splash.jpg" alt="Splash Screen">
+                <h3>Clean Branding</h3>
             </div>
-            <div>
-                <h2 style="margin-bottom: 2rem; color: var(--primary);">Intelligent Acoustic Tracking</h2>
-                <div class="feature-card">
-                    <h3>Real-Time Spectrogram</h3>
-                    <p>Visualize frequencies from 10Hz to 192kHz. Instant identification of Kina grazing and marine life signatures.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>AI-Powered Classification</h3>
-                    <p>Our neural engine detects and logs underwater events automatically, filtering out ambient noise for clear data.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Professional Export</h3>
-                    <p>Export time-coded .WAV and CSV files directly from your smartphone for further research with Dr. Ohad or your team.</p>
-                </div>
+            <div class="app-card">
+                <img src="assets/app_interface.jpg" alt="Main Interface">
+                <h3>Live Monitoring</h3>
+            </div>
+            <div class="app-card">
+                <img src="assets/app_library.jpg" alt="Library Management">
+                <h3>Audio Library</h3>
+            </div>
+            <div class="app-card">
+                <img src="assets/app_recording.jpg" alt="Recording View">
+                <h3>Cloud Export</h3>
+            </div>
+        </div>
+
+        <div class="feature-list">
+            <div class="feature-item">
+                <h4 style="color: var(--primary); margin-bottom: 0.5rem; font-family: 'JetBrains Mono';">Bluetooth Seamless</h4>
+                <p>Monitor your hydrophone via Bluetooth audio output (EarFun Free Pro 3 tested). Perfect for real-time field work.</p>
+            </div>
+            <div class="feature-item">
+                <h4 style="color: var(--primary); margin-bottom: 0.5rem; font-family: 'JetBrains Mono';">Live Spectrogram</h4>
+                <p>High-resolution frequency mapping to identify Kina, marine life, and ambient acoustics on the fly.</p>
             </div>
         </div>
     </section>
