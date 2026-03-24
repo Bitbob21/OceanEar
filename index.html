@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCEAN EAR | Smart Hydrophone & AI App</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a5f6d;
+            --secondary: #2a7f8f;
+            --accent: #00bcd4;
+            --highlight: #f56565; /* Kina Red/Orange from the app */
+            --bg: #f5fafb;
+            --text: #1a1a1a;
+            --text-light: #666666;
+            --surface: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .logo b { font-weight: 800; }
+        .logo span { font-weight: 200; color: var(--text-light); }
+
+        .hero {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .hero-content { flex: 1; }
+        .hero-image { flex: 1; text-align: center; }
+
+        .hero-image img {
+            max-width: 320px;
+            border-radius: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            border: 8px solid white;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        h1 span { color: var(--accent); }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 95, 109, 0.3);
+        }
+
+        .section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .flagship-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent);
+        }
+
+        .feature-card h3 {
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .app-preview-secondary {
+            max-width: 250px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .tech-badge {
+            font-family: 'JetBrains Mono', monospace;
+            display: inline-block;
+            background: rgba(0, 188, 212, 0.1);
+            color: var(--secondary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        footer {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        @media (max-width: 900px) {
+            .hero, .flagship-grid { flex-direction: column; grid-template-columns: 1fr; text-align: center; }
+            h1 { font-size: 2.5rem; }
+            .hero-image img { max-width: 280px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><b>OCEAN</b><span>EAR</span></div>
+        <a href="#" class="btn btn-primary" style="font-size: 0.9rem;">Join TestFlight</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="tech-badge">Flagship: App + Hydrophone</div>
+            <h1>The Pulse of the <span>Ocean</span> in your Hand.</h1>
+            <p class="subtitle">
+                Professional underwater acoustic monitoring, simplified. Connect our high-precision hydrophone and watch the sea come alive in real-time.
+            </p>
+            <a href="#" class="btn btn-primary">Start Monitoring</a>
+        </div>
+        <div class="hero-image">
+            <img src="assets/app_interface.jpg" alt="Ocean Ear App Interface with Spectrogram">
+        </div>
+    </section>
+
+    <section class="section" style="background: white;">
+        <div class="flagship-grid">
+            <div style="text-align: center;">
+                <img src="assets/app_splash.jpg" alt="Ocean Ear Splash Screen" class="app-preview-secondary">
+            </div>
+            <div>
+                <h2 style="margin-bottom: 2rem; color: var(--primary);">Intelligent Acoustic Tracking</h2>
+                <div class="feature-card">
+                    <h3>Real-Time Spectrogram</h3>
+                    <p>Visualize frequencies from 10Hz to 192kHz. Instant identification of Kina grazing and marine life signatures.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>AI-Powered Classification</h3>
+                    <p>Our neural engine detects and logs underwater events automatically, filtering out ambient noise for clear data.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Professional Export</h3>
+                    <p>Export time-coded .WAV and CSV files directly from your smartphone for further research with Dr. Ohad or your team.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2026 OCEAN EAR | Smart Maritime Research | Wellington, New Zealand
+    </footer>
+
+</body>
+</html>
