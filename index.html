@@ -3,240 +3,514 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OCEAN EAR | Smart Hydrophone & AI App</title>
+    <title>Ocean Ear | Precision Hydrophone & AI Marine Monitoring</title>
+    
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --primary: #1a5f6d;
-            --secondary: #2a7f8f;
-            --accent: #00bcd4;
-            --highlight: #f56565; /* Kina Orange/Red */
-            --bg: #f5fafb;
-            --text: #1a1a1a;
-            --text-light: #666666;
-            --surface: #ffffff;
+            --petrol: #1a5f6d;
+            --cyan: #00bcd4;
+            --kina-orange: #f56565;
+            --dark: #0a2e35;
+            --light: #f8fafc;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.5;
             overflow-x: hidden;
         }
 
-        header {
-            padding: 1.5rem 2rem;
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        code, .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+
+        /* Navigation */
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            z-index: 100;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .logo {
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            color: var(--primary);
-            text-transform: uppercase;
-        }
-
-        .logo b { font-weight: 800; }
-        .logo span { font-weight: 200; color: var(--text-light); }
-
-        .hero {
-            padding: 4rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
             display: flex;
             align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(165deg, var(--dark) 0%, var(--petrol) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 8rem 2rem 4rem;
+            color: white;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 80% 20%, rgba(0, 188, 212, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
             gap: 4rem;
+            align-items: center;
         }
 
-        .hero-content { flex: 1; }
-        .hero-image { flex: 1; text-align: center; }
-
-        .hero-image img {
-            max-width: 320px;
-            border-radius: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-            border: 8px solid white;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            color: var(--cyan);
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
         }
 
-        h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            color: var(--primary);
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 4.5rem);
+            line-height: 1;
+            margin-bottom: 2rem;
         }
 
-        h1 span { color: var(--accent); }
+        .hero h1 span {
+            background: linear-gradient(to right, #fff, var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            margin-bottom: 2.5rem;
-            max-width: 500px;
+        .hero p {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 3rem;
+            max-width: 600px;
         }
 
         .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
             font-weight: 700;
-            transition: all 0.2s ease;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
         }
 
         .btn-primary {
-            background-color: var(--primary);
-            color: white;
+            background: var(--cyan);
+            color: var(--dark);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(26, 95, 109, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 188, 212, 0.3);
+            background: #fff;
         }
 
-        .section {
-            padding: 6rem 2rem;
-            max-width: 1200px;
+        .hero-image {
+            position: relative;
+        }
+
+        .phone-frame {
+            background: #000;
+            padding: 12px;
+            border-radius: 48px;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
+            border: 4px solid rgba(255,255,255,0.1);
+        }
+
+        .phone-frame img {
+            width: 100%;
+            border-radius: 36px;
+            display: block;
+        }
+
+        /* Product Flow Section */
+        .flow-section {
+            padding: 10rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            color: var(--petrol);
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 700px;
             margin: 0 auto;
         }
 
-        .app-showcase {
+        .product-flow {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
-            margin-top: 4rem;
         }
 
-        .app-card {
-            text-align: center;
+        .flow-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 32px;
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
 
-        .app-card img {
-            max-width: 100%;
-            border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 1.5rem;
-            border: 4px solid white;
+        .flow-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.1);
         }
 
-        .app-card h3 {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--primary);
-            font-size: 1rem;
-        }
-
-        .tech-badge {
-            font-family: 'JetBrains Mono', monospace;
-            display: inline-block;
-            background: rgba(0, 188, 212, 0.1);
-            color: var(--secondary);
-            padding: 0.3rem 0.8rem;
+        .flow-card img {
+            width: 100%;
             border-radius: 20px;
-            font-size: 0.75rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
+            margin-bottom: 2rem;
+            aspect-ratio: 9/19;
+            object-fit: cover;
+            border: 1px solid #f1f5f9;
         }
 
-        .feature-list {
+        .flow-card .step {
+            display: inline-block;
+            color: var(--kina-orange);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .flow-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--petrol);
+        }
+
+        .flow-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* Features Section */
+        .features {
+            background: #fff;
+            padding: 10rem 2rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .feature-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4rem;
         }
 
         .feature-item {
-            background: white;
-            padding: 2rem;
+            padding: 3rem;
+            border-radius: 32px;
+            background: var(--light);
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+
+        .feature-item:hover {
+            border-color: var(--cyan);
+            background: #fff;
+        }
+
+        .feature-item .icon {
+            width: 48px;
+            height: 48px;
+            background: var(--petrol);
             border-radius: 12px;
-            border-left: 4px solid var(--highlight);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
         }
 
-        footer {
-            padding: 4rem 2rem;
+        .feature-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--petrol);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--dark);
+            color: white;
+            padding: 6rem 2rem;
             text-align: center;
-            color: var(--text-light);
-            font-size: 0.8rem;
-            border-top: 1px solid rgba(0,0,0,0.05);
         }
 
-        @media (max-width: 900px) {
-            .hero { flex-direction: column; text-align: center; }
-            h1 { font-size: 2.5rem; }
-            .feature-list { grid-template-columns: 1fr; }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4rem;
+        }
+
+        .stat-val {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            font-weight: 700;
+        }
+
+        /* Footer */
+        footer {
+            padding: 6rem 2rem;
+            background: white;
+            text-align: center;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .footer-logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--petrol);
+            margin-bottom: 2rem;
+            display: block;
+            text-decoration: none;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        .copyright {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        @media (max-width: 1024px) {
+            .product-flow { grid-template-columns: repeat(2, 1fr); }
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero h1 { margin-left: auto; margin-right: auto; }
+            .hero p { margin-left: auto; margin-right: auto; }
+            .hero-badge { margin-left: auto; margin-right: auto; }
+        }
+
+        @media (max-width: 768px) {
+            .product-flow { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .hero { padding-top: 10rem; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo"><b>OCEAN</b><span>EAR</span></div>
-        <a href="#" class="btn btn-primary" style="font-size: 0.9rem;">Join TestFlight</a>
-    </header>
+    <nav>
+        <a href="#" class="logo">OCEAN<span>EAR</span></a>
+        <div class="mono" style="color: rgba(255,255,255,0.5); font-size: 0.8rem; letter-spacing: 1px;">v1.0.4-BETA</div>
+    </nav>
 
     <section class="hero">
-        <div class="hero-content">
-            <div class="tech-badge">Flagship: App + Hydrophone</div>
-            <h1>The Pulse of the <span>Ocean</span> in your Hand.</h1>
-            <p class="subtitle">
-                Professional underwater acoustic monitoring, simplified. Connect your hydrophone and watch the sea come alive in real-time.
-            </p>
-            <a href="#" class="btn btn-primary">Download Beta</a>
-        </div>
-        <div class="hero-image">
-            <img src="assets/app_recording.jpg" alt="Ocean Ear Recording Interface">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="mono">NEW</span> &nbsp;|&nbsp; High-Precision Hydrophone Support
+                    </div>
+                    <h1>Hear the <span>Unheard.</span><br>Protect the Deep.</h1>
+                    <p>
+                        Ocean Ear turns underwater acoustics into actionable intelligence. Deploy AI-powered monitoring for researchers, agencies, and conservationists.
+                    </p>
+                    <div style="display: flex; gap: 1rem; justify-content: inherit;">
+                        <a href="#" class="btn btn-primary">Get Early Access</a>
+                        <a href="#" class="btn" style="color: white; border: 1px solid rgba(255,255,255,0.2);">View Specs</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="phone-frame">
+                        <img src="assets/app_recording.jpg" alt="Ocean Ear App Recording">
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="section" style="background: white;">
-        <h2 style="text-align: center; color: var(--primary); margin-bottom: 1rem;">Experience the App</h2>
-        <p style="text-align: center; color: var(--text-light); margin-bottom: 3rem;">From live recording to intelligent library management.</p>
-        
-        <div class="app-showcase">
-            <div class="app-card">
-                <img src="assets/app_splash.jpg" alt="Splash Screen">
-                <h3>Clean Branding</h3>
-            </div>
-            <div class="app-card">
-                <img src="assets/app_interface.jpg" alt="Main Interface">
-                <h3>Live Monitoring</h3>
-            </div>
-            <div class="app-card">
-                <img src="assets/app_library.jpg" alt="Library Management">
-                <h3>Audio Library</h3>
-            </div>
-            <div class="app-card">
-                <img src="assets/app_recording.jpg" alt="Recording View">
-                <h3>Cloud Export</h3>
-            </div>
+    <section class="flow-section container">
+        <div class="section-header">
+            <span class="step mono" style="color: var(--kina-orange);">PRODUCT FLOW</span>
+            <h2>From Sound to Science</h2>
+            <p>A seamless end-to-end workflow designed for the rigors of marine research and real-time environmental monitoring.</p>
         </div>
 
-        <div class="feature-list">
-            <div class="feature-item">
-                <h4 style="color: var(--primary); margin-bottom: 0.5rem; font-family: 'JetBrains Mono';">Bluetooth Seamless</h4>
-                <p>Monitor your hydrophone via Bluetooth audio output (EarFun Free Pro 3 tested). Perfect for real-time field work.</p>
+        <div class="product-flow">
+            <div class="flow-card">
+                <img src="assets/app_splash.jpg" alt="Connect">
+                <span class="step mono">01. START</span>
+                <h3>Instant Pairing</h3>
+                <p>Plug-and-play compatibility with flagship hydrophones. Low-latency monitoring starts in seconds.</p>
             </div>
-            <div class="feature-item">
-                <h4 style="color: var(--primary); margin-bottom: 0.5rem; font-family: 'JetBrains Mono';">Live Spectrogram</h4>
-                <p>High-resolution frequency mapping to identify Kina, marine life, and ambient acoustics on the fly.</p>
+            <div class="flow-card">
+                <img src="assets/app_interface.jpg" alt="Monitor">
+                <span class="step mono">02. MONITOR</span>
+                <h3>Live Spectrogram</h3>
+                <p>Identify marine life like Kina or dolphins instantly with high-fidelity frequency visualization.</p>
             </div>
+            <div class="flow-card">
+                <img src="assets/app_recording.jpg" alt="Capture">
+                <span class="step mono">03. CAPTURE</span>
+                <h3>High-Res Recording</h3>
+                <p>Lossless audio capture with AI-assisted tagging for species identification and noise events.</p>
+            </div>
+            <div class="flow-card">
+                <img src="assets/app_library.jpg" alt="Analyze">
+                <span class="step mono">04. ANALYZE</span>
+                <h3>Cloud Library</h3>
+                <p>Organize field data, add metadata, and sync to the cloud for collaborative research across agencies.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-val mono">192<span>kHz</span></div>
+                    <div class="stat-label">Sampling Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val mono">AI</div>
+                    <div class="stat-label">Species Recognition</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val mono">0.5<span>ms</span></div>
+                    <div class="stat-label">Processing Latency</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.1 14.9"/><path d="M12 12l9.9 2.9"/><circle cx="12" cy="12" r="1"/></svg>
+                    </div>
+                    <h3>Bluetooth Monitoring</h3>
+                    <p>Listen to live hydrophone output via Bluetooth. Tested with EarFun Free Pro 3 for ultra-low latency field monitoring.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    </div>
+                    <h3>Ruggedized Tech</h3>
+                    <p>Designed for the DOC, regional councils, and professional researchers. Built to handle maritime conditions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: var(--light); padding: 8rem 2rem; text-align: center;">
+        <div class="container">
+            <h2 style="font-size: 3rem; color: var(--petrol); margin-bottom: 2rem;">Ready to monitor the deep?</h2>
+            <a href="#" class="btn btn-primary" style="padding: 1.5rem 3.5rem; font-size: 1.2rem;">Join the TestFlight Beta</a>
         </div>
     </section>
 
     <footer>
-        &copy; 2026 OCEAN EAR | Smart Maritime Research | Wellington, New Zealand
+        <div class="container">
+            <a href="#" class="footer-logo">OCEAN<span>EAR</span></a>
+            <div class="footer-links">
+                <a href="#">Research</a>
+                <a href="#">Hardware</a>
+                <a href="#">API</a>
+                <a href="#">Documentation</a>
+            </div>
+            <p class="copyright">
+                &copy; 2026 Ocean Ear. All rights reserved. <br>
+                <span class="mono" style="font-size: 0.7rem;">Wellington, New Zealand | Proudly Citizen Science Driven</span>
+            </p>
+        </div>
     </footer>
 
 </body>
