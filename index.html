@@ -620,24 +620,38 @@
     </div>
 
     <!-- ══════════════════════════════════════ -->
-    <!-- KIT PHOTO                             -->
+    <!-- KIT / BUNDLE                          -->
     <!-- ══════════════════════════════════════ -->
     <div class="container">
       <section style="padding: 20px 0 80px;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; max-width: 960px; margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; max-width: 960px; margin: 0 auto;" class="kit-grid">
           <div>
-            <span class="mono" style="color: var(--cyan);">THE HARDWARE</span>
-            <h2 style="font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; margin: 16px 0 20px; line-height: 1.1;">Your iPhone.<br>A Hydrophone.<br>That's It.</h2>
-            <p style="color: rgba(255,255,255,0.65); font-size: 1.05rem; line-height: 1.7; margin-bottom: 20px;">No proprietary hardware. No subscriptions. Plug any hydrophone into your iPhone via USB-C or Lightning — OceanEar does the rest.</p>
-            <p style="color: rgba(255,255,255,0.65); font-size: 1.05rem; line-height: 1.7;">We recommend the Aquarian Audio H2a for beginners, or any scientific-grade hydrophone for research use.</p>
+            <span class="mono" style="color: var(--cyan);">THE KIT</span>
+            <h2 style="font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; margin: 16px 0 12px; line-height: 1.1;">Everything You Need.<br>Ready to Dive.</h2>
+            <p style="color: rgba(255,255,255,0.65); font-size: 1.05rem; line-height: 1.7; margin-bottom: 24px;">The OceanEar Starter Kit includes everything to get you underwater in minutes — hydrophone, adapter, and the app. No guesswork, no compatibility headaches.</p>
+
+            <!-- Price + Waitlist -->
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); border-radius: 18px; padding: 24px 28px; margin-bottom: 24px;">
+              <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 6px;">
+                <span style="font-size: 2.2rem; font-weight: 900; color: #fff;">$399</span>
+                <span style="font-size: 1rem; color: rgba(255,255,255,0.45); font-weight: 500;">NZD</span>
+                <span style="background: rgba(244,123,98,0.15); border: 1px solid rgba(244,123,98,0.3); color: var(--kina-coral); font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 50px;">PRE-ORDER</span>
+              </div>
+              <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 20px;">Introductory pricing. Limited first batch.</p>
+              <a href="#beta" style="display: inline-flex; align-items: center; gap: 8px; background: var(--kina-coral); color: white; font-weight: 700; font-size: 0.95rem; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 8px 24px rgba(244,123,98,0.3); transition: transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                Join the Waitlist →
+              </a>
+            </div>
+
+            <p style="color: rgba(255,255,255,0.35); font-size: 0.8rem;">App is free on TestFlight. Hardware ships when ready.</p>
           </div>
           <div style="border-radius: 24px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);">
-            <img src="assets/kit.jpg" alt="OceanEar Hardware Kit" style="width: 100%; display: block;">
+            <img src="assets/kit.jpg" alt="OceanEar Starter Kit" style="width: 100%; display: block;">
           </div>
         </div>
-        @media (max-width: 640px) { .kit-grid { grid-template-columns: 1fr !important; } }
       </section>
     </div>
+    <style>@media (max-width: 640px) { .kit-grid { grid-template-columns: 1fr !important; } }</style>
 
     <div class="container">
         <section class="glass-panel hifi-banner" id="beta">
