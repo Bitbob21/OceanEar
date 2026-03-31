@@ -3,661 +3,556 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OceanEar — Listen to the Ocean</title>
-    <meta name="description" content="AI-powered Passive Acoustic Monitoring for marine research. Track reef health, Kina activity, and ocean change in real time. Join the beta.">
-    <meta property="og:title" content="OceanEar — Listen to the Ocean">
-    <meta property="og:description" content="Smart acoustic sensors + AI analysis. Built for marine researchers and conservationists. Now in TestFlight beta.">
-    <meta property="og:image" content="https://oceanear.nz/og-image.jpg">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <title>Ocean Ear | Your Ears in the Ocean</title>
+    
+    <!-- Fonts: Removed Google Fonts to use native Apple System Fonts -->
+    
     <style>
         :root {
-            --ocean-deep: #0a1628;
-            --ocean-mid: #0d2137;
-            --ocean-surface: #0e4166;
-            --teal: #00c4b4;
-            --teal-glow: rgba(0, 196, 180, 0.15);
-            --white: #ffffff;
-            --off-white: #e8f4f8;
-            --muted: rgba(255,255,255,0.55);
-            --card-bg: rgba(255,255,255,0.04);
-            --card-border: rgba(255,255,255,0.08);
+            /* Flagship App Dark Colors */
+            --bg-top: #0c6179;
+            --bg-bottom: #154b5b;
+            --cyan: #4cc1d4; /* Primary Accent / Connected */
+            --kina-coral: #f47b62; /* Highlight/Alert / LIVE */
+            --white: #ffffff; /* Primary Text */
+            --cyan-gray: #a0c4cb; /* Muted Text */
+            
+            /* Typography Variables */
+            --font-rounded: ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            
+            /* Glassmorphism */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(16px);
+            
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--ocean-deep);
+            font-family: var(--font-rounded);
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            background-attachment: fixed;
             color: var(--white);
+            line-height: 1.6;
             overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* ─── NAV ─── */
+        /* Sonar Ripples Background */
+        .sonar-bg {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vw;
+            min-width: 1000px;
+            min-height: 1000px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.15;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .sonar-ripple {
+            position: absolute;
+            border: 1px solid var(--white);
+            border-radius: 50%;
+            animation: expand 12s infinite linear;
+        }
+
+        .sonar-ripple:nth-child(1) { width: 20%; height: 20%; animation-delay: 0s; }
+        .sonar-ripple:nth-child(2) { width: 40%; height: 40%; animation-delay: -3s; }
+        .sonar-ripple:nth-child(3) { width: 60%; height: 60%; animation-delay: -6s; }
+        .sonar-ripple:nth-child(4) { width: 80%; height: 80%; animation-delay: -9s; }
+
+        @keyframes expand {
+            0% { transform: scale(0.1); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            color: var(--white);
+        }
+
+        p {
+            color: var(--cyan-gray);
+        }
+
+        .mono {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Glassmorphism Elements */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-glass);
+            border-radius: 24px;
+        }
+
+        /* Navigation */
         nav {
             position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 1200px;
+            padding: 1.2rem 2.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem 3rem;
-            backdrop-filter: blur(20px);
-            background: rgba(10, 22, 40, 0.85);
-            border-bottom: 1px solid var(--card-border);
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 100px;
         }
 
-        .nav-logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            font-size: 1.3rem;
-            letter-spacing: -0.5px;
+        .logo {
+            font-weight: 900; /* .black */
+            font-size: 1.5rem;
             color: var(--white);
-        }
-        .nav-logo span { color: var(--teal); }
-
-        .nav-links {
+            text-decoration: none;
             display: flex;
-            gap: 2rem;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.04em;
+        }
+
+        .logo span {
+            font-weight: 500; /* .medium */
+            color: var(--cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 10rem 2rem 6rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 6rem;
             align-items: center;
         }
 
-        .nav-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: color 0.2s;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.6rem 1.2rem;
+            color: var(--cyan);
+            font-size: 0.8rem;
+            font-weight: 700; /* .bold */
+            margin-bottom: 2.5rem;
+            border-radius: 100px;
         }
-        .nav-links a:hover { color: var(--white); }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 9vw, 5.5rem);
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 span {
+            color: var(--cyan);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            margin-bottom: 3.5rem;
+            max-width: 580px;
+            font-weight: 400;
+        }
 
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.75rem;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 0.95rem;
+            padding: 1.2rem 2.8rem;
+            border-radius: 100px;
+            font-weight: 600; /* .semibold */
             text-decoration: none;
+            transition: var(--transition);
             cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
+            font-size: 1.1rem;
         }
 
-        .btn-teal {
-            background: var(--teal);
-            color: var(--ocean-deep);
+        .btn-primary {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 20px rgba(76, 193, 212, 0.4);
         }
-        .btn-teal:hover {
-            background: #00d9c8;
-            transform: translateY(-1px);
-            box-shadow: 0 8px 30px rgba(0, 196, 180, 0.35);
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(76, 193, 212, 0.6);
+            background: var(--white);
         }
 
         .btn-outline {
-            border: 1.5px solid var(--card-border);
-            color: var(--white);
             background: transparent;
+            color: var(--white);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: var(--glass-blur);
         }
+        
         .btn-outline:hover {
-            border-color: var(--teal);
-            color: var(--teal);
+            background: var(--glass-bg);
+            border-color: var(--cyan);
         }
 
-        /* ─── HERO ─── */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 8rem 3rem 5rem;
-            max-width: 1200px;
+        .hero-image {
+            position: relative;
+            z-index: 2;
+        }
+
+        .phone-frame {
+            background: rgba(0,0,0,0.5);
+            padding: 14px;
+            border-radius: 54px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            max-width: 380px;
             margin: 0 auto;
             position: relative;
         }
 
-        /* animated sound-wave background */
-        .hero-bg {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .wave-ring {
+        /* The 'Live' Indicator */
+        .live-indicator {
             position: absolute;
-            border-radius: 50%;
-            border: 1px solid rgba(0, 196, 180, 0.12);
-            animation: expand 8s ease-out infinite;
-        }
-        .wave-ring:nth-child(1) { width: 300px; height: 300px; top: 30%; right: 10%; animation-delay: 0s; }
-        .wave-ring:nth-child(2) { width: 500px; height: 500px; top: 25%; right: 5%; animation-delay: 1.5s; }
-        .wave-ring:nth-child(3) { width: 700px; height: 700px; top: 20%; right: 0%; animation-delay: 3s; }
-        .wave-ring:nth-child(4) { width: 900px; height: 900px; top: 15%; right: -5%; animation-delay: 4.5s; }
-
-        @keyframes expand {
-            0% { transform: scale(0.8); opacity: 0.4; }
-            100% { transform: scale(1.3); opacity: 0; }
-        }
-
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--teal-glow);
-            border: 1px solid rgba(0, 196, 180, 0.3);
-            color: var(--teal);
-            padding: 0.4rem 1rem;
+            top: 40px;
+            right: -20px;
+            background: var(--kina-coral);
+            color: var(--white);
+            padding: 0.6rem 1.2rem;
             border-radius: 100px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-            width: fit-content;
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(244, 123, 98, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            z-index: 10;
         }
 
-        .pulse-dot {
-            width: 7px; height: 7px;
-            background: var(--teal);
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--white);
             border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
+            animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.7); }
+            0% { transform: scale(0.9); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.5; }
+            100% { transform: scale(0.9); opacity: 1; }
         }
 
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(2.8rem, 6vw, 5rem);
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -1.5px;
-            margin-bottom: 1.5rem;
-            max-width: 750px;
+        .phone-frame img {
+            width: 100%;
+            border-radius: 40px;
+            display: block;
         }
 
-        h1 .accent {
-            color: var(--teal);
-        }
-
-        .hero-sub {
-            font-size: 1.2rem;
-            color: var(--muted);
-            max-width: 560px;
-            line-height: 1.7;
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin-bottom: 4rem;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-num {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--teal);
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.82rem;
-            color: var(--muted);
-            margin-top: 0.3rem;
-            font-weight: 400;
-        }
-
-        /* ─── SECTION ─── */
-        section {
-            padding: 6rem 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-eyebrow {
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--teal);
-            margin-bottom: 1rem;
-        }
-
-        h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-bottom: 1rem;
-        }
-
-        .section-sub {
-            color: var(--muted);
-            font-size: 1.05rem;
-            max-width: 540px;
-            line-height: 1.7;
-            margin-bottom: 3.5rem;
-        }
-
-        /* ─── CARDS ─── */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-
-        .card:hover {
-            border-color: rgba(0, 196, 180, 0.3);
-            transform: translateY(-3px);
-        }
-
-        .card-icon {
-            font-size: 2rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .card h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.15rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .card p {
-            color: var(--muted);
-            font-size: 0.95rem;
-            line-height: 1.65;
-        }
-
-        .card-tag {
-            display: inline-block;
-            background: var(--teal-glow);
-            color: var(--teal);
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            letter-spacing: 0.03em;
-        }
-
-        /* ─── DIVIDER ─── */
-        .divider {
-            border: none;
-            border-top: 1px solid var(--card-border);
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* ─── HOW IT WORKS ─── */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 2rem;
-            counter-reset: step;
-        }
-
-        .step {
+        /* Sections */
+        .content-section {
+            padding: 8rem 2rem;
             position: relative;
-            padding-left: 1rem;
+            z-index: 2;
         }
 
-        .step-num {
-            font-family: 'Space Grotesk', sans-serif;
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
             font-size: 3.5rem;
-            font-weight: 700;
-            color: rgba(0, 196, 180, 0.15);
-            line-height: 1;
-            margin-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
-        .step h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .step p {
-            color: var(--muted);
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        /* ─── BETA FORM ─── */
-        #beta {
-            background: linear-gradient(135deg, rgba(0,196,180,0.06) 0%, rgba(13,33,55,0.8) 100%);
-            border: 1px solid rgba(0,196,180,0.15);
-            border-radius: 24px;
-            padding: 4rem;
-            max-width: 900px;
-            margin: 0 auto 6rem;
-            text-align: center;
-        }
-
-        #beta h2 {
-            margin-bottom: 0.75rem;
-        }
-
-        #beta .section-sub {
-            margin: 0 auto 2.5rem;
-            text-align: center;
-        }
-
-        .beta-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 520px;
+        .section-header p {
+            font-size: 1.3rem;
+            max-width: 700px;
             margin: 0 auto;
-            text-align: left;
         }
 
-        .form-row {
+        .grid-4 {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
-        .form-group label {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--muted);
-            letter-spacing: 0.03em;
+        .glass-card {
+            padding: 2.5rem;
+            text-align: left;
+            transition: var(--transition);
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            color: var(--white);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            transition: border-color 0.2s;
-            outline: none;
-            width: 100%;
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--cyan);
+            background: rgba(255, 255, 255, 0.08);
         }
 
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255,255,255,0.25);
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--teal);
-            background: rgba(0, 196, 180, 0.05);
-        }
-
-        .form-group select option {
-            background: var(--ocean-mid);
-            color: var(--white);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 90px;
-        }
-
-        .form-submit {
-            margin-top: 0.5rem;
-        }
-
-        .form-submit .btn {
-            width: 100%;
-            justify-content: center;
-            padding: 1rem;
-            font-size: 1rem;
-        }
-
-        .form-note {
-            font-size: 0.78rem;
-            color: var(--muted);
-            text-align: center;
-            margin-top: 0.75rem;
-        }
-
-        /* success state */
-        .form-success {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .form-success .success-icon {
-            font-size: 3rem;
+        .glass-card h3 {
+            font-size: 1.5rem;
             margin-bottom: 1rem;
         }
 
-        .form-success h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        .glass-card p {
+            font-size: 1rem;
+            line-height: 1.5;
         }
 
-        .form-success p {
-            color: var(--muted);
+        .glass-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            color: var(--cyan);
+        }
+        
+        /* Hi-Fi Banner */
+        .hifi-banner {
+            text-align: center;
+            padding: 6rem 2rem;
+            margin: 4rem 0;
+            overflow: hidden;
+            position: relative;
         }
 
-        /* ─── FOOTER ─── */
+        .hifi-banner h2 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hifi-banner .mono {
+            color: var(--kina-coral);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        /* Footer */
         footer {
-            border-top: 1px solid var(--card-border);
-            padding: 2.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            color: var(--muted);
-            font-size: 0.85rem;
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
         }
 
-        footer a {
-            color: var(--muted);
+        .footer-logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--white);
+            margin-bottom: 2rem;
+            display: inline-block;
             text-decoration: none;
         }
-        footer a:hover { color: var(--teal); }
+        .footer-logo span {
+            color: var(--cyan);
+        }
 
-        /* ─── RESPONSIVE ─── */
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-links a {
+            color: var(--cyan-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        .copyright {
+            font-size: 0.9rem;
+            color: var(--cyan-gray);
+            opacity: 0.6;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero h1 { margin-left: auto; margin-right: auto; }
+            .hero p { margin-left: auto; margin-right: auto; }
+            .hero-badge { margin-left: auto; margin-right: auto; }
+            .hifi-banner h2 { font-size: 2.5rem; }
+            .btn-container { justify-content: center; }
+        }
+
         @media (max-width: 768px) {
-            nav { padding: 1rem 1.5rem; }
-            .nav-links a:not(.btn) { display: none; }
-            .hero { padding: 7rem 1.5rem 4rem; }
-            section { padding: 4rem 1.5rem; }
-            #beta { padding: 2.5rem 1.5rem; }
-            footer { flex-direction: column; gap: 1rem; text-align: center; }
-            .hero-stats { gap: 2rem; }
-            .form-row { grid-template-columns: 1fr; }
+            nav { width: 95%; padding: 1rem 1.5rem; }
+            .hero { padding-top: 8rem; }
+            .footer-links { flex-direction: column; gap: 1.5rem; }
+            .live-indicator { display: none; }
         }
     </style>
 </head>
 <body>
 
-<!-- Background waves -->
-<div class="hero-bg">
-    <div class="wave-ring"></div>
-    <div class="wave-ring"></div>
-    <div class="wave-ring"></div>
-    <div class="wave-ring"></div>
-</div>
-
-<!-- Nav -->
-<nav>
-    <div class="nav-logo">Ocean<span>Ear</span></div>
-    <div class="nav-links">
-        <a href="#how">How it works</a>
-        <a href="#tech">Technology</a>
-        <a href="#beta" class="btn btn-teal">Join Beta</a>
+    <!-- Sonar Background -->
+    <div class="sonar-bg">
+        <div class="sonar-ripple"></div>
+        <div class="sonar-ripple"></div>
+        <div class="sonar-ripple"></div>
+        <div class="sonar-ripple"></div>
     </div>
-</nav>
 
-<!-- Hero -->
-<div class="hero">
-    <div class="hero-eyebrow">
-        <span class="pulse-dot"></span>
-        Live: Taputeranga Marine Reserve, Wellington
-    </div>
-    <h1>The ocean is <span class="accent">talking.</span><br>We built the ears.</h1>
-    <p class="hero-sub">
-        OceanEar pairs low-cost acoustic sensors with AI to monitor reef health, track marine species, and detect ecological change — in real time, from your phone.
-    </p>
-    <div class="hero-cta">
-        <a href="#beta" class="btn btn-teal">Join the Beta →</a>
-        <a href="#how" class="btn btn-outline">See how it works</a>
-    </div>
-    <div class="hero-stats">
-        <div class="stat">
-            <span class="stat-num">384kHz</span>
-            <span class="stat-label">Sampling rate</span>
+    <nav>
+        <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+        <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <a href="specs.html" class="mono" style="color: var(--cyan); text-decoration: none; font-size: 0.75rem;">TECH SPECS</a>
+            <div class="mono" style="color: var(--cyan-gray); font-size: 0.75rem;">APP RELEASE v1.2</div>
         </div>
-        <div class="stat">
-            <span class="stat-num">AI</span>
-            <span class="stat-label">Species detection</span>
-        </div>
-        <div class="stat">
-            <span class="stat-num">v0.9</span>
-            <span class="stat-label">TestFlight Beta</span>
-        </div>
-        <div class="stat">
-            <span class="stat-num">NZ</span>
-            <span class="stat-label">Built & tested here</span>
-        </div>
-    </div>
-</div>
+    </nav>
 
-<!-- How it works -->
-<section id="how">
-    <p class="section-eyebrow">How it works</p>
-    <h2>From ocean floor to your pocket</h2>
-    <p class="section-sub">A complete pipeline from acoustic data collection to actionable marine intelligence.</p>
-    <div class="steps">
-        <div class="step">
-            <div class="step-num">01</div>
-            <h3>Deploy a Sensor</h3>
-            <p>Ruggedized hydrophone loggers designed for long-term deployment in any marine environment. Survives the Wellington coast — it'll survive yours.</p>
-        </div>
-        <div class="step">
-            <div class="step-num">02</div>
-            <h3>AI Analyses the Audio</h3>
-            <p>Our on-device and cloud AI identifies Kina grazing patterns, shipping noise, biological signatures, and anomalies automatically.</p>
-        </div>
-        <div class="step">
-            <div class="step-num">03</div>
-            <h3>You Get the Insight</h3>
-            <p>The OceanEar iOS app turns complex acoustic data into clear ecological reports. Share findings, set alerts, export raw audio.</p>
-        </div>
-        <div class="step">
-            <div class="step-num">04</div>
-            <h3>Track Change Over Time</h3>
-            <p>Every deployment builds a longitudinal dataset. Understand reef recovery, invasion events, and ecosystem shifts over months and years.</p>
-        </div>
-    </div>
-</section>
-
-<hr class="divider">
-
-<!-- Technology -->
-<section id="tech">
-    <p class="section-eyebrow">Technology</p>
-    <h2>Built for the field.<br>Powered by AI.</h2>
-    <p class="section-sub">Not a research prototype. A system that works in real marine conditions.</p>
-    <div class="cards">
-        <div class="card">
-            <div class="card-tag">Hardware</div>
-            <div class="card-icon">🎙️</div>
-            <h3>Passive Acoustic Monitor</h3>
-            <p>8kHz–384kHz sampling. Low-power design for months of autonomous deployment. Marine-grade housing. No active signals — just listening.</p>
-        </div>
-        <div class="card">
-            <div class="card-tag">AI Engine</div>
-            <div class="card-icon">🧠</div>
-            <h3>OceanEar AI</h3>
-            <p>Trained on NZ reef acoustics. Detects Kina grazing, invertebrate activity, and anthropogenic noise. Runs on-device for real-time analysis.</p>
-        </div>
-        <div class="card">
-            <div class="card-tag">iOS App</div>
-            <div class="card-icon">📱</div>
-            <h3>Mobile Research Hub</h3>
-            <p>Live spectrogram visualisation, species detection alerts, deployment management, and one-tap report export. Currently in TestFlight beta.</p>
-        </div>
-        <div class="card">
-            <div class="card-tag">Open Data</div>
-            <div class="card-icon">📊</div>
-            <h3>Research Integration</h3>
-            <p>Export to CSV, WAV, and standard acoustic formats. Designed to plug into existing marine research workflows and university datasets.</p>
-        </div>
-    </div>
-</section>
-
-<hr class="divider">
-
-<!-- Beta Signup -->
-<section style="padding: 5rem 3rem;">
-    <div id="beta">
-        <p class="section-eyebrow" style="text-align:center;">Beta Access</p>
-        <h2>Be the first to hear it</h2>
-        <p class="section-sub">
-            OceanEar is live on TestFlight for marine researchers, conservationists, and ocean-curious people. Apply for early access.
-        </p>
-
-        <div id="betaFormContainer">
-            <form class="beta-form" id="betaForm" action="https://formspree.io/f/xjgprdqz" method="POST">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="fname">First Name</label>
-                        <input type="text" id="fname" name="first_name" placeholder="Jane" required>
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div class="hero-badge glass-panel glass-card" style="padding: 0.5rem 1rem;">
+                        <span class="mono">LIVE STREAMING NOW AVAILABLE</span>
                     </div>
-                    <div class="form-group">
-                        <label for="lname">Last Name</label>
-                        <input type="text" id="lname" name="last_name" placeholder="Smith" required>
+                    <h1>Your Ears in the <span>Ocean.</span></h1>
+                    <p>
+                        Experience the underwater world live. Ocean Ear brings the sounds of the deep directly to your phone in stunning high-fidelity.
+                    </p>
+                    <div class="btn-container" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <a href="#" class="btn btn-primary">Download for iOS</a>
+                        <a href="specs.html" class="btn btn-outline">View Full Specs</a>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="jane@oceanresearch.org" required>
+                <div class="hero-image">
+                    <div class="live-indicator"><div class="dot"></div> LIVE NOW</div>
+                    <div class="phone-frame">
+                        <!-- Keep existing asset refs -->
+                        <img src="assets/app_interface.jpg" alt="Ocean Ear App Live Stream" onerror="this.src='https://via.placeholder.com/350x750/154b5b/4cc1d4?text=App+Interface'">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="role">I am a...</label>
-                    <select id="role" name="role" required>
-                        <option value="" disabled selected>Select your background</option>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section container">
+        <div class="section-header">
+            <span class="mono" style="color: var(--kina-coral); font-weight: 800; display: block; margin-bottom: 1rem;">APP TOUR</span>
+            <h2>Simple. Powerful. Immersion.</h2>
+            <p>Designed for enthusiasts and students, Ocean Ear makes underwater listening as easy as playing your favorite song.</p>
+        </div>
+
+        <div class="grid-4">
+            <div class="glass-panel glass-card">
+                <span class="icon">🌊</span>
+                <h3>Plug & Play</h3>
+                <p>Connect your hydrophone and start listening in seconds. No complex setup required.</p>
+            </div>
+            <div class="glass-panel glass-card">
+                <span class="icon">📊</span>
+                <h3>Live Visuals</h3>
+                <p>See the sound. Our beautiful spectrogram helps you identify whales, dolphins, and reef life.</p>
+            </div>
+            <div class="glass-panel glass-card">
+                <span class="icon">🎙️</span>
+                <h3>Pro Recording</h3>
+                <p>Capture the ocean in studio quality. Save and share high-resolution audio with a single tap.</p>
+            </div>
+            <div class="glass-panel glass-card">
+                <span class="icon">📚</span>
+                <h3>Your Library</h3>
+                <p>Keep your best recordings organized. Perfect for students and citizen scientists.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section container">
+        <div class="grid-3">
+            <div class="glass-panel glass-card">
+                <span class="icon">🎧</span>
+                <h3>Hi-Fi Listening</h3>
+                <p>Hear every detail of the reef. Support for 192kHz sampling ensures you don't miss a single click or whistle.</p>
+            </div>
+            <div class="glass-panel glass-card">
+                <span class="icon">🔍</span>
+                <h3>Citizen Science</h3>
+                <p>Learn to identify species with built-in guides. Turn your hobby into valuable data for conservation.</p>
+            </div>
+            <div class="glass-panel glass-card">
+                <span class="icon">🎓</span>
+                <h3>Education First</h3>
+                <p>The perfect tool for schools and universities to explore marine biology in real-time.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="glass-panel hifi-banner" id="beta">
+            <span class="mono">UNCOMPRESSED AUDIO</span>
+            <h2>192kHz Ultra-High Res</h2>
+            <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 3rem;">
+                Don't just listen. Immerse yourself in the highest fidelity underwater audio capture ever available on mobile.
+            </p>
+
+            <div id="betaFormWrap" style="max-width: 480px; margin: 0 auto; text-align: left;">
+                <form id="betaForm" action="https://formspree.io/f/xjgprdqz" method="POST" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+                        <input type="text" name="first_name" placeholder="First name" required
+                            style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.8rem 1rem; color: #fff; font-size: 0.95rem; outline: none; font-family: inherit;">
+                        <input type="text" name="last_name" placeholder="Last name" required
+                            style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.8rem 1rem; color: #fff; font-size: 0.95rem; outline: none; font-family: inherit;">
+                    </div>
+                    <input type="email" name="email" placeholder="Email address" required
+                        style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.8rem 1rem; color: #fff; font-size: 0.95rem; outline: none; font-family: inherit;">
+                    <select name="role" required
+                        style="background: rgba(12,97,121,0.9); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 0.8rem 1rem; color: #fff; font-size: 0.95rem; outline: none; font-family: inherit;">
+                        <option value="" disabled selected>I am a...</option>
                         <option value="researcher">Marine Researcher / Scientist</option>
                         <option value="conservationist">Conservationist / DOC / NGO</option>
                         <option value="diver">Diver / Freediver</option>
@@ -667,78 +562,67 @@
                         <option value="industry">Marine Industry</option>
                         <option value="other">Other</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label for="use_case">How would you use OceanEar? <span style="color:var(--muted);font-weight:400">(optional)</span></label>
-                    <textarea id="use_case" name="use_case" placeholder="e.g. Monitoring kelp forest recovery in Fiordland..."></textarea>
-                </div>
-                <div class="form-submit">
-                    <button type="submit" class="btn btn-teal">Request Beta Access →</button>
-                </div>
-                <p class="form-note">No spam. We'll send one email with your TestFlight link when your spot is ready.</p>
-            </form>
-
-            <div class="form-success" id="formSuccess">
-                <div class="success-icon">🌊</div>
-                <h3>You're on the list.</h3>
-                <p>We'll send your TestFlight invite as soon as a spot opens up. Keep your ears to the water.</p>
+                    <button type="submit" id="betaSubmitBtn" class="btn btn-primary" style="width: 100%; justify-content: center; font-size: 1rem; padding: 1rem;">
+                        Request Beta Access →
+                    </button>
+                    <p style="font-size: 0.78rem; color: rgba(255,255,255,0.45); text-align: center; margin-top: 0.25rem;">
+                        No spam. One email with your TestFlight link when your spot is ready.
+                    </p>
+                </form>
             </div>
-        </div>
+
+            <div id="betaSuccess" style="display:none; padding: 2rem 0;">
+                <p style="font-size: 2.5rem; margin-bottom: 0.75rem;">🌊</p>
+                <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">You're on the list.</h3>
+                <p style="color: rgba(255,255,255,0.6);">We'll send your TestFlight invite when your spot opens up.</p>
+            </div>
+        </section>
     </div>
-</section>
 
-<!-- Footer -->
-<footer>
-    <div class="nav-logo" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;">
-        Ocean<span style="color:var(--teal)">Ear</span>
-    </div>
-    <div style="display:flex;gap:2rem;">
-        <a href="mailto:hello@oceanear.nz">hello@oceanear.nz</a>
-        <span>Wellington, New Zealand</span>
-        <span>&copy; 2026 OceanEar</span>
-    </div>
-</footer>
+    <script>
+        const form = document.getElementById('betaForm');
+        const btn = document.getElementById('betaSubmitBtn');
+        const success = document.getElementById('betaSuccess');
 
-<script>
-    // Form submission via Formspree
-    const form = document.getElementById('betaForm');
-    const success = document.getElementById('formSuccess');
-
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const btn = form.querySelector('button[type=submit]');
-        btn.textContent = 'Sending...';
-        btn.disabled = true;
-
-        try {
-            const res = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: { 'Accept': 'application/json', 'X-Formspree-Id': 'xjgprdqz' }
-            });
-
-            if (res.ok) {
-                form.style.display = 'none';
-                success.style.display = 'block';
-            } else {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+            try {
+                const res = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (res.ok) {
+                    form.style.display = 'none';
+                    success.style.display = 'block';
+                } else {
+                    btn.textContent = 'Try again';
+                    btn.disabled = false;
+                }
+            } catch(err) {
                 btn.textContent = 'Try again';
                 btn.disabled = false;
-                alert('Something went wrong. Please email us directly at hello@oceanear.nz');
             }
-        } catch(err) {
-            btn.textContent = 'Try again';
-            btn.disabled = false;
-        }
-    });
+        });
+    </script>
 
-    // Smooth nav background on scroll
-    window.addEventListener('scroll', () => {
-        document.querySelector('nav').style.background = 
-            window.scrollY > 50 
-                ? 'rgba(10, 22, 40, 0.97)' 
-                : 'rgba(10, 22, 40, 0.85)';
-    });
-</script>
+    <footer>
+        <div class="container">
+            <a href="#" class="footer-logo">OCEAN<span>EAR</span></a>
+            <div class="footer-links">
+                <a href="#">The App</a>
+                <a href="#">How it Works</a>
+                <a href="#">Support</a>
+                <a href="#">Citizen Science</a>
+            </div>
+            <p class="copyright">
+                &copy; 2026 Ocean Ear. <br>
+                <span class="mono" style="font-size: 0.75rem; letter-spacing: 2px; margin-top: 1rem; display: inline-block;">Wellington, New Zealand</span>
+            </p>
+        </div>
+    </footer>
 
 </body>
 </html>
