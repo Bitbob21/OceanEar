@@ -444,10 +444,33 @@
         }
 
         @media (max-width: 768px) {
-            nav { width: 95%; padding: 1rem 1.5rem; }
-            .hero { padding-top: 8rem; }
+            nav { width: 95%; padding: 1rem 1.25rem; }
+            nav .logo { font-size: 1.1rem; }
+            nav a[href="#kit"] { font-size: 0.75rem; padding: 7px 12px; }
+            .hero { padding-top: 7rem; }
+            .hero h1 { font-size: 2.4rem; }
+            .hero p { font-size: 0.95rem; }
+            .btn-container { flex-direction: column; align-items: center; }
+            .btn-container a { width: 100%; max-width: 320px; justify-content: center; }
             .footer-links { flex-direction: column; gap: 1.5rem; }
             .live-indicator { display: none; }
+            .phone-frame { max-width: 260px; margin: 0 auto; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2rem; }
+            /* Screenshots: 2 per row on small screens */
+            .screenshots-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
+            .screenshots-grid > *:last-child { display: none; } /* hide 3rd on very small */
+            /* Spec table font */
+            table td { font-size: 0.85rem !important; padding: 10px 0 !important; }
+            /* Kit section */
+            .kit-grid { grid-template-columns: 1fr !important; }
+            .kit-grid img { max-width: 280px; margin: 0 auto; display: block; }
+            /* Video */
+            video { border-radius: 12px; }
+            /* Beta form */
+            #betaForm input, #betaForm select, #betaForm textarea { font-size: 16px; } /* prevent iOS zoom */
         }
     </style>
 </head>
@@ -560,7 +583,7 @@
         </div>
 
         <!-- Phone Screenshots Row -->
-        <div style="display: flex; gap: 24px; justify-content: center; align-items: flex-end; flex-wrap: wrap; margin-bottom: 60px;">
+        <div class="screenshots-grid" style="display: flex; gap: 24px; justify-content: center; align-items: flex-end; flex-wrap: wrap; margin-bottom: 60px;">
           <!-- Screenshot 1: Main -->
           <div style="text-align: center;">
             <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 32px; padding: 12px; display: inline-block; box-shadow: 0 20px 60px rgba(0,0,0,0.4);">
