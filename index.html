@@ -583,30 +583,85 @@
           <p style="color: rgba(255,255,255,0.65); font-size: 1.1rem; max-width: 520px; margin: 0 auto;">Three screens. That's all it takes.</p>
         </div>
 
-        <!-- Phone Screenshots Row -->
-        <div class="screenshots-grid" style="display: flex; gap: 24px; justify-content: center; align-items: flex-end; flex-wrap: wrap; margin-bottom: 60px;">
-          <!-- Screenshot 1: Main -->
-          <div style="text-align: center;">
-            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 32px; padding: 12px; display: inline-block; box-shadow: 0 20px 60px rgba(0,0,0,0.4);">
-              <img src="assets/app_main.jpg" alt="OceanEar Main Screen" style="width: 180px; border-radius: 22px; display: block;">
+        <!-- Phone Screenshots — swipeable on mobile, row on desktop -->
+        <style>
+          .ss-carousel-wrap { position: relative; }
+          @media (max-width: 768px) {
+            .ss-carousel {
+              display: flex !important;
+              overflow-x: auto;
+              scroll-snap-type: x mandatory;
+              -webkit-overflow-scrolling: touch;
+              gap: 20px;
+              padding: 0 24px 16px;
+              scrollbar-width: none;
+            }
+            .ss-carousel::-webkit-scrollbar { display: none; }
+            .ss-carousel > div {
+              scroll-snap-align: center;
+              flex: 0 0 72vw;
+              max-width: 260px;
+            }
+            .ss-dots { display: flex !important; }
+          }
+          .ss-dots {
+            display: none;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+          }
+          .ss-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.25);
+            transition: background 0.2s, transform 0.2s;
+          }
+          .ss-dot.active { background: var(--cyan); transform: scale(1.4); }
+        </style>
+
+        <div class="ss-carousel-wrap">
+          <div class="screenshots-grid ss-carousel" id="ssCarousel" style="display: flex; gap: 24px; justify-content: center; align-items: flex-end; flex-wrap: wrap; margin-bottom: 24px;">
+            <!-- Screenshot 1: Main -->
+            <div style="text-align: center;">
+              <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 32px; padding: 12px; display: inline-block; box-shadow: 0 20px 60px rgba(0,0,0,0.4);">
+                <img src="assets/app_main.jpg" alt="OceanEar Main Screen" style="width: 180px; border-radius: 22px; display: block;">
+              </div>
+              <p style="margin-top: 12px; font-size: 0.78rem; color: rgba(255,255,255,0.45); font-family: var(--font-mono);">CONNECTED & READY</p>
             </div>
-            <p style="margin-top: 12px; font-size: 0.78rem; color: rgba(255,255,255,0.45); font-family: var(--font-mono);">CONNECTED & READY</p>
+            <!-- Screenshot 2: Recording + Spectrogram -->
+            <div style="text-align: center;">
+              <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 36px; padding: 14px; display: inline-block; box-shadow: 0 30px 80px rgba(76,193,212,0.2);">
+                <img src="assets/app_recording.png" alt="OceanEar Live Spectrogram" style="width: 220px; border-radius: 26px; display: block;">
+              </div>
+              <p style="margin-top: 12px; font-size: 0.78rem; color: var(--cyan); font-family: var(--font-mono);">LIVE SPECTROGRAM</p>
+            </div>
+            <!-- Screenshot 3: Library -->
+            <div style="text-align: center;">
+              <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 32px; padding: 12px; display: inline-block; box-shadow: 0 20px 60px rgba(0,0,0,0.4);">
+                <img src="assets/app_library2.jpg" alt="OceanEar Recording Library" style="width: 180px; border-radius: 22px; display: block;">
+              </div>
+              <p style="margin-top: 12px; font-size: 0.78rem; color: rgba(255,255,255,0.45); font-family: var(--font-mono);">RECORDING LIBRARY</p>
+            </div>
           </div>
-          <!-- Screenshot 2: Recording + Spectrogram (hero, bigger) -->
-          <div style="text-align: center;">
-            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 36px; padding: 14px; display: inline-block; box-shadow: 0 30px 80px rgba(76,193,212,0.2);">
-              <img src="assets/app_recording.png" alt="OceanEar Live Spectrogram" style="width: 220px; border-radius: 26px; display: block;">
-            </div>
-            <p style="margin-top: 12px; font-size: 0.78rem; color: var(--cyan); font-family: var(--font-mono);">LIVE SPECTROGRAM</p>
-          </div>
-          <!-- Screenshot 3: Library -->
-          <div style="text-align: center;">
-            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 32px; padding: 12px; display: inline-block; box-shadow: 0 20px 60px rgba(0,0,0,0.4);">
-              <img src="assets/app_library2.jpg" alt="OceanEar Recording Library" style="width: 180px; border-radius: 22px; display: block;">
-            </div>
-            <p style="margin-top: 12px; font-size: 0.78rem; color: rgba(255,255,255,0.45); font-family: var(--font-mono);">RECORDING LIBRARY</p>
+          <!-- Dots indicator (mobile only) -->
+          <div class="ss-dots" id="ssDots">
+            <div class="ss-dot active"></div>
+            <div class="ss-dot"></div>
+            <div class="ss-dot"></div>
           </div>
         </div>
+        <script>
+          (function() {
+            const carousel = document.getElementById('ssCarousel');
+            const dots = document.querySelectorAll('.ss-dot');
+            if (!carousel) return;
+            carousel.addEventListener('scroll', function() {
+              const idx = Math.round(carousel.scrollLeft / (carousel.scrollWidth / 3));
+              dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+            }, { passive: true });
+          })();
+        </script>
+        <div style="margin-bottom: 60px;"></div>
 
         <!-- Feature Pills -->
         <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
