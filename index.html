@@ -467,6 +467,7 @@
             /* Kit section */
             .kit-grid { grid-template-columns: 1fr !important; }
             .kit-grid img { max-width: 280px; margin: 0 auto; display: block; }
+            .kit-grid > div:first-child { padding: 0 8px; }
             /* Video */
             video { border-radius: 12px; }
             /* Beta form */
@@ -689,7 +690,7 @@
                 <span style="background: rgba(244,123,98,0.15); border: 1px solid rgba(244,123,98,0.3); color: var(--kina-coral); font-size: 0.75rem; font-weight: 700; padding: 3px 10px; border-radius: 50px;">EARLY BIRD</span>
               </div>
               <p style="color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 20px;">Early Bird pricing. Limited first batch.</p>
-              <a href="#beta" style="display: inline-flex; align-items: center; gap: 8px; background: var(--kina-coral); color: white; font-weight: 700; font-size: 0.95rem; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 8px 24px rgba(244,123,98,0.3); transition: transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+              <a href="#beta" style="display: inline-flex; align-items: center; gap: 8px; background: var(--kina-coral); color: white; font-weight: 700; font-size: 0.95rem; padding: 14px 28px; border-radius: 12px; text-decoration: none; box-shadow: 0 8px 24px rgba(244,123,98,0.3); transition: transform 0.15s; width: 100%; max-width: 280px; box-sizing: border-box; justify-content: center;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
                 Join the Waitlist →
               </a>
             </div>
