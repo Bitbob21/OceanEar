@@ -493,7 +493,13 @@
                         const pauseIcon = document.getElementById('pauseIcon');
                         const progress = document.getElementById('audioProgress');
                         function toggleAudio() {
-                            if (audio.paused) { audio.play(); playIcon.style.display='none'; pauseIcon.style.display='block'; }
+                            if (audio.paused) {
+                                audio.play();
+                                playIcon.style.display='none';
+                                pauseIcon.style.display='block';
+                                const hint = document.getElementById('heroTapHint');
+                                if (hint) hint.style.display='none';
+                            }
                             else { audio.pause(); playIcon.style.display='block'; pauseIcon.style.display='none'; }
                         }
                         audio.ontimeupdate = () => {
@@ -509,9 +515,13 @@
                 </div>
                 <div class="hero-image">
                     <div class="live-indicator"><div class="dot"></div> LIVE NOW</div>
-                    <div class="phone-frame">
-                        <!-- Keep existing asset refs -->
-                        <img src="assets/app_interface.jpg" alt="Ocean Ear App Live Stream" onerror="this.src='https://via.placeholder.com/350x750/154b5b/4cc1d4?text=App+Interface'">
+                    <div class="phone-frame" onclick="toggleAudio()" style="cursor: pointer; position: relative;" title="Tap to hear it">
+                        <img src="assets/app_recording.png" alt="Ocean Ear Live Spectrogram" onerror="this.src='https://via.placeholder.com/350x750/154b5b/4cc1d4?text=App+Interface'">
+                        <!-- Tap hint overlay -->
+                        <div id="heroTapHint" style="position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 8px 16px; display: flex; align-items: center; gap: 8px; white-space: nowrap; animation: pulse 2s infinite;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+                            <span style="color: white; font-size: 0.75rem; font-weight: 600;">TAP TO HEAR</span>
+                        </div>
                     </div>
                 </div>
             </div>
