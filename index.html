@@ -589,19 +589,26 @@
           @media (max-width: 768px) {
             .ss-carousel {
               display: flex !important;
-              overflow-x: auto;
+              flex-wrap: nowrap !important;
+              overflow-x: auto !important;
+              overflow-y: visible !important;
               scroll-snap-type: x mandatory;
               -webkit-overflow-scrolling: touch;
-              gap: 20px;
-              padding: 0 24px 16px;
+              gap: 20px !important;
+              padding: 12px 24px 16px !important;
+              margin-bottom: 0 !important;
+              align-items: center !important;
+              justify-content: flex-start !important;
               scrollbar-width: none;
             }
             .ss-carousel::-webkit-scrollbar { display: none; }
             .ss-carousel > div {
               scroll-snap-align: center;
-              flex: 0 0 72vw;
-              max-width: 260px;
+              flex: 0 0 72vw !important;
+              max-width: 260px !important;
+              min-width: 200px;
             }
+            .ss-carousel > div img { width: 100% !important; height: auto !important; }
             .ss-dots { display: flex !important; }
           }
           .ss-dots {
