@@ -53,6 +53,10 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: var(--font-rounded);
             background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
@@ -444,6 +448,33 @@
         }
 
         .mobile-only { display: none; }
+
+        /* ── Entrance Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes rippleIn {
+            0%   { opacity: 0; transform: scale(0.88) translateY(20px); }
+            60%  { opacity: 1; transform: scale(1.03) translateY(-4px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .anim-fade-up   { opacity: 0; animation: fadeUp   0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
+        .anim-ripple    { opacity: 0; animation: rippleIn 0.8s cubic-bezier(0.22,1,0.36,1) forwards; }
+        .anim-fade      { opacity: 0; animation: fadeIn   0.6s ease forwards; }
+
+        /* Staggered delays — wave effect */
+        .d0  { animation-delay: 0.05s; }
+        .d1  { animation-delay: 0.18s; }
+        .d2  { animation-delay: 0.32s; }
+        .d3  { animation-delay: 0.46s; }
+        .d4  { animation-delay: 0.62s; }
+        .d5  { animation-delay: 0.78s; }
         @media (max-width: 768px) {
             .mobile-only { display: block; }
             nav { width: 95%; padding: 1rem 1.25rem; }
@@ -500,14 +531,14 @@
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-content">
-                    <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(244,123,98,0.15); border: 1px solid rgba(244,123,98,0.4); border-radius: 50px; padding: 7px 16px; margin-bottom: 4px;">
+                    <div class="anim-fade d0" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(244,123,98,0.15); border: 1px solid rgba(244,123,98,0.4); border-radius: 50px; padding: 7px 16px; margin-bottom: 4px;">
                         <span style="width: 8px; height: 8px; background: var(--kina-coral); border-radius: 50%; display: inline-block; animation: livePulse 1.2s infinite;"></span>
                         <span class="mono" style="color: var(--kina-coral); font-size: 0.75rem;">LIVE LISTENING & RECORDING</span>
                     </div>
                     <style>@keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }</style>
-                    <h1>Your Ears in the <span>Ocean.</span></h1>
-                    <p style="font-size: 1.25rem; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;">The ocean has a soundtrack. Most people never hear it.</p>
-                    <p>
+                    <h1 class="anim-fade-up d1">Your Ears in the <span>Ocean.</span></h1>
+                    <p class="anim-fade-up d2" style="font-size: 1.25rem; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;">The ocean has a soundtrack. Most people never hear it.</p>
+                    <p class="anim-fade-up d3">
                         Plug in a hydrophone. Hear the ocean <strong style="color: var(--cyan);">live</strong> — whales, reefs, boats, rain on the surface. Stream in real-time or <strong style="color: var(--cyan);">record</strong> and save your soundscapes, GPS-tagged and ready to share.
                     </p>
                     <!-- Mobile-only phone image (between text and buttons) -->
@@ -515,13 +546,13 @@
                         <img src="assets/app_mainss.webp" alt="Ocean Ear App" style="width: 100%; border-radius: 28px; box-shadow: 0 20px 60px rgba(0,0,0,0.4);">
                     </div>
 
-                    <div class="btn-container" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div class="btn-container anim-fade-up d4" style="display: flex; gap: 1rem; flex-wrap: wrap;">
                         <a href="#beta" class="btn btn-primary">Download for iOS</a>
                         <a href="#kit" class="btn btn-outline">Pre-Sale Ocean Kit</a>
                     </div>
 
                     <!-- Audio Player -->
-                    <div style="margin-top: 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 1rem 1.25rem; max-width: 360px; backdrop-filter: blur(10px);">
+                    <div class="anim-fade d5" style="margin-top: 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 1rem 1.25rem; max-width: 360px; backdrop-filter: blur(10px);">
                         <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem;">
                             <button id="playBtn" onclick="toggleAudio()" style="background: var(--kina-coral); border: none; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.15s;">
                                 <svg id="playIcon" width="14" height="14" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
@@ -564,7 +595,7 @@
                         }
                     </script>
                 </div>
-                <div class="hero-image">
+                <div class="hero-image anim-ripple d2">
                     <div class="live-indicator"><div class="dot"></div> LIVE NOW</div>
                     <div class="phone-frame" onclick="toggleAudio()" style="cursor: pointer; position: relative;" title="Tap to hear it">
                         <img src="assets/app_mainss.webp" alt="Ocean Ear App" fetchpriority="high" onerror="this.src='https://via.placeholder.com/350x750/154b5b/4cc1d4?text=App+Interface'">
