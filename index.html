@@ -444,9 +444,8 @@
             /* Mobile order: text → screenshot → player → buttons */
             .hero-grid { display: flex; flex-direction: column; }
             .hero-content { display: contents; }
-            .hero-text-block { order: 1; }
-            .hero-image { order: 2; margin: 24px auto; }
-            .hero-buttons { order: 3; }
+            .hero-image { display: none; }
+            .mobile-hero-image { display: block !important; }
             .hero-player { display: none; }
         }
 
@@ -515,6 +514,13 @@
                         Plug in a hydrophone. Hear the ocean <strong style="color: var(--cyan);">live</strong> — whales, reefs, boats, rain on the surface. Stream in real-time or <strong style="color: var(--cyan);">record</strong> and save your soundscapes, GPS-tagged and ready to share.
                     </p>
                     </div><!-- end hero-text-block -->
+
+                    <!-- Mobile-only screenshot (shown between text and buttons) -->
+                    <div class="mobile-hero-image" style="display:none; margin: 24px auto; max-width: 260px; text-align: center;">
+                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 32px; padding: 12px; display: inline-block; box-shadow: 0 20px 60px rgba(0,0,0,0.4);" onclick="toggleAudio()" title="Tap to hear it">
+                            <img src="assets/app_mainss.png" alt="Ocean Ear App" style="width: 200px; border-radius: 22px; display: block;">
+                        </div>
+                    </div>
 
                     <div class="hero-buttons">
                     <div class="btn-container" style="display: flex; gap: 1rem; flex-wrap: wrap;">
