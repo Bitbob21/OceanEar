@@ -331,26 +331,6 @@
         <p class="phone-label" style="margin-top:14px;">Deep Ocean — Spectrogram + Ambience</p>
     </div>
 
-    <!-- OceanEar_V01 -->
-    <div style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;">
-        <div style="text-align:center;">
-            <div class="video-small" style="max-width:300px;position:relative;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.1);" onclick="oeEnableSound('vv1','ovv1','btnv1')">
-                <video id="vv1" autoplay muted loop playsinline style="width:100%; display:block;">
-                    <source src="assets/v01_clean.mp4" type="video/mp4">
-                </video>
-                <div id="ovv1" style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;cursor:pointer;background:linear-gradient(to top,rgba(0,0,0,0.4) 0%,transparent 50%);">
-                    <div style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:50px;padding:8px 16px;">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                        <span style="color:white;font-weight:700;font-size:0.72rem;">TAP FOR SOUND</span>
-                    </div>
-                </div>
-                <button id="btnv1" onclick="event.stopPropagation();oeToggleSound('vv1')" style="display:none;position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:34px;height:34px;cursor:pointer;align-items:center;justify-content:center;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                </button>
-            </div>
-            <p class="phone-label" style="margin-top:12px;">OceanEar V01</p>
-        </div>
-    </div>
 </div>
 <style>@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.75;transform:scale(.97)}}</style>
 <script>
