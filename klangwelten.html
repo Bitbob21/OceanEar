@@ -298,34 +298,40 @@
 </div>
 
 <!-- Video Demo Section -->
-<div class="container" style="padding: 4rem 0 2rem;">
-    <div style="text-align:center; margin-bottom: 2.5rem;">
+<div class="container" style="padding: 5rem 0 3rem;">
+    <div style="text-align:center; margin-bottom: 3rem;">
         <span style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan);">Live Demo</span>
-        <h2 style="font-size: clamp(1.6rem, 4vw, 2.4rem); margin: 0.5rem 0 0.75rem;">See it in action.</h2>
+        <h2 style="font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0.5rem 0 0.75rem; letter-spacing: -0.03em;">See it in action.</h2>
         <p style="color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto;">Real hydrophone recordings — visualised and transformed live in the app.</p>
     </div>
 
     <!-- sample02 prominent -->
-    <div style="max-width: 360px; margin: 0 auto 2.5rem;">
-        <video autoplay loop muted playsinline style="width:100%; border-radius: 20px; border: 1px solid rgba(76,193,212,0.3); box-shadow: 0 0 40px rgba(76,193,212,0.15);">
-            <source src="assets/sample02.mp4" type="video/mp4">
-        </video>
-        <p style="text-align:center; font-size:0.78rem; color:rgba(255,255,255,0.4); margin-top:0.75rem;">Deep Ocean — Spectrogram + Ambience Mode</p>
+    <div style="text-align:center; margin-bottom: 3rem;">
+        <div class="phone-frame-inner" style="display:inline-block; padding: 0; overflow:hidden; border-color: rgba(76,193,212,0.4); box-shadow: 0 40px 100px rgba(0,0,0,0.4), 0 0 80px rgba(76,193,212,0.15);">
+            <video loop playsinline controls style="width:260px; border-radius: 28px; display:block;">
+                <source src="assets/sample02.mp4" type="video/mp4">
+            </video>
+        </div>
+        <p class="phone-label">Deep Ocean — Spectrogram + Ambience</p>
     </div>
 
-    <!-- sample01 + oceanear_v01 side by side -->
-    <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap;">
-        <div style="max-width: 240px;">
-            <video autoplay loop muted playsinline style="width:100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
-                <source src="assets/sample01.mp4" type="video/mp4">
-            </video>
-            <p style="text-align:center; font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:0.5rem;">Sample 01</p>
+    <!-- sample01 + oceanear_v01 -->
+    <div style="display:flex; gap:2.5rem; justify-content:center; flex-wrap:wrap;">
+        <div class="phone-frame">
+            <div class="phone-frame-inner" style="padding: 0; overflow:hidden;">
+                <video loop playsinline controls style="width:200px; border-radius: 28px; display:block;">
+                    <source src="assets/sample01.mp4" type="video/mp4">
+                </video>
+            </div>
+            <p class="phone-label">Sample 01</p>
         </div>
-        <div style="max-width: 240px;">
-            <video autoplay loop muted playsinline style="width:100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1);">
-                <source src="assets/oceanear_v01.mp4" type="video/mp4">
-            </video>
-            <p style="text-align:center; font-size:0.72rem; color:rgba(255,255,255,0.35); margin-top:0.5rem;">OceanEar V01</p>
+        <div class="phone-frame">
+            <div class="phone-frame-inner" style="padding: 0; overflow:hidden;">
+                <video loop playsinline controls style="width:200px; border-radius: 28px; display:block;">
+                    <source src="assets/oceanear_v01.mp4" type="video/mp4">
+                </video>
+            </div>
+            <p class="phone-label">OceanEar V01</p>
         </div>
     </div>
 </div>
