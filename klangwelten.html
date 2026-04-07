@@ -229,14 +229,72 @@
             <a href="index.html" class="btn btn-secondary">← Explore OceanEar</a>
         </div>
 
-        <!-- Audio Sample -->
-        <div style="margin-top: 48px; background: rgba(76,193,212,0.07); border: 1px solid rgba(76,193,212,0.25); border-radius: 20px; padding: 24px 28px; max-width: 480px; margin-left: auto; margin-right: auto; margin-top: 48px;">
-            <p style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 10px;">🎵 Sample — Deep Ocean</p>
-            <p style="font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 16px; margin-top: 0;">Live hydrophone recording processed with the Deep Ocean ambience preset.</p>
-            <audio controls style="width: 100%; accent-color: #4cc1d4; border-radius: 8px;">
-                <source src="assets/deep_ocean_sample.mp3" type="audio/mpeg">
-            </audio>
+        <!-- Audio Samples -->
+        <div style="margin-top: 48px; background: rgba(76,193,212,0.07); border: 1px solid rgba(76,193,212,0.25); border-radius: 20px; padding: 24px 28px; max-width: 420px; margin-left: auto; margin-right: auto;">
+            <p style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px;">🎧 Listen — Deep Ocean</p>
+            <!-- Track 1 -->
+            <div class="koe-track" data-src="assets/deep_ocean_recording.mp3" onclick="koePlay(this)" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; margin-bottom:8px; transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="if(!this.classList.contains('koe-active'))this.style.background='transparent'">
+                <div style="background:rgba(255,255,255,0.12); border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <svg class="koe-play" width="11" height="11" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
+                    <svg class="koe-pause" width="11" height="11" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:0.82rem; font-weight:700; color:#fff;">Raw Hydrophone</div>
+                    <div style="font-size:0.7rem; color:rgba(255,255,255,0.4);">Live recording · 9s</div>
+                </div>
+                <div style="width:50px; background:rgba(255,255,255,0.1); border-radius:3px; height:3px;"><div class="koe-prog" style="background:var(--cyan); height:3px; border-radius:3px; width:0%; transition:width 0.1s;"></div></div>
+            </div>
+            <!-- Track 2 -->
+            <div class="koe-track" data-src="assets/deep_ocean_sample.mp3" onclick="koePlay(this)" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; margin-bottom:8px; transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="if(!this.classList.contains('koe-active'))this.style.background='transparent'">
+                <div style="background:rgba(76,193,212,0.2); border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <svg class="koe-play" width="11" height="11" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
+                    <svg class="koe-pause" width="11" height="11" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:0.82rem; font-weight:700; color:#fff;">Ambience Mode</div>
+                    <div style="font-size:0.7rem; color:rgba(255,255,255,0.4);">Deep Ocean preset · 1:16</div>
+                </div>
+                <div style="width:50px; background:rgba(255,255,255,0.1); border-radius:3px; height:3px;"><div class="koe-prog" style="background:var(--cyan); height:3px; border-radius:3px; width:0%; transition:width 0.1s;"></div></div>
+            </div>
+            <!-- Track 3 -->
+            <div class="koe-track" data-src="assets/deep_ocean_soundtrack.mp3" onclick="koePlay(this)" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="if(!this.classList.contains('koe-active'))this.style.background='transparent'">
+                <div style="background:rgba(244,123,98,0.25); border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <svg class="koe-play" width="11" height="11" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
+                    <svg class="koe-pause" width="11" height="11" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:0.82rem; font-weight:700; color:#fff;">AI Soundtrack ✨</div>
+                    <div style="font-size:0.7rem; color:rgba(255,255,255,0.4);">MusicGen · 3:30</div>
+                </div>
+                <div style="width:50px; background:rgba(255,255,255,0.1); border-radius:3px; height:3px;"><div class="koe-prog" style="background:var(--kina-coral); height:3px; border-radius:3px; width:0%; transition:width 0.1s;"></div></div>
+            </div>
         </div>
+        <script>
+            let koeAudio = null, koeActive = null;
+            function koePlay(el) {
+                const src = el.dataset.src;
+                if (koeActive && koeActive !== el) {
+                    koeAudio.pause();
+                    koeActive.querySelector('.koe-play').style.display='block';
+                    koeActive.querySelector('.koe-pause').style.display='none';
+                    koeActive.classList.remove('koe-active');
+                    koeActive.style.background='transparent';
+                }
+                if (!koeAudio || koeActive !== el) {
+                    koeAudio = new Audio(src); koeActive = el;
+                    el.classList.add('koe-active'); el.style.background='rgba(255,255,255,0.07)';
+                    koeAudio.play();
+                    el.querySelector('.koe-play').style.display='none';
+                    el.querySelector('.koe-pause').style.display='block';
+                    koeAudio.ontimeupdate = () => { if(koeAudio.duration) el.querySelector('.koe-prog').style.width=(koeAudio.currentTime/koeAudio.duration*100)+'%'; };
+                    koeAudio.onended = () => { el.querySelector('.koe-play').style.display='block'; el.querySelector('.koe-pause').style.display='none'; el.classList.remove('koe-active'); el.style.background='transparent'; el.querySelector('.koe-prog').style.width='0%'; koeActive=null; };
+                } else if (!koeAudio.paused) {
+                    koeAudio.pause(); el.querySelector('.koe-play').style.display='block'; el.querySelector('.koe-pause').style.display='none';
+                } else {
+                    koeAudio.play(); el.querySelector('.koe-play').style.display='none'; el.querySelector('.koe-pause').style.display='block';
+                }
+            }
+        </script>
     </div>
 </div>
 

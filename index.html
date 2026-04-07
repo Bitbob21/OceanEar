@@ -558,46 +558,84 @@
                     </div>
 
                     <!-- Audio Player -->
-                    <div class="anim-fade d5" style="margin-top: 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 1rem 1.25rem; max-width: 360px; backdrop-filter: blur(10px);">
-                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.6rem;">
-                            <button id="playBtn" onclick="toggleAudio()" style="background: var(--kina-coral); border: none; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.15s;">
-                                <svg id="playIcon" width="14" height="14" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
-                                <svg id="pauseIcon" width="14" height="14" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
-                            </button>
-                            <div style="flex:1; min-width:0;">
-                                <div style="font-size: 0.8rem; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">🐋 Live Hydrophone Recording</div>
-                                <div style="font-size: 0.72rem; color: rgba(255,255,255,0.45);">Live Hydrophone Recording</div>
+                    <div class="anim-fade d5" style="margin-top: 2rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1rem 1.25rem; max-width: 380px; backdrop-filter: blur(10px);">
+                        <div style="font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 10px;">🎧 Listen — Deep Ocean</div>
+                        <!-- Track 1: Raw Recording -->
+                        <div class="oe-track" data-src="assets/deep_ocean_recording.mp3" onclick="oePlay(this)" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; margin-bottom:6px; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="if(!this.classList.contains('oe-active'))this.style.background='transparent'">
+                            <div class="oe-btn" style="background:rgba(255,255,255,0.15); border:none; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                <svg class="oe-play" width="11" height="11" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
+                                <svg class="oe-pause" width="11" height="11" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
                             </div>
+                            <div style="flex:1; min-width:0;">
+                                <div style="font-size:0.78rem; font-weight:600; color:#fff;">Raw Hydrophone</div>
+                                <div style="font-size:0.68rem; color:rgba(255,255,255,0.4);">Live recording · 9s</div>
+                            </div>
+                            <div class="oe-bar" style="width:60px; background:rgba(255,255,255,0.1); border-radius:3px; height:3px;"><div class="oe-prog" style="background:var(--cyan); height:3px; border-radius:3px; width:0%; transition:width 0.1s;"></div></div>
                         </div>
-                        <div style="background: rgba(255,255,255,0.08); border-radius: 4px; height: 4px; cursor: pointer;" onclick="seekAudio(event, this)">
-                            <div id="audioProgress" style="background: var(--cyan); height: 4px; border-radius: 4px; width: 0%; transition: width 0.1s;"></div>
+                        <!-- Track 2: Ambience -->
+                        <div class="oe-track" data-src="assets/deep_ocean_sample.mp3" onclick="oePlay(this)" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; margin-bottom:6px; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="if(!this.classList.contains('oe-active'))this.style.background='transparent'">
+                            <div class="oe-btn" style="background:rgba(76,193,212,0.2); border:none; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                <svg class="oe-play" width="11" height="11" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
+                                <svg class="oe-pause" width="11" height="11" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
+                            </div>
+                            <div style="flex:1; min-width:0;">
+                                <div style="font-size:0.78rem; font-weight:600; color:#fff;">Ambience Mode</div>
+                                <div style="font-size:0.68rem; color:rgba(255,255,255,0.4);">Deep Ocean preset · 1:16</div>
+                            </div>
+                            <div class="oe-bar" style="width:60px; background:rgba(255,255,255,0.1); border-radius:3px; height:3px;"><div class="oe-prog" style="background:var(--cyan); height:3px; border-radius:3px; width:0%; transition:width 0.1s;"></div></div>
+                        </div>
+                        <!-- Track 3: AI Soundtrack -->
+                        <div class="oe-track" data-src="assets/deep_ocean_soundtrack.mp3" onclick="oePlay(this)" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; transition: background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="if(!this.classList.contains('oe-active'))this.style.background='transparent'">
+                            <div class="oe-btn" style="background:rgba(244,123,98,0.25); border:none; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                                <svg class="oe-play" width="11" height="11" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
+                                <svg class="oe-pause" width="11" height="11" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
+                            </div>
+                            <div style="flex:1; min-width:0;">
+                                <div style="font-size:0.78rem; font-weight:600; color:#fff;">AI Soundtrack ✨</div>
+                                <div style="font-size:0.68rem; color:rgba(255,255,255,0.4);">MusicGen · 3:30</div>
+                            </div>
+                            <div class="oe-bar" style="width:60px; background:rgba(255,255,255,0.1); border-radius:3px; height:3px;"><div class="oe-prog" style="background:var(--kina-coral); height:3px; border-radius:3px; width:0%; transition:width 0.1s;"></div></div>
                         </div>
                     </div>
-
-                    <audio id="whaleAudio" src="assets/whale_loud.mp3" preload="none"></audio>
                     <script>
-                        const audio = document.getElementById('whaleAudio');
-                        const playIcon = document.getElementById('playIcon');
-                        const pauseIcon = document.getElementById('pauseIcon');
-                        const progress = document.getElementById('audioProgress');
-                        function toggleAudio() {
-                            if (audio.paused) {
-                                audio.play();
-                                playIcon.style.display='none';
-                                pauseIcon.style.display='block';
-                                const hint = document.getElementById('heroTapHint');
-                                if (hint) hint.style.display='none';
+                        let oeAudio = null, oeActive = null;
+                        function oePlay(el) {
+                            const src = el.dataset.src;
+                            if (oeActive && oeActive !== el) {
+                                oeAudio.pause();
+                                oeActive.querySelector('.oe-play').style.display='block';
+                                oeActive.querySelector('.oe-pause').style.display='none';
+                                oeActive.classList.remove('oe-active');
+                                oeActive.style.background='transparent';
                             }
-                            else { audio.pause(); playIcon.style.display='block'; pauseIcon.style.display='none'; }
-                        }
-                        audio.ontimeupdate = () => {
-                            if (audio.duration) progress.style.width = (audio.currentTime / audio.duration * 100) + '%';
-                        };
-                        audio.onended = () => { playIcon.style.display='block'; pauseIcon.style.display='none'; progress.style.width='0%'; };
-                        function seekAudio(e, bar) {
-                            const rect = bar.getBoundingClientRect();
-                            const pct = (e.clientX - rect.left) / rect.width;
-                            if (audio.duration) audio.currentTime = pct * audio.duration;
+                            if (!oeAudio || oeActive !== el) {
+                                oeAudio = new Audio(src);
+                                oeActive = el;
+                                el.classList.add('oe-active');
+                                el.style.background='rgba(255,255,255,0.07)';
+                                oeAudio.play();
+                                el.querySelector('.oe-play').style.display='none';
+                                el.querySelector('.oe-pause').style.display='block';
+                                oeAudio.ontimeupdate = () => {
+                                    if (oeAudio.duration) el.querySelector('.oe-prog').style.width = (oeAudio.currentTime/oeAudio.duration*100)+'%';
+                                };
+                                oeAudio.onended = () => {
+                                    el.querySelector('.oe-play').style.display='block';
+                                    el.querySelector('.oe-pause').style.display='none';
+                                    el.classList.remove('oe-active');
+                                    el.style.background='transparent';
+                                    el.querySelector('.oe-prog').style.width='0%';
+                                    oeActive = null;
+                                };
+                            } else if (!oeAudio.paused) {
+                                oeAudio.pause();
+                                el.querySelector('.oe-play').style.display='block';
+                                el.querySelector('.oe-pause').style.display='none';
+                            } else {
+                                oeAudio.play();
+                                el.querySelector('.oe-play').style.display='none';
+                                el.querySelector('.oe-pause').style.display='block';
+                            }
                         }
                     </script>
                 </div>
