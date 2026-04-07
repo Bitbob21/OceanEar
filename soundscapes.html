@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soundscapes — OceanEar</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://oceanear.co.nz/soundscapes">
+    <meta property="og:title" content="Soundscapes — Turn the Ocean into Music">
+    <meta property="og:description" content="Ambience Mode and AI Soundtrack Generation. Your underwater recordings become living, generative music.">
+    <meta property="og:image" content="https://oceanear.co.nz/assets/ambience_mode.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Varela+Round&display=swap">
+
+    <style>
+        :root {
+            --bg-top: #0c6179;
+            --bg-bottom: #0a3545;
+            --cyan: #4cc1d4;
+            --kina-coral: #f47b62;
+            --white: #ffffff;
+            --cyan-gray: #a0c4cb;
+            --font-rounded: 'Varela Round', ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, sans-serif;
+            --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(255,255,255,0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-rounded);
+            background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+            background-attachment: fixed;
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Sonar background */
+        .sonar-bg {
+            position: fixed; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw; height: 100vw;
+            min-width: 1000px; min-height: 1000px;
+            pointer-events: none; z-index: -1; opacity: 0.1;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .sonar-ripple {
+            position: absolute; border: 1px solid var(--white);
+            border-radius: 50%; animation: expand 14s infinite linear;
+        }
+        .sonar-ripple:nth-child(1) { width: 20%; height: 20%; animation-delay: 0s; }
+        .sonar-ripple:nth-child(2) { width: 40%; height: 40%; animation-delay: -3.5s; }
+        .sonar-ripple:nth-child(3) { width: 60%; height: 60%; animation-delay: -7s; }
+        .sonar-ripple:nth-child(4) { width: 80%; height: 80%; animation-delay: -10.5s; }
+        @keyframes expand {
+            0% { transform: scale(0.1); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* Nav */
+        nav {
+            position: fixed; top: 1rem; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 1200px; padding: 1.2rem 2.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border); border-radius: 100px;
+        }
+        .logo { font-family: var(--font-rounded); font-weight: 800; font-size: 1.4rem; color: var(--white); text-decoration: none; }
+        .logo span { color: var(--cyan); }
+        .nav-links { display: flex; gap: 0.75rem; align-items: center; }
+        .nav-links a {
+            font-size: 0.82rem; font-weight: 600; padding: 9px 16px;
+            border-radius: 10px; text-decoration: none; white-space: nowrap;
+        }
+        .nav-back { color: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.15); }
+        .nav-cta { background: var(--kina-coral); color: white; font-weight: 700; }
+        @media (max-width: 640px) { nav { width: 95%; padding: 1rem 1.25rem; } .nav-back { display: none; } }
+
+        /* Hero */
+        .hero {
+            min-height: 70vh; display: flex; align-items: center;
+            padding: 10rem 2rem 5rem; text-align: center;
+        }
+        .hero-inner { max-width: 780px; margin: 0 auto; }
+        .eyebrow {
+            font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--cyan); margin-bottom: 1.5rem;
+            display: block;
+        }
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem); font-weight: 900;
+            letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 1.5rem;
+        }
+        .hero h1 span { color: var(--cyan); }
+        .hero p {
+            font-size: 1.2rem; color: var(--cyan-gray); max-width: 560px;
+            margin: 0 auto 2.5rem; line-height: 1.7;
+        }
+        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 28px; border-radius: 12px; font-weight: 700;
+            font-size: 0.95rem; text-decoration: none; transition: all 0.2s;
+        }
+        .btn-primary { background: var(--cyan); color: #000; box-shadow: 0 8px 32px rgba(76,193,212,0.35); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(76,193,212,0.45); }
+        .btn-secondary { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18); color: white; }
+        .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+        /* Container */
+        .container { max-width: 1100px; margin: 0 auto; width: 100%; padding: 0 2rem; }
+
+        /* Feature sections */
+        .feature-section { padding: 80px 0; }
+        .feature-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 72px; align-items: center; max-width: 960px; margin: 0 auto;
+        }
+        .feature-grid.reverse { direction: rtl; }
+        .feature-grid.reverse > * { direction: ltr; }
+        .phone-frame {
+            text-align: center;
+        }
+        .phone-frame-inner {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(76,193,212,0.2);
+            border-radius: 40px; padding: 16px;
+            display: inline-block;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.35), 0 0 60px rgba(76,193,212,0.1);
+        }
+        .phone-frame-inner img { width: 260px; border-radius: 28px; display: block; }
+        .phone-label {
+            margin-top: 14px; font-size: 0.75rem; color: var(--cyan);
+            font-family: var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+        }
+        .feature-eyebrow {
+            font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--cyan); margin-bottom: 12px; display: block;
+        }
+        .feature-text h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900; margin-bottom: 16px; letter-spacing: -0.03em; }
+        .feature-text p { font-size: 1rem; color: var(--cyan-gray); line-height: 1.75; margin-bottom: 28px; }
+        .feature-bullets { list-style: none; display: flex; flex-direction: column; gap: 14px; margin-bottom: 36px; }
+        .feature-bullets li { display: flex; align-items: flex-start; gap: 12px; }
+        .feature-bullets li .icon { font-size: 1.2rem; flex-shrink: 0; line-height: 1.4; }
+        .feature-bullets li .text { font-size: 0.93rem; color: rgba(255,255,255,0.75); line-height: 1.5; }
+        .feature-bullets li .text strong { color: #fff; font-weight: 700; }
+
+        /* Sound themes pills */
+        .themes-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+        .theme-pill {
+            display: flex; align-items: center; gap: 8px;
+            background: rgba(76,193,212,0.08); border: 1px solid rgba(76,193,212,0.25);
+            border-radius: 50px; padding: 8px 14px;
+            font-size: 0.85rem; color: var(--cyan-gray);
+        }
+        .theme-pill span { font-size: 1rem; }
+
+        /* Styles grid (AI Soundtrack) */
+        .styles-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+        .style-card {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px; padding: 10px 14px; text-align: center;
+            flex: 1 1 80px;
+        }
+        .style-card .icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+        .style-card .name { font-size: 0.8rem; font-weight: 700; color: #fff; }
+
+        /* Divider */
+        hr.section-divider { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 0 2rem; }
+
+        /* Feature strip */
+        .feature-strip {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+            padding: 60px 2rem;
+        }
+        .feature-chip {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 20px; border-radius: 50px; font-size: 0.85rem; font-weight: 600;
+        }
+        .feature-chip.cyan { background: rgba(76,193,212,0.12); border: 1px solid rgba(76,193,212,0.3); color: var(--cyan); }
+        .feature-chip.coral { background: rgba(244,123,98,0.12); border: 1px solid rgba(244,123,98,0.3); color: var(--kina-coral); }
+
+        /* CTA section */
+        .cta-section { padding: 100px 2rem; text-align: center; }
+        .cta-section h2 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; margin-bottom: 16px; letter-spacing: -0.03em; }
+        .cta-section p { color: var(--cyan-gray); font-size: 1.1rem; max-width: 480px; margin: 0 auto 36px; }
+
+        /* Footer */
+        footer { text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.25); font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.06); }
+        footer a { color: var(--cyan); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .feature-grid { grid-template-columns: 1fr; gap: 40px; }
+            .feature-grid.reverse { direction: ltr; }
+            .phone-frame-inner img { width: 220px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="sonar-bg">
+    <div class="sonar-ripple"></div>
+    <div class="sonar-ripple"></div>
+    <div class="sonar-ripple"></div>
+    <div class="sonar-ripple"></div>
+</div>
+
+<!-- Nav -->
+<nav>
+    <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+    <div class="nav-links">
+        <a href="index.html" class="nav-back">← Back</a>
+        <a href="index.html#beta" class="nav-cta">Join Beta</a>
+    </div>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+    <div class="hero-inner">
+        <span class="eyebrow">OceanEar · Soundscapes</span>
+        <h1>Turn the Ocean<br>into <span>Music.</span></h1>
+        <p>Your underwater recordings become living soundscapes. Ambience Mode and AI Soundtrack Generation transform real hydrophone audio into immersive, generative music — unique every time.</p>
+        <div class="hero-cta">
+            <a href="index.html#beta" class="btn btn-primary">✦ Join Beta — Free on TestFlight</a>
+            <a href="index.html" class="btn btn-secondary">← Explore OceanEar</a>
+        </div>
+
+        <!-- Audio Samples -->
+        <div style="margin-top: 48px; background: rgba(76,193,212,0.07); border: 1px solid rgba(76,193,212,0.25); border-radius: 20px; padding: 24px 28px; max-width: 420px; margin-left: auto; margin-right: auto;">
+            <p style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px;">🎧 Listen — Deep Ocean</p>
+            <!-- Track 1 -->
+            <div class="koe-track" data-src="assets/deep_ocean_recording.mp3" onclick="koePlay(this)" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; margin-bottom:8px; transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="if(!this.classList.contains('koe-active'))this.style.background='transparent'">
+                <div style="background:rgba(255,255,255,0.12); border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <svg class="koe-play" width="11" height="11" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
+                    <svg class="koe-pause" width="11" height="11" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:0.82rem; font-weight:700; color:#fff;">Deep Ocean</div>
+                    <div style="font-size:0.7rem; color:rgba(255,255,255,0.4);">Live recording · 9s</div>
+                </div>
+                <div style="width:50px; background:rgba(255,255,255,0.1); border-radius:3px; height:3px;"><div class="koe-prog" style="background:var(--cyan); height:3px; border-radius:3px; width:0%; transition:width 0.1s;"></div></div>
+            </div>
+            <!-- Track 2 -->
+            <div class="koe-track" data-src="assets/deep_ocean_soundtrack.mp3" onclick="koePlay(this)" style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="if(!this.classList.contains('koe-active'))this.style.background='transparent'">
+                <div style="background:rgba(244,123,98,0.25); border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <svg class="koe-play" width="11" height="11" viewBox="0 0 14 14" fill="white"><polygon points="3,1 13,7 3,13"/></svg>
+                    <svg class="koe-pause" width="11" height="11" viewBox="0 0 14 14" fill="white" style="display:none"><rect x="2" y="1" width="4" height="12"/><rect x="8" y="1" width="4" height="12"/></svg>
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:0.82rem; font-weight:700; color:#fff;">Ambient Soundtrack ✨</div>
+                    <div style="font-size:0.7rem; color:rgba(255,255,255,0.4);">MusicGen · 3:30</div>
+                </div>
+                <div style="width:50px; background:rgba(255,255,255,0.1); border-radius:3px; height:3px;"><div class="koe-prog" style="background:var(--kina-coral); height:3px; border-radius:3px; width:0%; transition:width 0.1s;"></div></div>
+            </div>
+        </div>
+        <script>
+            let koeAudio = null, koeActive = null;
+            function koePlay(el) {
+                const src = el.dataset.src;
+                if (koeActive && koeActive !== el) {
+                    koeAudio.pause();
+                    koeActive.querySelector('.koe-play').style.display='block';
+                    koeActive.querySelector('.koe-pause').style.display='none';
+                    koeActive.classList.remove('koe-active');
+                    koeActive.style.background='transparent';
+                }
+                if (!koeAudio || koeActive !== el) {
+                    koeAudio = new Audio(src); koeActive = el;
+                    el.classList.add('koe-active'); el.style.background='rgba(255,255,255,0.07)';
+                    koeAudio.play();
+                    el.querySelector('.koe-play').style.display='none';
+                    el.querySelector('.koe-pause').style.display='block';
+                    koeAudio.ontimeupdate = () => { if(koeAudio.duration) el.querySelector('.koe-prog').style.width=(koeAudio.currentTime/koeAudio.duration*100)+'%'; };
+                    koeAudio.onended = () => { el.querySelector('.koe-play').style.display='block'; el.querySelector('.koe-pause').style.display='none'; el.classList.remove('koe-active'); el.style.background='transparent'; el.querySelector('.koe-prog').style.width='0%'; koeActive=null; };
+                } else if (!koeAudio.paused) {
+                    koeAudio.pause(); el.querySelector('.koe-play').style.display='block'; el.querySelector('.koe-pause').style.display='none';
+                } else {
+                    koeAudio.play(); el.querySelector('.koe-play').style.display='none'; el.querySelector('.koe-pause').style.display='block';
+                }
+            }
+        </script>
+    </div>
+</div>
+
+<!-- Feature strip -->
+<div class="feature-strip">
+    <div class="feature-chip cyan">🌊 5 Sound Worlds</div>
+    <div class="feature-chip coral">🎛️ Depth · Space · Echo · Melody</div>
+    <div class="feature-chip cyan">🎧 Spatial Audio + Head Tracking</div>
+    <div class="feature-chip coral">🔁 Reactive FX</div>
+    <div class="feature-chip cyan">✨ AI Soundtrack Generation</div>
+    <div class="feature-chip coral">🎵 ~3:30 Ambient Tracks</div>
+    <div class="feature-chip cyan">🌐 Powered by MusicGen</div>
+</div>
+
+<!-- Video Demo Section -->
+<div class="container" style="padding: 5rem 0 3rem;">
+    <div style="text-align:center; margin-bottom: 3rem;">
+        <span style="font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cyan);">Live Demo</span>
+        <h2 style="font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0.5rem 0 0.75rem; letter-spacing: -0.03em;">See it in action.</h2>
+        <p style="color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto;">Real hydrophone recordings — visualised and transformed live in the app.</p>
+    </div>
+
+    <!-- sample02 prominent -->
+    <div style="text-align:center; margin-bottom: 3rem;">
+        <div style="max-width:320px; margin:0 auto; position:relative; border-radius:28px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(76,193,212,0.15); border:1px solid rgba(76,193,212,0.3); aspect-ratio:9/16;" onclick="oeEnableSound('v02','ov02','btn02')">
+            <video id="v02" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; display:block;">
+                <source src="assets/sample02.mp4" type="video/mp4">
+            </video>
+            <div id="ov02" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:24px;cursor:pointer;background:linear-gradient(to top,rgba(0,0,0,0.45) 0%,transparent 50%);">
+                <div style="display:flex;align-items:center;gap:10px;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:10px 20px;animation:pulse 2s infinite;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    <span style="color:white;font-weight:700;font-size:0.82rem;letter-spacing:0.05em;">TAP FOR SOUND</span>
+                </div>
+            </div>
+            <button id="btn02" onclick="event.stopPropagation();oeToggleSound('v02')" style="display:none;position:absolute;bottom:14px;right:14px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:38px;height:38px;cursor:pointer;align-items:center;justify-content:center;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+            </button>
+        </div>
+        <p class="phone-label" style="margin-top:14px;">Deep Ocean — Spectrogram + Ambience</p>
+    </div>
+
+    <!-- sample01 + oceanear_v01 -->
+    <div style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;">
+        <div style="text-align:center;">
+            <div style="max-width:220px;position:relative;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.1);aspect-ratio:9/16;" onclick="oeEnableSound('v01','ov01','btn01')">
+                <video id="v01" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; display:block;">
+                    <source src="assets/sample01.mp4" type="video/mp4">
+                </video>
+                <div id="ov01" style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;cursor:pointer;background:linear-gradient(to top,rgba(0,0,0,0.4) 0%,transparent 50%);">
+                    <div style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:50px;padding:8px 16px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                        <span style="color:white;font-weight:700;font-size:0.72rem;">TAP FOR SOUND</span>
+                    </div>
+                </div>
+                <button id="btn01" onclick="event.stopPropagation();oeToggleSound('v01')" style="display:none;position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:34px;height:34px;cursor:pointer;align-items:center;justify-content:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                </button>
+            </div>
+            <p class="phone-label" style="margin-top:12px;">Sample 01</p>
+        </div>
+        <div style="text-align:center;">
+            <div style="max-width:220px;position:relative;border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.45);border:1px solid rgba(255,255,255,0.1);aspect-ratio:9/16;" onclick="oeEnableSound('vv1','ovv1','btnv1')">
+                <video id="vv1" autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover; display:block;">
+                    <source src="assets/oceanear_v01.mp4" type="video/mp4">
+                </video>
+                <div id="ovv1" style="position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;cursor:pointer;background:linear-gradient(to top,rgba(0,0,0,0.4) 0%,transparent 50%);">
+                    <div style="display:flex;align-items:center;gap:8px;background:rgba(0,0,0,0.6);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2);border-radius:50px;padding:8px 16px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                        <span style="color:white;font-weight:700;font-size:0.72rem;">TAP FOR SOUND</span>
+                    </div>
+                </div>
+                <button id="btnv1" onclick="event.stopPropagation();oeToggleSound('vv1')" style="display:none;position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:50%;width:34px;height:34px;cursor:pointer;align-items:center;justify-content:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                </button>
+            </div>
+            <p class="phone-label" style="margin-top:12px;">OceanEar V01</p>
+        </div>
+    </div>
+</div>
+<style>@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.75;transform:scale(.97)}}</style>
+<script>
+function oeEnableSound(vid,ovl,btn){
+    var v=document.getElementById(vid);
+    v.muted=false;
+    document.getElementById(ovl).style.display='none';
+    var b=document.getElementById(btn);b.style.display='flex';
+}
+function oeToggleSound(vid){
+    var v=document.getElementById(vid);
+    v.muted=!v.muted;
+}
+</script>
+
+<hr class="section-divider">
+
+<!-- Ambience Mode -->
+<div class="container">
+    <section class="feature-section">
+        <div class="feature-grid">
+            <div class="phone-frame">
+                <div class="phone-frame-inner">
+                    <img src="assets/ambience_mode.jpg" alt="OceanEar Ambience Mode — Sound worlds and knob controls" loading="lazy">
+                </div>
+                <p class="phone-label">Ambience Mode</p>
+            </div>
+            <div class="feature-text">
+                <span class="feature-eyebrow">Feature 01</span>
+                <h2>Live Underwater Ambience.</h2>
+                <p>Shape the ocean's sound in real time. Five distinct underwater environments, four intuitive knobs — the soundscape reacts to your live hydrophone input, so no two sessions are the same.</p>
+
+                <div class="themes-row">
+                    <div class="theme-pill"><span>🌊</span> Deep Ocean</div>
+                    <div class="theme-pill"><span>🐠</span> Reef</div>
+                    <div class="theme-pill"><span>❄️</span> Arctic</div>
+                    <div class="theme-pill"><span>🫧</span> Bubbles</div>
+                    <div class="theme-pill"><span>🧠</span> Hemi-Sync</div>
+                </div>
+
+                <ul class="feature-bullets">
+                    <li><span class="icon">🎛️</span><span class="text"><strong>Depth · Space · Echo · Melody</strong> — four arc knobs that shape the atmosphere in real time</span></li>
+                    <li><span class="icon">🎧</span><span class="text"><strong>Spatial Audio + Head Tracking</strong> — 3D sound that moves with you, optimised for AirPods Pro</span></li>
+                    <li><span class="icon">🔁</span><span class="text"><strong>Reactive FX</strong> — knobs respond to live hydrophone audio, the ocean shapes its own music</span></li>
+                    <li><span class="icon">📤</span><span class="text"><strong>Export</strong> — record and share your ambient sessions as video</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+<hr class="section-divider">
+
+<!-- AI Soundtrack -->
+<div class="container">
+    <section class="feature-section">
+        <div class="feature-grid reverse">
+            <div class="phone-frame">
+                <div class="phone-frame-inner">
+                    <img src="assets/ai_soundtrack1.jpg" alt="OceanEar AI Soundtrack Generation" loading="lazy">
+                </div>
+                <p class="phone-label">AI Soundtrack</p>
+            </div>
+            <div class="feature-text">
+                <span class="feature-eyebrow">Feature 02</span>
+                <h2>AI Soundtrack Generation.</h2>
+                <p>Pick a recording from your library, choose a style, hit generate. MusicGen turns your real ocean audio into a full ambient track — every session unique, every ocean different.</p>
+
+                <div class="styles-grid">
+                    <div class="style-card"><span class="icon">〰️</span><span class="name">Deep</span></div>
+                    <div class="style-card"><span class="icon">🎧</span><span class="name">Soft</span></div>
+                    <div class="style-card"><span class="icon">🎵</span><span class="name">Melodic</span></div>
+                    <div class="style-card"><span class="icon">🌙</span><span class="name">Dark</span></div>
+                    <div class="style-card"><span class="icon">✨</span><span class="name">Meditation</span></div>
+                </div>
+
+                <ul class="feature-bullets">
+                    <li><span class="icon">🎵</span><span class="text"><strong>~3:30 Ambient Track</strong> — full-length, generated from your real recording</span></li>
+                    <li><span class="icon">🌐</span><span class="text"><strong>Powered by MusicGen</strong> — state-of-the-art AI audio generation, runs segment by segment</span></li>
+                    <li><span class="icon">🎙️</span><span class="text"><strong>Your ocean, your sound</strong> — the source recording shapes the output, no two tracks alike</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+    <span class="eyebrow">Early Access</span>
+    <h2>Hear your ocean.<br>Create something new.</h2>
+    <p>Free on TestFlight. Join the beta and be first to record the sounds beneath the surface.</p>
+    <div class="hero-cta">
+        <a href="index.html#beta" class="btn btn-primary">✦ Join Beta — Free</a>
+        <a href="index.html" class="btn btn-secondary">← Back to OceanEar</a>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 OceanEar · <a href="index.html">Home</a> · <a href="privacy.html">Privacy</a></p>
+</footer>
+
+</body>
+</html>
