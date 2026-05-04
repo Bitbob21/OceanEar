@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocean Ear | About</title>
+    <meta property="og:title" content="About OceanEar">
+    <meta property="og:description" content="Meet Sebastian, the engineer behind OceanEar.">
+    <style>
+        :root {
+            --bg-top: #0c6179; --bg-bottom: #154b5b; --cyan: #4cc1d4; --kina-coral: #f47b62;
+            --white: #ffffff; --cyan-gray: #a0c4cb;
+            --font-rounded: ui-rounded, 'SF Pro Rounded', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            --glass-bg: rgba(255, 255, 255, 0.05); --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-blur: blur(16px); --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-rounded); background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%); background-attachment: fixed; color: var(--white); line-height: 1.6; overflow-x: hidden; min-height: 100vh; }
+        .sonar-bg { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100vw; height: 100vw; min-width: 1000px; min-height: 1000px; pointer-events: none; z-index: -1; opacity: 0.15; display: flex; justify-content: center; align-items: center; }
+        .sonar-ripple { position: absolute; border: 1px solid var(--white); border-radius: 50%; animation: expand 12s infinite linear; }
+        .sonar-ripple:nth-child(1) { width: 20%; height: 20%; animation-delay: 0s; }
+        .sonar-ripple:nth-child(2) { width: 40%; height: 40%; animation-delay: -3s; }
+        .sonar-ripple:nth-child(3) { width: 60%; height: 60%; animation-delay: -6s; }
+        .sonar-ripple:nth-child(4) { width: 80%; height: 80%; animation-delay: -9s; }
+        @keyframes expand { 0% { transform: scale(0.1); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: scale(2); opacity: 0; } }
+        h1, h2, h3, h4 { font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: var(--white); }
+        p { color: var(--cyan-gray); }
+        .mono { font-family: var(--font-mono); font-size: 0.85em; letter-spacing: 0.05em; text-transform: uppercase; }
+        .container { max-width: 1200px; margin: 0 auto; width: 100%; padding: 0 2rem; }
+        nav { position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; padding: 1.2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 100px; }
+        .logo { font-family: 'Fredoka One', ui-rounded, 'SF Pro Rounded', sans-serif; font-weight: 400; font-size: 1.5rem; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+        .logo span { font-family: 'Varela Round', ui-rounded, 'SF Pro Rounded', sans-serif; font-weight: 400; color: var(--cyan); }
+        footer { text-align: center; padding: 6rem 2rem 4rem; }
+        .footer-logo { font-family: 'Fredoka One', ui-rounded, 'SF Pro Rounded', sans-serif; font-weight: 400; font-size: 1.8rem; color: var(--white); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+        .footer-logo span { color: var(--cyan); }
+        .footer-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .footer-links a { color: var(--cyan-gray); text-decoration: none; font-size: 0.9rem; }
+        .footer-links a:hover { color: var(--white); }
+        .copyright { color: rgba(255,255,255,0.3); font-size: 0.85rem; }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        .about-photo {
+            width: 100%;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            border: 1px solid var(--glass-border);
+        }
+        .about-text h2 { font-size: 2.2rem; margin-bottom: 2rem; }
+        .about-text p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+        .about-text strong { color: var(--white); }
+
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 2.5rem; }
+        .skill-tag {
+            background: rgba(76, 193, 212, 0.12); border: 1px solid rgba(76, 193, 212, 0.3);
+            color: var(--cyan); font-size: 0.82rem; font-weight: 600; padding: 8px 16px; border-radius: 50px;
+        }
+
+        .contact-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; }
+        .contact-row a {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--cyan); text-decoration: none; font-weight: 600; font-size: 0.95rem;
+            padding: 14px 24px; border-radius: 100px;
+            border: 1px solid rgba(76,193,212,0.3); background: rgba(76,193,212,0.08); transition: var(--transition);
+        }
+        .contact-row a:hover { background: rgba(76,193,212,0.2); border-color: var(--cyan); }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .about-photo { max-width: 260px; margin: 0 auto; }
+            nav { padding: 0.8rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sonar-bg"><div class="sonar-ripple"></div><div class="sonar-ripple"></div><div class="sonar-ripple"></div><div class="sonar-ripple"></div></div>
+
+    <nav>
+        <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+        <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <a href="soundscapes.html" style="background: rgba(76,193,212,0.12); border: 1px solid rgba(76,193,212,0.35); color: var(--cyan); font-weight: 600; font-size: 0.82rem; padding: 9px 16px; border-radius: 10px; text-decoration: none; white-space: nowrap;">&#10022; Soundscapes</a>
+            <a href="services.html" style="color: var(--cyan-gray); font-weight: 600; font-size: 0.82rem; padding: 9px 16px; text-decoration: none; white-space: nowrap;">Services</a>
+            <a href="about.html" style="color: var(--white); font-weight: 600; font-size: 0.82rem; padding: 9px 16px; text-decoration: none; white-space: nowrap;">About</a>
+            <a href="index.html#kit" style="background: var(--kina-coral); color: white; font-weight: 700; font-size: 0.82rem; padding: 9px 18px; border-radius: 10px; text-decoration: none; white-space: nowrap;">Pre-Sale Ocean Kit</a>
+        </div>
+    </nav>
+
+    <div style="padding-top: 10rem;"></div>
+
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <span class="mono" style="color: var(--cyan);">ABOUT</span>
+            <h1 style="font-size: clamp(2.5rem, 6vw, 4rem); margin: 16px 0;">The Person Behind the Mic.</h1>
+        </div>
+
+        <div class="about-grid">
+            <div>
+                <img src="assets/sebastian.png" alt="Sebastian" class="about-photo">
+            </div>
+            <div class="about-text">
+                <h2>Hi, I'm Sebastian.</h2>
+
+                <p>
+                    Engineer and acoustics specialist, based in <strong>Wellington, New Zealand</strong>. Originally from Germany. I build hydrophone systems, develop the OceanEar iOS app, and design spatial audio experiences for the underwater world.
+                </p>
+
+                <p>
+                    My background is <strong>mechanical engineering</strong> and <strong>acoustics</strong>, with 10+ years of electroacoustic R&amp;D and <strong>iOS audio development</strong>. Prototype to series production. Software to hardware.
+                </p>
+
+                <p>
+                    Currently building OceanEar's spatial HRTF engine, hardware, and sound installations for museums and visitor centres.
+                </p>
+
+                <div class="skill-tags">
+                    <span class="skill-tag">iOS / Swift / AVFoundation</span>
+                    <span class="skill-tag">Spatial Audio / HRTF</span>
+                    <span class="skill-tag">Hydrophone Systems</span>
+                    <span class="skill-tag">Electroacoustic R&amp;D</span>
+                    <span class="skill-tag">Signal Processing</span>
+                    <span class="skill-tag">Mechanical Engineering</span>
+                    <span class="skill-tag">Sensor Engineering</span>
+                </div>
+
+                <div class="contact-row">
+                    <a href="mailto:hello@oceanear.co.nz">hello@oceanear.co.nz</a>
+                    <a href="https://www.linkedin.com/in/YOUR-LINKEDIN/" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <a href="index.html" class="footer-logo">OCEAN<span>EAR</span></a>
+            <div class="footer-links">
+                <a href="index.html#beta">Join Beta</a>
+                <a href="services.html">Services</a>
+                <a href="about.html">About</a>
+                <a href="mailto:hello@oceanear.co.nz">Contact</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+            <p class="copyright">&copy; 2026 Ocean Ear. <br><span class="mono" style="font-size: 0.75rem; letter-spacing: 2px; margin-top: 1rem; display: inline-block;">Wellington, New Zealand</span></p>
+        </div>
+    </footer>
+
+</body>
+</html>

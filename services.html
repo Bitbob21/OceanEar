@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OceanEar, Services</title>
+<meta name="description" content="OceanEar Services: hydrophone systems, electroacoustic R&D, iOS audio development, and immersive sound installations for museums and visitor centres.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OceanEar, Services">
+<meta property="og:description" content="Engineering, software, and acoustic consulting. From prototype to production.">
+<meta property="og:image" content="https://oceanear.co.nz/assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+body{
+  background:linear-gradient(180deg,#0c6179 0%,#0a2236 100%);
+  background-attachment:fixed;
+  color:#fff;line-height:1.6;min-height:100vh;
+  font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,sans-serif;
+  overflow-x:hidden;
+}
+
+/* Sonar Ripples Background */
+.sonar-bg{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:100vw;height:100vw;min-width:1000px;min-height:1000px;
+  pointer-events:none;z-index:0;opacity:.13;
+  display:flex;justify-content:center;align-items:center;
+}
+.sonar-ripple{
+  position:absolute;border:1px solid #fff;border-radius:50%;
+  animation:expand 12s infinite linear;
+}
+.sonar-ripple:nth-child(1){width:20%;height:20%;animation-delay:0s}
+.sonar-ripple:nth-child(2){width:40%;height:40%;animation-delay:-3s}
+.sonar-ripple:nth-child(3){width:60%;height:60%;animation-delay:-6s}
+.sonar-ripple:nth-child(4){width:80%;height:80%;animation-delay:-9s}
+@keyframes expand{0%{transform:scale(.1);opacity:0}50%{opacity:.5}100%{transform:scale(2);opacity:0}}
+
+/* Nav (matching dive.html) */
+nav{
+  position:fixed;top:1rem;left:50%;transform:translateX(-50%);
+  width:90%;max-width:1100px;padding:.9rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;z-index:100;
+  background:rgba(10,22,40,.6);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(76,193,212,.08);border-radius:100px;
+}
+.logo{font-weight:700;font-size:1.25rem;color:#fff;text-decoration:none;letter-spacing:-0.02em}
+.logo span{color:#4cc1d4}
+nav a.nl{color:rgba(160,196,203,.6);text-decoration:none;font-size:.82rem;font-weight:600;transition:color .3s}
+nav a.nl:hover,nav a.nl.active{color:#fff}
+.nc{background:#f47b62;color:#fff!important;padding:7px 16px;border-radius:50px}
+
+/* Page layout */
+.page{position:relative;z-index:5;padding:9rem 1.5rem 4rem;max-width:1080px;margin:0 auto}
+.page-head{text-align:center;margin-bottom:3.5rem;padding:0 1rem}
+.page-head .eyebrow{
+  font-family:ui-monospace,monospace;font-size:.78rem;
+  letter-spacing:.18em;text-transform:uppercase;color:#4cc1d4;
+  display:block;margin-bottom:1rem;
+  opacity:0;animation:fadeUp .7s .05s cubic-bezier(.22,1,.36,1) forwards;
+}
+.page-head h1{
+  font-size:clamp(2.4rem,6vw,4rem);font-weight:800;
+  letter-spacing:-0.03em;line-height:1.05;margin-bottom:1.4rem;
+  opacity:0;animation:fadeUp .7s .15s cubic-bezier(.22,1,.36,1) forwards;
+}
+.page-head h1 span{color:#4cc1d4}
+.page-head .lede{
+  color:rgba(160,196,203,.75);font-size:1.15rem;
+  max-width:560px;margin:0 auto;line-height:1.6;
+  opacity:0;animation:fadeUp .7s .25s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+/* Services Grid */
+.svc-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;
+  max-width:880px;margin:0 auto;
+}
+.svc-card{
+  padding:2.2rem 2rem;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(76,193,212,.18);
+  border-radius:22px;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  display:flex;flex-direction:column;gap:1rem;
+  opacity:0;transform:translateY(20px);
+  animation:fadeUp .7s cubic-bezier(.22,1,.36,1) forwards;
+}
+.svc-card:nth-child(1){animation-delay:.35s}
+.svc-card:nth-child(2){animation-delay:.45s}
+.svc-card:nth-child(3){animation-delay:.55s}
+.svc-card.coral{border-color:rgba(244,123,98,.25);grid-column:1/-1}
+.svc-card:hover{transform:translateY(-4px);background:rgba(255,255,255,.06);border-color:rgba(76,193,212,.45)}
+.svc-card.coral:hover{border-color:rgba(244,123,98,.5)}
+.svc-icon{
+  width:54px;height:54px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(76,193,212,.12);
+  border:1px solid rgba(76,193,212,.28);
+  color:#4cc1d4;flex-shrink:0;
+}
+.svc-card.coral .svc-icon{
+  background:rgba(244,123,98,.12);
+  border-color:rgba(244,123,98,.3);color:#f47b62;
+}
+.svc-card h2{
+  font-size:1.35rem;font-weight:700;color:#fff;
+  letter-spacing:-0.01em;line-height:1.2;
+}
+.svc-card p{
+  color:rgba(160,196,203,.78);font-size:1rem;line-height:1.65;
+}
+
+/* Contact CTA */
+.contact-cta{
+  margin-top:4rem;padding:3rem 2rem;
+  text-align:center;
+  background:rgba(76,193,212,.05);
+  border:1px solid rgba(76,193,212,.18);
+  border-radius:24px;max-width:680px;margin-left:auto;margin-right:auto;
+  opacity:0;animation:fadeUp .7s .65s cubic-bezier(.22,1,.36,1) forwards;
+}
+.contact-cta p{color:rgba(160,196,203,.75);font-size:1.05rem;margin-bottom:1.4rem}
+.contact-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:1rem 2.2rem;border-radius:100px;
+  background:#4cc1d4;color:#000;
+  font-weight:700;font-size:1rem;text-decoration:none;
+  box-shadow:0 0 30px rgba(76,193,212,.35);
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+}
+.contact-btn:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(76,193,212,.55);background:#fff}
+
+/* Footer (matching dive.html) */
+.site-footer{
+  text-align:center;padding:3rem 2rem 4rem;
+  border-top:1px solid rgba(76,193,212,.08);
+  background:rgba(10,22,40,.4);
+  position:relative;z-index:11;
+}
+.site-footer .logo{font-size:1.1rem}
+.site-footer-links{
+  display:flex;gap:1.8rem;justify-content:center;
+  margin:1.4rem 0;flex-wrap:wrap;
+}
+.site-footer-links a{
+  color:rgba(160,196,203,.55);text-decoration:none;
+  font-size:.85rem;font-weight:500;transition:color .25s;
+}
+.site-footer-links a:hover{color:#4cc1d4}
+.site-footer-meta{font-size:.78rem;color:rgba(160,196,203,.4);margin-top:.8rem}
+.site-footer-meta .loc{
+  font-family:ui-monospace,monospace;font-size:.7rem;
+  letter-spacing:.15em;display:inline-block;margin-top:.6rem;
+  color:rgba(160,196,203,.55);
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:768px){
+  nav{padding:.7rem 1rem}
+  .svc-grid{grid-template-columns:1fr;gap:1rem}
+  .svc-card{padding:1.6rem 1.4rem}
+  .page{padding:7rem 1rem 3rem}
+}
+</style>
+</head>
+<body>
+
+<div class="sonar-bg">
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+  <div style="display:flex;gap:1.2rem;align-items:center">
+    <a href="index.html#s7" class="nl nc">Reserve Kit</a>
+    <a href="about.html" class="nl">About</a>
+    <a href="services.html" class="nl active">Services</a>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="page-head">
+    <span class="eyebrow">Services</span>
+    <h1>What We <span>Build.</span></h1>
+    <p class="lede">Engineering, software, and acoustic consulting. From prototype to production.</p>
+  </div>
+
+  <div class="svc-grid">
+
+    <div class="svc-card">
+      <div class="svc-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+      </div>
+      <h2>Software &amp; Hardware Engineering</h2>
+      <p>Custom hydrophone systems, electroacoustic R&amp;D, and prototype development. A decade of taking acoustic products from concept to series production.</p>
+    </div>
+
+    <div class="svc-card">
+      <div class="svc-icon">
+        <svg width="22" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="5" y="2" width="14" height="20" rx="2.5" ry="2.5"/>
+          <line x1="12" y1="18" x2="12.01" y2="18"/>
+        </svg>
+      </div>
+      <h2>iOS Audio Development</h2>
+      <p>Real-time audio apps built with Swift, AVFoundation, and Accelerate. Spatial rendering, HRTF processing, GPU spectrograms, and signal analysis on device.</p>
+    </div>
+
+    <div class="svc-card coral">
+      <div class="svc-icon">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 21h18"/>
+          <path d="M5 21V10l7-5 7 5v11"/>
+          <path d="M9 21v-6h6v6"/>
+        </svg>
+      </div>
+      <h2>Sound Installations</h2>
+      <p>Immersive underwater sound experiences for museums, visitor centres, and public spaces. Spatial audio, live hydrophone feeds, and generative soundscapes.</p>
+    </div>
+
+  </div>
+
+  <div class="contact-cta">
+    <p>Interested in working together?</p>
+    <a href="mailto:hello@oceanear.co.nz" class="contact-btn">Get in Touch &rarr;</a>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+  <div class="site-footer-links">
+    <a href="index.html#s7">Join Beta</a>
+    <a href="index.html#s5">Specs</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="mailto:hello@oceanear.co.nz">Contact</a>
+  </div>
+  <p class="site-footer-meta">&copy; 2026 OceanEar.<br><span class="loc">Wellington &middot; New Zealand</span></p>
+</footer>
+
+</body>
+</html>

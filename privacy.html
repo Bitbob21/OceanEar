@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OceanEar, Privacy Policy</title>
+<meta name="description" content="OceanEar Privacy Policy. How we collect, use, store, and protect your personal information under the New Zealand Privacy Act 2020.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OceanEar, Privacy Policy">
+<meta property="og:description" content="How we handle your personal information under the New Zealand Privacy Act 2020.">
+<meta name="robots" content="noindex,follow">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+body{
+  background:linear-gradient(180deg,#0c6179 0%,#0a2236 100%);
+  background-attachment:fixed;
+  color:#fff;line-height:1.65;min-height:100vh;
+  font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,sans-serif;
+  overflow-x:hidden;
+}
+
+/* Sonar background */
+.sonar-bg{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:100vw;height:100vw;min-width:1000px;min-height:1000px;
+  pointer-events:none;z-index:0;opacity:.10;
+  display:flex;justify-content:center;align-items:center;
+}
+.sonar-ripple{position:absolute;border:1px solid #fff;border-radius:50%;animation:expand 12s infinite linear}
+.sonar-ripple:nth-child(1){width:20%;height:20%;animation-delay:0s}
+.sonar-ripple:nth-child(2){width:40%;height:40%;animation-delay:-3s}
+.sonar-ripple:nth-child(3){width:60%;height:60%;animation-delay:-6s}
+.sonar-ripple:nth-child(4){width:80%;height:80%;animation-delay:-9s}
+@keyframes expand{0%{transform:scale(.1);opacity:0}50%{opacity:.5}100%{transform:scale(2);opacity:0}}
+
+/* Nav */
+nav{
+  position:fixed;top:1rem;left:50%;transform:translateX(-50%);
+  width:90%;max-width:1100px;padding:.9rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;z-index:100;
+  background:rgba(10,22,40,.6);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(76,193,212,.08);border-radius:100px;
+}
+.logo{font-weight:700;font-size:1.25rem;color:#fff;text-decoration:none;letter-spacing:-0.02em}
+.logo span{color:#4cc1d4}
+nav a.nl{color:rgba(160,196,203,.6);text-decoration:none;font-size:.82rem;font-weight:600;transition:color .3s}
+nav a.nl:hover,nav a.nl.active{color:#fff}
+.nc{background:#f47b62;color:#fff!important;padding:7px 16px;border-radius:50px}
+
+/* Page */
+.page{
+  position:relative;z-index:5;
+  padding:8.5rem 1.5rem 4rem;
+  max-width:760px;margin:0 auto;
+}
+.page-head{margin-bottom:3rem}
+.page-head .eyebrow{
+  font-family:ui-monospace,monospace;font-size:.78rem;
+  letter-spacing:.18em;text-transform:uppercase;color:#4cc1d4;
+  display:block;margin-bottom:.9rem;
+}
+.page-head h1{
+  font-size:clamp(2rem,5vw,3.2rem);font-weight:800;
+  letter-spacing:-0.03em;line-height:1.1;color:#fff;
+  margin-bottom:1rem;
+}
+.page-head .meta{
+  font-family:ui-monospace,monospace;font-size:.78rem;
+  color:rgba(160,196,203,.55);letter-spacing:.05em;
+}
+
+/* Content */
+.policy h2{
+  font-size:1.3rem;font-weight:700;color:#fff;
+  letter-spacing:-0.01em;margin:2.5rem 0 .8rem;
+  padding-bottom:.4rem;
+  border-bottom:1px solid rgba(76,193,212,.18);
+}
+.policy h2:first-child{margin-top:0}
+.policy h3{
+  font-size:1.02rem;font-weight:600;color:#4cc1d4;
+  margin:1.4rem 0 .5rem;letter-spacing:0;
+}
+.policy p,.policy li{
+  color:rgba(220,232,236,.85);font-size:.97rem;line-height:1.72;
+  margin-bottom:.85rem;
+}
+.policy ul{padding-left:1.4rem;margin-bottom:.85rem}
+.policy ul li{margin-bottom:.4rem}
+.policy a{color:#4cc1d4;text-decoration:none;border-bottom:1px solid rgba(76,193,212,.4);transition:border-color .25s}
+.policy a:hover{border-color:#4cc1d4}
+.policy strong{color:#fff;font-weight:600}
+
+.callout{
+  margin:1.4rem 0;padding:1.1rem 1.3rem;
+  background:rgba(76,193,212,.06);
+  border:1px solid rgba(76,193,212,.2);
+  border-left:3px solid #4cc1d4;
+  border-radius:10px;
+}
+.callout p{margin-bottom:0;color:rgba(220,232,236,.9)}
+.callout p:not(:last-child){margin-bottom:.6rem}
+
+.contact-block{
+  margin-top:1rem;padding:1.4rem 1.6rem;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(76,193,212,.15);
+  border-radius:14px;
+}
+.contact-block p{margin:.2rem 0;font-size:.92rem}
+.contact-block strong{display:block;color:#fff;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.5rem}
+
+/* Footer */
+.site-footer{
+  text-align:center;padding:3rem 2rem 4rem;
+  border-top:1px solid rgba(76,193,212,.08);
+  background:rgba(10,22,40,.4);
+  position:relative;z-index:11;
+}
+.site-footer .logo{font-size:1.1rem}
+.site-footer-links{display:flex;gap:1.8rem;justify-content:center;margin:1.4rem 0;flex-wrap:wrap}
+.site-footer-links a{color:rgba(160,196,203,.55);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .25s}
+.site-footer-links a:hover{color:#4cc1d4}
+.site-footer-meta{font-size:.78rem;color:rgba(160,196,203,.4);margin-top:.8rem}
+.site-footer-meta .loc{font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.15em;display:inline-block;margin-top:.6rem;color:rgba(160,196,203,.55)}
+
+@media(max-width:768px){
+  nav{padding:.7rem 1rem}
+  .page{padding:7rem 1rem 3rem}
+  .policy h2{font-size:1.15rem}
+}
+</style>
+</head>
+<body>
+
+<div class="sonar-bg">
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+  <div style="display:flex;gap:1.2rem;align-items:center">
+    <a href="index.html#s7" class="nl nc">Reserve Kit</a>
+    <a href="about.html" class="nl">About</a>
+    <a href="services.html" class="nl">Services</a>
+  </div>
+</nav>
+
+<main class="page">
+  <header class="page-head">
+    <span class="eyebrow">Legal</span>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Effective: 4 May 2026 &middot; Last updated: 4 May 2026</p>
+  </header>
+
+  <div class="policy">
+
+    <div class="callout">
+      <p>OceanEar is operated from Wellington, New Zealand. We handle personal information in accordance with the <strong>New Zealand Privacy Act 2020</strong> and its 13 Information Privacy Principles (IPPs).</p>
+      <p>This policy is written in plain English. If anything is unclear, email <a href="mailto:hello@oceanear.co.nz">hello@oceanear.co.nz</a> and we&rsquo;ll explain.</p>
+    </div>
+
+    <h2>1. Who we are</h2>
+    <p>OceanEar (&ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;) is a sole-trader operation based in Wellington, Aotearoa New Zealand. We design and build hydrophone systems, develop the OceanEar iOS app, and offer related acoustic engineering services.</p>
+    <p>We are the <strong>agency</strong> responsible for personal information we collect, as defined in the Privacy Act 2020.</p>
+
+    <h2>2. What we collect</h2>
+
+    <h3>Beta waitlist (this website)</h3>
+    <p>When you join our beta waitlist on this site, we collect:</p>
+    <ul>
+      <li>First and last name</li>
+      <li>Email address</li>
+      <li>Self-declared role (e.g. researcher, diver, educator)</li>
+    </ul>
+
+    <h3>Email correspondence</h3>
+    <p>If you contact us at <a href="mailto:hello@oceanear.co.nz">hello@oceanear.co.nz</a>, we receive whatever you put in the email, including your name, email address, and the content of your message.</p>
+
+    <h3>The OceanEar iOS app</h3>
+    <p>The app stores hydrophone recordings, GPS tags (only if you enable location), notes, and other metadata <strong>locally on your device</strong>. We do not collect or transmit those recordings to our servers.</p>
+    <p>The app does not contain advertising trackers, analytics SDKs, or third-party data brokers. If we ever add anonymous, aggregated diagnostic reporting (e.g. crash logs), we will say so here first.</p>
+
+    <h3>Server logs</h3>
+    <p>Our website hosting provider records standard web server information (IP address, user agent, request timestamps) for security and uptime purposes. These logs are typically deleted within 30 days.</p>
+
+    <h2>3. Why we collect it</h2>
+    <ul>
+      <li><strong>Beta waitlist:</strong> to send you a TestFlight invitation when a slot becomes available, and occasionally to send important updates about the beta.</li>
+      <li><strong>Email correspondence:</strong> to reply to your enquiry.</li>
+      <li><strong>App data on your device:</strong> to provide the core functionality of the app.</li>
+    </ul>
+    <p>We <strong>do not</strong> sell, rent, or share your personal information for advertising or marketing by third parties.</p>
+
+    <h2>4. Who we share it with</h2>
+    <p>We use a small number of carefully selected third-party services to operate. They process limited personal information on our behalf:</p>
+    <ul>
+      <li><strong>Formspree</strong> (USA), processes the beta waitlist form. Receives your name, email, and role. <a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">Formspree privacy policy</a>.</li>
+      <li><strong>Apple TestFlight</strong> (USA / Ireland), if you accept a beta invitation, Apple will receive your email address as required to deliver the beta build. <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple privacy policy</a>.</li>
+      <li><strong>Email provider</strong>, we use a standard email service to send and receive correspondence at our domain.</li>
+      <li><strong>Web hosting provider</strong>, serves this website and processes server logs as described above.</li>
+    </ul>
+    <p>We do not pass personal information to anyone else unless you have asked us to, or unless we are legally required to (for example, in response to a lawful court order).</p>
+
+    <h2>5. Sending information overseas</h2>
+    <p>Some of the providers above are located outside New Zealand (primarily in the United States and the European Union). Under <strong>Information Privacy Principle 12</strong>, we ensure that personal information sent overseas is protected by comparable safeguards, we only use providers with published privacy policies, security commitments, and (where applicable) GDPR or equivalent compliance.</p>
+
+    <h2>6. How long we keep it</h2>
+    <ul>
+      <li><strong>Beta waitlist:</strong> until you ask us to remove you, or until the public app launch + 12 months, whichever comes first.</li>
+      <li><strong>Email correspondence:</strong> typically 24 months, then archived or deleted.</li>
+      <li><strong>Server logs:</strong> ~30 days.</li>
+      <li><strong>App data:</strong> stays on your device until you delete it. Uninstalling the app removes it.</li>
+    </ul>
+
+    <h2>7. Your rights under the Privacy Act 2020</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li><strong>Access</strong> the personal information we hold about you (IPP 6).</li>
+      <li><strong>Correct</strong> personal information that is wrong (IPP 7).</li>
+      <li><strong>Withdraw</strong> from the waitlist or any future mailing list at any time.</li>
+      <li><strong>Ask us to delete</strong> your personal information, where we have no legitimate reason to keep it.</li>
+    </ul>
+    <p>To exercise any of these rights, email <a href="mailto:hello@oceanear.co.nz">hello@oceanear.co.nz</a>. We will respond within 20 working days, as required by the Privacy Act.</p>
+
+    <h2>8. Cookies and tracking</h2>
+    <p>This website does not set marketing cookies or use cross-site tracking technologies. The beta waitlist form, served through Formspree, may set strictly necessary functional cookies for spam protection. We do not run Google Analytics, Facebook Pixel, or similar trackers on this site.</p>
+
+    <h2>9. Security</h2>
+    <p>We take reasonable steps to protect personal information from loss, misuse, and unauthorised access (IPP 5). This includes HTTPS for all web traffic, access controls on our email and accounts, and limiting who can see your data internally to the people who genuinely need to.</p>
+    <p>No system is perfectly secure. If a notifiable privacy breach occurs that is likely to cause serious harm, we will notify you and the Office of the Privacy Commissioner as required by the Privacy Act.</p>
+
+    <h2>10. Children</h2>
+    <p>OceanEar is not directed at children under 13. We do not knowingly collect personal information from anyone under that age. If you believe we have, please contact us and we will delete it.</p>
+
+    <h2>11. Changes to this policy</h2>
+    <p>We may update this policy from time to time, for example, when we add a new feature or change a service provider. The &ldquo;Last updated&rdquo; date at the top reflects the most recent change. Material changes will be communicated by email to anyone on the waitlist.</p>
+
+    <h2>12. Privacy Officer &amp; contact</h2>
+    <div class="contact-block">
+      <p><strong>OceanEar Privacy Officer</strong></p>
+      <p>Sebastian (Founder)</p>
+      <p>Email: <a href="mailto:hello@oceanear.co.nz">hello@oceanear.co.nz</a></p>
+      <p>Postal: Wellington, New Zealand (full postal address available on request)</p>
+    </div>
+
+    <h2>13. Complaints</h2>
+    <p>If you are not satisfied with how we handle your personal information, please contact us first so we can try to resolve the issue. If you are still unhappy, you have the right to complain to the:</p>
+    <div class="contact-block">
+      <p><strong>Office of the Privacy Commissioner</strong></p>
+      <p>Web: <a href="https://www.privacy.org.nz" target="_blank" rel="noopener">privacy.org.nz</a></p>
+      <p>Phone: 0800 803 909</p>
+      <p>Email: <a href="mailto:enquiries@privacy.org.nz">enquiries@privacy.org.nz</a></p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+  <div class="site-footer-links">
+    <a href="index.html#s7">Join Beta</a>
+    <a href="index.html#s5">Specs</a>
+    <a href="services.html">Services</a>
+    <a href="about.html">About</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="mailto:hello@oceanear.co.nz">Contact</a>
+  </div>
+  <p class="site-footer-meta">&copy; 2026 OceanEar.<br><span class="loc">Wellington &middot; New Zealand</span></p>
+</footer>
+
+</body>
+</html>
