@@ -287,6 +287,17 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
   padding:.4rem 1rem 1rem;
   position:relative;z-index:2;
 }
+.player-hint{
+  display:flex;align-items:center;gap:7px;
+  margin:0 4px .55rem;
+  padding:8px 11px;border-radius:10px;
+  background:rgba(244,123,98,.10);
+  border:1px solid rgba(244,123,98,.28);
+  color:rgba(255,255,255,.92);
+  font-size:.7rem;line-height:1.25;
+}
+.player-hint .emoji{font-size:.85rem;line-height:1;flex-shrink:0}
+.player-hint strong{color:var(--c-coral);font-weight:700}
 .player-tracks{
   flex:1;min-height:0;
   display:flex;flex-direction:column;gap:2px;
@@ -600,6 +611,10 @@ footer .logo{font-size:1rem}
         </div>
 
         <div class="player">
+          <div class="player-hint">
+            <span class="emoji" aria-hidden="true">&#127911;</span>
+            <span>Headphones on. Tap play. <strong>Don't skip this.</strong></span>
+          </div>
           <div class="player-tracks">
             <button class="track active" data-src="OceanEar_Binaural-1.mp3" data-location="Wellington" aria-label="Play Sink drops">
               <span class="track-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
@@ -651,12 +666,6 @@ footer .logo{font-size:1rem}
         <canvas id="phoneSpec" class="phone-spec" aria-hidden="true"></canvas>
       </div>
 
-      <div class="hint-row reveal reveal-4">
-        <div class="hint">
-          <span class="emoji" aria-hidden="true">&#127911;</span>
-          <span>Headphones on. Tap play. <strong>Don't skip this.</strong></span>
-        </div>
-      </div>
     </div>
   </section>
 
