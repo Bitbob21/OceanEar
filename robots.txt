@@ -1,0 +1,4 @@
+User-agent: *
+Sitemap: https://oceanear.co.nz/sitemap.xml
+
+Allow: /
