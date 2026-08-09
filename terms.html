@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OceanEar, Terms of Use</title>
+<meta name="description" content="OceanEar Terms of Use. License, in-app purchase, trial, and acceptable use for the OceanEar iPhone app, governed by New Zealand law.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OceanEar, Terms of Use">
+<meta property="og:description" content="License, trial, in-app purchase, and use of the OceanEar app.">
+<meta property="og:url" content="https://oceanear.co.nz/terms.html">
+<meta property="og:image" content="https://oceanear.co.nz/assets/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OceanEar, Terms of Use">
+<meta name="twitter:description" content="License, trial, in-app purchase, and use of the OceanEar app.">
+<meta name="twitter:image" content="https://oceanear.co.nz/assets/og-image.jpg">
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="https://oceanear.co.nz/terms.html">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth}
+body{
+  background:linear-gradient(180deg,#0c6179 0%,#0a2236 100%);
+  background-attachment:fixed;
+  color:#fff;line-height:1.65;min-height:100vh;
+  font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,sans-serif;
+  overflow-x:hidden;
+}
+
+/* Sonar background */
+.sonar-bg{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:100vw;height:100vw;min-width:1000px;min-height:1000px;
+  pointer-events:none;z-index:0;opacity:.10;
+  display:flex;justify-content:center;align-items:center;
+}
+.sonar-ripple{position:absolute;border:1px solid #fff;border-radius:50%;animation:expand 12s infinite linear}
+.sonar-ripple:nth-child(1){width:20%;height:20%;animation-delay:0s}
+.sonar-ripple:nth-child(2){width:40%;height:40%;animation-delay:-3s}
+.sonar-ripple:nth-child(3){width:60%;height:60%;animation-delay:-6s}
+.sonar-ripple:nth-child(4){width:80%;height:80%;animation-delay:-9s}
+@keyframes expand{0%{transform:scale(.1);opacity:0}50%{opacity:.5}100%{transform:scale(2);opacity:0}}
+
+/* Nav */
+nav{
+  position:fixed;top:1rem;left:50%;transform:translateX(-50%);
+  width:90%;max-width:1100px;padding:.9rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;z-index:100;
+  background:rgba(10,22,40,.6);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(76,193,212,.08);border-radius:100px;
+}
+.logo{font-weight:700;font-size:1.25rem;color:#fff;text-decoration:none;letter-spacing:-0.02em}
+.logo span{color:#4cc1d4}
+nav a.nl{color:rgba(160,196,203,.6);text-decoration:none;font-size:.82rem;font-weight:600;transition:color .3s}
+nav a.nl:hover,nav a.nl.active{color:#fff}
+.nc{background:#f47b62;color:#fff!important;padding:7px 16px;border-radius:50px}
+
+/* Page */
+.page{
+  position:relative;z-index:5;
+  padding:8.5rem 1.5rem 4rem;
+  max-width:760px;margin:0 auto;
+}
+.page-head{margin-bottom:3rem}
+.page-head .eyebrow{
+  font-family:ui-monospace,monospace;font-size:.78rem;
+  letter-spacing:.18em;text-transform:uppercase;color:#4cc1d4;
+  display:block;margin-bottom:.9rem;
+}
+.page-head h1{
+  font-size:clamp(2rem,5vw,3.2rem);font-weight:800;
+  letter-spacing:-0.03em;line-height:1.1;color:#fff;
+  margin-bottom:1rem;
+}
+.page-head .meta{
+  font-family:ui-monospace,monospace;font-size:.78rem;
+  color:rgba(160,196,203,.55);letter-spacing:.05em;
+}
+
+/* Content */
+.policy h2{
+  font-size:1.3rem;font-weight:700;color:#fff;
+  letter-spacing:-0.01em;margin:2.5rem 0 .8rem;
+  padding-bottom:.4rem;
+  border-bottom:1px solid rgba(76,193,212,.18);
+}
+.policy h2:first-child{margin-top:0}
+.policy h3{
+  font-size:1.02rem;font-weight:600;color:#4cc1d4;
+  margin:1.4rem 0 .5rem;letter-spacing:0;
+}
+.policy p,.policy li{
+  color:rgba(220,232,236,.85);font-size:.97rem;line-height:1.72;
+  margin-bottom:.85rem;
+}
+.policy ul{padding-left:1.4rem;margin-bottom:.85rem}
+.policy ul li{margin-bottom:.4rem}
+.policy a{color:#4cc1d4;text-decoration:none;border-bottom:1px solid rgba(76,193,212,.4);transition:border-color .25s}
+.policy a:hover{border-color:#4cc1d4}
+.policy strong{color:#fff;font-weight:600}
+
+.callout{
+  margin:1.4rem 0;padding:1.1rem 1.3rem;
+  background:rgba(76,193,212,.06);
+  border:1px solid rgba(76,193,212,.2);
+  border-left:3px solid #4cc1d4;
+  border-radius:10px;
+}
+.callout p{margin-bottom:0;color:rgba(220,232,236,.9)}
+.callout p:not(:last-child){margin-bottom:.6rem}
+
+.contact-block{
+  margin-top:1rem;padding:1.4rem 1.6rem;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(76,193,212,.15);
+  border-radius:14px;
+}
+.contact-block p{margin:.2rem 0;font-size:.92rem}
+.contact-block strong{display:block;color:#fff;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;margin-bottom:.5rem}
+
+/* Footer */
+.site-footer{
+  text-align:center;padding:3rem 2rem 4rem;
+  border-top:1px solid rgba(76,193,212,.08);
+  background:rgba(10,22,40,.4);
+  position:relative;z-index:11;
+}
+.site-footer .logo{font-size:1.1rem}
+.site-footer-links{display:flex;gap:1.8rem;justify-content:center;margin:1.4rem 0;flex-wrap:wrap}
+.site-footer-links a{color:rgba(160,196,203,.55);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .25s}
+.site-footer-links a:hover{color:#4cc1d4}
+.site-footer-meta{font-size:.78rem;color:rgba(160,196,203,.4);margin-top:.8rem}
+.site-footer-meta .loc{font-family:ui-monospace,monospace;font-size:.7rem;letter-spacing:.15em;display:inline-block;margin-top:.6rem;color:rgba(160,196,203,.55)}
+
+@media(max-width:768px){
+  nav{padding:.7rem 1rem}
+  .page{padding:7rem 1rem 3rem}
+  .policy h2{font-size:1.15rem}
+}
+</style>
+</head>
+<body>
+
+<div class="sonar-bg">
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+  <div class="sonar-ripple"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+  <div style="display:flex;gap:1.2rem;align-items:center">
+    <a href="index.html#reserve" class="nl nc">Reserve Kit</a>
+    <a href="about.html" class="nl">About</a>
+    <a href="services.html" class="nl">Services</a>
+    <a href="support.html" class="nl">Support</a>
+  </div>
+</nav>
+
+<main class="page">
+  <header class="page-head">
+    <span class="eyebrow">Legal</span>
+    <h1>Terms of Use</h1>
+    <p class="meta">Last updated: 8 June 2026</p>
+  </header>
+
+  <div class="policy">
+
+    <h2>1. Scope</h2>
+    <p>These Terms of Use apply to the use of the &ldquo;OceanEar&rdquo; app (the &ldquo;App&rdquo;), provided by Sebastian Voss (the &ldquo;Provider&rdquo;).</p>
+
+    <h2>2. License</h2>
+    <p>The Provider grants you a non-exclusive, non-transferable, revocable license to use the App on your Apple devices in accordance with the <a href="https://www.apple.com/legal/internet-services/itunes/" target="_blank" rel="noopener">Apple Media Services Terms and Conditions</a>.</p>
+
+    <h2>3. Purchase and trial</h2>
+
+    <h3>3.1 Free trial</h3>
+    <p>New users get a 7-day free trial with full functionality. After the trial ends, a one-time purchase is required to continue using the App.</p>
+
+    <h3>3.2 One-time purchase</h3>
+    <p>The full version is unlocked via a single in-app purchase (non-consumable), with no subscription and no auto-renewal. The current price is shown in the App before purchase and is charged once via your Apple ID account.</p>
+
+    <h3>3.3 Restore</h3>
+    <p>The purchase is tied to your Apple ID and can be restored at any time via &ldquo;Restore Purchases&rdquo; on your devices.</p>
+
+    <h3>3.4 Price changes</h3>
+    <p>The Provider reserves the right to change the price for future purchases. Purchases already made are unaffected.</p>
+
+    <h2>4. Use</h2>
+    <p>The App is designed for recording and processing immersive 3D audio with the iPhone microphone or compatible external microphones and hydrophones. You are responsible for complying with local laws when recording, including protected areas and marine mammal protection.</p>
+
+    <div class="callout">
+      <p>The App is intended for creative, research and educational use. It is <strong>not</strong> a navigation, life-saving, or safety-critical tool.</p>
+    </div>
+
+    <h2>5. Limitation of liability</h2>
+    <p>The App is provided &ldquo;as is&rdquo;. The Provider makes no warranty of uninterrupted or error-free operation. Use for safety-critical applications (navigation, life-saving) is not intended.</p>
+
+    <h2>6. Intellectual property</h2>
+    <p>All rights in the App, including HRTF algorithms, spatial audio processing and UI design, remain with the Provider. Recordings you create with the App belong to you.</p>
+
+    <h2>7. Termination</h2>
+    <p>The Provider may terminate this license if you breach these Terms. Upon termination, you must delete the App from your devices.</p>
+
+    <h2>8. Governing law</h2>
+    <p>These Terms are governed by the laws of New Zealand, unless mandatory consumer-protection provisions of your country of residence apply.</p>
+
+    <h2>9. Contact</h2>
+    <div class="contact-block">
+      <p><strong>Questions about these Terms</strong></p>
+      <p>Email: <a href="mailto:hello@oceanear.co.nz">hello@oceanear.co.nz</a></p>
+      <p>See also: <a href="support.html">Support</a> &middot; <a href="privacy.html">Privacy Policy</a></p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <a href="index.html" class="logo">OCEAN<span>EAR</span></a>
+  <div class="site-footer-links">
+    <a href="index.html#reserve">Reserve Kit</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="support.html">Support</a>
+    <a href="terms.html">Terms</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="mailto:hello@oceanear.co.nz">Contact</a>
+  </div>
+  <p class="site-footer-meta">&copy; 2026 OceanEar.<br><span class="loc">Wellington &middot; New Zealand</span></p>
+</footer>
+
+</body>
+</html>
