@@ -438,7 +438,7 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 .phone-spec{
   position:absolute;left:0;right:0;bottom:0;
   width:100%;height:230px;display:block;
-  pointer-events:none;z-index:1;opacity:.82;
+  pointer-events:none;z-index:1;opacity:.92;
   mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 100%);
   -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 100%);
 }
@@ -1050,10 +1050,10 @@ footer .logo{font-size:1rem}
     [0.30,  40,  83, 107, 0.82],
     [0.44,  46,  96, 120, 0.90],
     [0.58,  71, 138, 162, 0.95],
-    [0.72, 148, 196, 211, 0.97],
-    [0.84, 208, 202, 203, 1.00],
-    [0.93, 210, 140, 127, 1.00],
-    [1.00, 244, 123,  98, 1.00]
+    [0.72, 152, 202, 217, 0.97],
+    [0.82, 219, 216, 218, 1.00],
+    [0.90, 245, 163, 139, 1.00],
+    [1.00, 255, 134, 106, 1.00]
   ];
   const lut = new Uint8ClampedArray(256 * 4);
   for(let i = 0; i < 256; i++){
@@ -1196,6 +1196,7 @@ footer .logo{font-size:1rem}
   let agcLo = 40, agcHi = 200;
   const AGC_MIN_SPAN = 64;   // never stretch pure noise into a light show
   const AGC_PEDESTAL = 7;    // keep the floor itself below the ramp
+  const CONTRAST = 1.45, CONTRAST_PIVOT = 0.42;
 
   // Fills the leftmost `dx` columns of colCanvas, fading from the previous
   // frame's spectrum to this one. Without that ramp a device running at 20 fps
@@ -1239,8 +1240,12 @@ footer .logo{font-size:1rem}
       let v;
       if(live){
         v = (rowVal[y] - agcLo - AGC_PEDESTAL) / span;
+        // Spread around a pivot below the midpoint: the background falls away
+        // and the loud content reaches the top of the ramp instead of sitting
+        // in the washed-out middle.
+        v = (v - CONTRAST_PIVOT) * CONTRAST + CONTRAST_PIVOT;
         v = v <= 0 ? 0 : (v >= 1 ? 1 : v);
-        // Slight S-curve: holds the noise floor dark so the transients read
+        // S-curve on top: holds the noise floor dark so the transients read
         // as structure rather than as an evenly lit haze.
         v = v * v * (3 - 2 * v);
       }else{
