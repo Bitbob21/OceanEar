@@ -434,13 +434,13 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 }
 @media(max-width:640px){.player-vol{display:none}}
 
-/* Spectrogram canvas (decorative, behind player) */
+/* Live spectrogram canvas (behind player, mirrors the app view) */
 .phone-spec{
   position:absolute;left:0;right:0;bottom:0;
-  width:100%;height:140px;display:block;
-  pointer-events:none;z-index:1;opacity:.75;
-  mask-image:linear-gradient(180deg,transparent 0%,#000 25%,#000 100%);
-  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 25%,#000 100%);
+  width:100%;height:230px;display:block;
+  pointer-events:none;z-index:1;opacity:.82;
+  mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 100%);
 }
 
 /* Press-play hint (under phone) -------------------------------------------- */
@@ -1030,69 +1030,146 @@ footer .logo{font-size:1rem}
 })();
 
 /* ============================================================
-   PHONE WAVEFORM (audio-player style with running playhead)
+   PHONE SPECTROGRAM — real FFT of the playing clip.
+   Mirrors the app view: log frequency axis (high at top),
+   time scrolls right -> left over a 5 s window.
    ============================================================ */
 (function(){
   const c = document.getElementById('phoneSpec');
   if(!c) return;
   const ctx = c.getContext('2d');
 
-  function rng(seed){
-    let s = seed | 0;
-    return function(){
-      s = (s * 1664525 + 1013904223) | 0;
-      return ((s >>> 0) % 100000) / 100000;
-    };
+  const WINDOW_S = 5;      // seconds of history across the full width
+  const F_MIN = 45;        // Hz at the bottom edge
+  const F_MAX = 13000;     // Hz at the top edge
+
+  /* --- Colour ramp, sampled from the app's spectrogram ------ */
+  const RAMP = [
+    [0.00,   8,  28,  42, 0.00],
+    [0.14,  22,  54,  75, 0.55],
+    [0.30,  40,  83, 107, 0.82],
+    [0.44,  46,  96, 120, 0.90],
+    [0.58,  71, 138, 162, 0.95],
+    [0.72, 148, 196, 211, 0.97],
+    [0.84, 208, 202, 203, 1.00],
+    [0.93, 210, 140, 127, 1.00],
+    [1.00, 244, 123,  98, 1.00]
+  ];
+  const lut = new Uint8ClampedArray(256 * 4);
+  for(let i = 0; i < 256; i++){
+    const v = i / 255;
+    let s = 0;
+    while(s < RAMP.length - 2 && v > RAMP[s+1][0]) s++;
+    const a = RAMP[s], b = RAMP[s+1];
+    const t = (v - a[0]) / ((b[0] - a[0]) || 1);
+    lut[i*4]   = a[1] + (b[1] - a[1]) * t;
+    lut[i*4+1] = a[2] + (b[2] - a[2]) * t;
+    lut[i*4+2] = a[3] + (b[3] - a[3]) * t;
+    lut[i*4+3] = (a[4] + (b[4] - a[4]) * t) * 255;
   }
 
-  let baseAmps = [];
-  let lastW = 0;
+  /* --- Web Audio, wired up on the first user gesture -------- */
+  let actx = null, analyser = null, bins = null, sampleRate = 48000;
 
-  function precompute(w){
-    baseAmps = new Array(w);
-    const rand = rng(20260504);
+  function initAudio(){
+    if(actx) return;
+    const audio = window.__oeAudio;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!audio || !AC) return;
+    try{ actx = new AC(); }
+    catch(err){ actx = null; return; }
 
-    // Build a natural-looking audio waveform:
-    // sustained passages + short loud transients + quieter sections.
-    // Use low-ish "frequency" so each bar reads as a sample, not a sine wave.
-    const spikes = [];
-    let pos = 0.04;
-    while(pos < 0.98){
-      spikes.push({pos, amp: 0.55 + rand() * 0.40, w: 25 + rand() * 35});
-      pos += 0.04 + rand() * 0.12;
-    }
-
-    for(let x = 0; x < w; x++){
-      const u = x / w;
-
-      // Slow envelope (= dynamic loudness over the "track")
-      const env = 0.35 + 0.35 * Math.sin(u * 4.5)
-                       + 0.20 * Math.sin(u * 11.3 + 1.4);
-
-      // Per-sample noise (= the actual waveform shape)
-      let s = (rand() - 0.5) * 2;
-
-      // Add transient hits
-      let hit = 0;
-      for(const sp of spikes){
-        const dx = (u - sp.pos) * sp.w;
-        hit += Math.exp(-dx * dx) * sp.amp * (rand() - 0.5) * 2;
+    // createMediaElementSource reroutes the element into the graph for good —
+    // there is no undo. If the context never reaches 'running' (iOS keeps it
+    // suspended more readily than desktop) that would leave the tracks
+    // silent, so wire it up only once the context is actually live and leave
+    // plain playback alone otherwise.
+    const wire = () => {
+      if(analyser || !actx || actx.state !== 'running') return;
+      try{
+        const an = actx.createAnalyser();
+        an.fftSize = 2048;
+        // Little smoothing: the app's look lives on sharp vertical
+        // transients, heavy smoothing smears them into horizontal bands.
+        an.smoothingTimeConstant = 0.25;
+        an.minDecibels = -100;
+        an.maxDecibels = -25;
+        const src = actx.createMediaElementSource(audio);
+        src.connect(an);
+        an.connect(actx.destination);
+        analyser = an;
+        bins = new Uint8Array(an.frequencyBinCount);
+        sampleRate = actx.sampleRate;
+        buildRowMap();
+      }catch(err){
+        // No analyser — the idle texture keeps rendering, audio is untouched.
+        analyser = null;
       }
-      s = (s * 0.55 + hit * 0.45);
-
-      let amp = s * env;
-      baseAmps[x] = Math.max(-1, Math.min(1, amp));
-    }
-    lastW = w;
+    };
+    if(actx.addEventListener) actx.addEventListener('statechange', wire);
+    const res = actx.resume();
+    if(res && res.then) res.then(wire, () => {});
+    wire();
+  }
+  function resumeAudio(){
+    if(actx && actx.state === 'suspended') actx.resume();
+  }
+  // Init inside the real click, before the element starts playing.
+  document.querySelectorAll('.track').forEach(btn => {
+    btn.addEventListener('click', () => { initAudio(); resumeAudio(); }, true);
+  });
+  if(window.__oeAudio){
+    window.__oeAudio.addEventListener('play', resumeAudio);
   }
 
-  function resize(){
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const w = c.offsetWidth, h = c.offsetHeight;
-    if(w > 0 && h > 0){
-      c.width = Math.round(w * dpr);
-      c.height = Math.round(h * dpr);
+  /* --- Geometry -------------------------------------------- */
+  let rowLo = null, rowHi = null, rowVal = null, prevVal = null;
+  let colCanvas = null, colCtx = null, colData = null;
+  // One FFT read per animation frame, but a frame can be worth several pixels
+  // of scroll on a slow device. Widest slab we'll interpolate across.
+  const COL_MAX = 64;
+  let front = document.createElement('canvas');
+  let back  = document.createElement('canvas');
+
+  function buildRowMap(){
+    const h = c.height;
+    if(h < 4) return;
+    rowLo = new Int32Array(h);
+    rowHi = new Int32Array(h);
+    rowVal = new Float32Array(h);
+    const nyq = sampleRate / 2;
+    const nBins = analyser ? analyser.frequencyBinCount : 1024;
+    const ratio = Math.log(F_MAX / F_MIN);
+    for(let y = 0; y < h; y++){
+      // y = 0 is the top row = F_MAX
+      const uTop = (h - (y - 0.5)) / h;
+      const uBot = (h - (y + 0.5)) / h;
+      const fTop = F_MIN * Math.exp(ratio * uTop);
+      const fBot = F_MIN * Math.exp(ratio * uBot);
+      let lo = Math.floor(fBot / nyq * nBins);
+      let hi = Math.ceil(fTop / nyq * nBins);
+      lo = Math.max(0, Math.min(nBins - 1, lo));
+      hi = Math.max(lo + 1, Math.min(nBins, hi));
+      rowLo[y] = lo; rowHi[y] = hi;
     }
+  }
+
+  let dpr = 1;
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = c.offsetWidth, h = c.offsetHeight;
+    if(w < 1 || h < 1) return;
+    const cw = Math.round(w * dpr), ch = Math.round(h * dpr);
+    if(cw === c.width && ch === c.height) return;
+    c.width = cw; c.height = ch;
+    front.width = cw; front.height = ch;
+    back.width  = cw; back.height  = ch;
+    colCanvas = document.createElement('canvas');
+    colCanvas.width = COL_MAX; colCanvas.height = ch;
+    colCtx = colCanvas.getContext('2d');
+    colData = colCtx.createImageData(COL_MAX, ch);
+    prevVal = null;
+    buildRowMap();
   }
   resize();
   window.addEventListener('load', resize);
@@ -1100,73 +1177,141 @@ footer .logo{font-size:1rem}
   setTimeout(resize, 500);
   addEventListener('resize', resize);
 
-  function draw(timeMs){
-    const w = c.width, h = c.height;
-    if(w < 4 || h < 4) return;
-    if(w !== lastW) precompute(w);
+  /* --- Column synthesis ------------------------------------ */
+  let idlePhase = 0;
+  // Auto-ranging, like the app: hydrophone material sits 30-40 dB below
+  // anything a fixed scale is tuned for, so a static mapping renders every
+  // track as the same flat mid-blue. Track the floor and the peak instead
+  // and stretch what's actually there across the full ramp.
+  let agcLo = 40, agcHi = 200;
+  const AGC_MIN_SPAN = 64;   // never stretch pure noise into a light show
+  const AGC_PEDESTAL = 7;    // keep the floor itself below the ramp
 
-    // Playhead is driven by the actual audio element if available
-    const audio = window.__oeAudio;
-    let playhead = 0;
-    let playing = false;
-    if(audio && audio.duration && isFinite(audio.duration)){
-      playhead = Math.max(0, Math.min(1, audio.currentTime / audio.duration));
-      playing = !audio.paused;
-    }
-    const playX = Math.floor(playhead * w);
+  // Fills the leftmost `dx` columns of colCanvas, fading from the previous
+  // frame's spectrum to this one. Without that ramp a device running at 20 fps
+  // draws 6 px wide blocks instead of a continuous image.
+  function fillColumns(dx, live, dt){
+    const h = c.height;
+    const px = colData.data;
+    if(!live) idlePhase += dt * 0.6;
 
-    ctx.clearRect(0, 0, w, h);
-    const cy = h / 2;
-
-    // Center baseline (faint cyan, full width)
-    ctx.fillStyle = 'rgba(76,193,212,0.14)';
-    ctx.fillRect(0, cy, w, 1);
-
-    for(let x = 0; x < w; x++){
-      const amp = baseAmps[x];
-      const absAmp = Math.abs(amp);
-      const halfBar = (h * 0.46) * absAmp;
-      const played = x <= playX;
-
-      let r, g, b2, a;
-      if(played){
-        // Already played: vivid cyan, coral on loud bars
-        if(absAmp < 0.55){
-          const k = absAmp / 0.55;
-          r = 76;
-          g = Math.round(193 + (212 - 193) * k);
-          b2 = 212;
-          a = 0.85;
-        } else {
-          const k = (absAmp - 0.55) / 0.45;
-          r = Math.round(76 + (244 - 76) * k);
-          g = Math.round(193 + (123 - 193) * k);
-          b2 = Math.round(212 + (98 - 212) * k);
-          a = 0.95;
-        }
-      } else {
-        // Upcoming: dimmed petrol/cyan
-        r = 76; g = 140; b2 = 165; a = 0.32;
+    if(live){
+      let fMax = 0, fMin = 255;
+      for(let y = 0; y < h; y++){
+        // Peak-hold across every FFT bin that lands on this row, so the
+        // sparse high-frequency rows don't drop detail.
+        let peak = 0;
+        const lo = rowLo[y], hi = rowHi[y];
+        for(let b = lo; b < hi; b++){ if(bins[b] > peak) peak = bins[b]; }
+        rowVal[y] = peak;
+        if(peak > fMax) fMax = peak;
+        if(peak < fMin) fMin = peak;
       }
-
-      ctx.fillStyle = `rgba(${r},${g},${b2},${a})`;
-      ctx.fillRect(x, cy - halfBar, 1, Math.max(1, halfBar * 2));
+      // Fast attack so a click reaches coral on the frame it happens, slow
+      // release so a quiet passage doesn't pump the whole image brighter.
+      agcHi += (fMax - agcHi) * (fMax > agcHi ? 0.5 : 0.012);
+      agcLo += (fMin - agcLo) * 0.04;
     }
 
-    // Playhead cursor — only render when audio has actually started
-    if(playhead > 0){
-      ctx.fillStyle = 'rgba(244,123,98,0.95)';
-      ctx.fillRect(playX, h * 0.05, 1, h * 0.9);
-      ctx.fillStyle = 'rgba(244,123,98,0.25)';
-      ctx.fillRect(playX - 1, h * 0.05, 3, h * 0.9);
+    const span = Math.max(AGC_MIN_SPAN, agcHi - agcLo);
+
+    for(let y = 0; y < h; y++){
+      let v;
+      if(live){
+        v = (rowVal[y] - agcLo - AGC_PEDESTAL) / span;
+        v = v <= 0 ? 0 : (v >= 1 ? 1 : v);
+        // Slight S-curve: holds the noise floor dark so the transients read
+        // as structure rather than as an evenly lit haze.
+        v = v * v * (3 - 2 * v);
+      }else{
+        // Idle: a dim noise floor that leans low-frequency — no fake
+        // transients, so it never reads as real signal, and never brighter
+        // than a track actually playing.
+        const depth = y / h;                       // 0 top, 1 bottom
+        const drift = 0.5 + 0.5 * Math.sin(idlePhase + depth * 3.1);
+        v = 0.07 + 0.26 * Math.pow(depth, 1.9) * drift + 0.05 * Math.random();
+      }
+      rowVal[y] = v;
     }
+
+    // First frame after a resize has nothing to fade from.
+    if(!prevVal){ prevVal = new Float32Array(h); prevVal.set(rowVal); }
+
+    for(let y = 0; y < h; y++){
+      const a = prevVal[y], b = rowVal[y], row = y * COL_MAX * 4;
+      for(let x = 0; x < dx; x++){
+        const t = (x + 1) / dx;
+        const idx = Math.max(0, Math.min(255, Math.round((a + (b - a) * t) * 255))) * 4;
+        const o = row + x * 4;
+        px[o]   = lut[idx];
+        px[o+1] = lut[idx+1];
+        px[o+2] = lut[idx+2];
+        px[o+3] = lut[idx+3];
+      }
+    }
+    prevVal.set(rowVal);
+    colCtx.putImageData(colData, 0, 0);
   }
+
+  /* --- Axis furniture, drawn on top of the scrolling image -- */
+  const TICKS = [[10000,'10k'],[5000,'5k'],[1000,'1k'],[500,'500'],[100,'100']];
+  function drawAxis(){
+    const w = c.width, h = c.height;
+    const ratio = Math.log(F_MAX / F_MIN);
+    ctx.font = `${Math.round(8 * dpr)}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+    ctx.textBaseline = 'middle';
+    // Faint halo so the scale stays readable over bright spectrogram bands
+    ctx.shadowColor = 'rgba(3,18,25,.85)';
+    ctx.shadowBlur = 3 * dpr;
+    ctx.fillStyle = 'rgba(160,196,203,.45)';
+    for(const [f, label] of TICKS){
+      if(f <= F_MIN || f >= F_MAX) continue;
+      const y = h - (Math.log(f / F_MIN) / ratio) * h;
+      ctx.fillText(label, 6 * dpr, y);
+    }
+    ctx.textAlign = 'right';
+    ctx.fillText('← ' + WINDOW_S + 's', w - 6 * dpr, h - 8 * dpr);
+    ctx.textAlign = 'left';
+    ctx.shadowBlur = 0;
+  }
+
+  /* --- Loop ------------------------------------------------- */
+  let last = 0, carry = 0;
 
   function tick(t){
     requestAnimationFrame(tick);
-    draw(t || 0);
+    const w = c.width, h = c.height;
+    if(w < 4 || h < 4 || !colCtx) return;
+
+    const now = t || 0;
+    let dt = last ? (now - last) / 1000 : 0;
+    last = now;
+    if(dt <= 0 || dt > 0.25) dt = 1 / 60;   // tab was backgrounded
+
+    const audio = window.__oeAudio;
+    const live = !!(analyser && audio && !audio.paused && !audio.ended);
+    if(live) analyser.getByteFrequencyData(bins);
+
+    // Advance by however much wall time passed, so the window is really 5 s.
+    carry += (w / WINDOW_S) * dt;
+    const dx = Math.floor(carry);
+    carry -= dx;
+
+    if(dx > 0){
+      const slab = Math.min(dx, COL_MAX);
+      fillColumns(slab, live, dt);
+      const bctx = back.getContext('2d');
+      bctx.clearRect(0, 0, w, h);
+      bctx.drawImage(front, -dx, 0);
+      bctx.drawImage(colCanvas, 0, 0, slab, h, w - dx, 0, dx, h);
+      const tmp = front; front = back; back = tmp;
+    }
+
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(front, 0, 0);
+    drawAxis();
   }
-  tick(0);
+  requestAnimationFrame(tick);
 })();
 
 /* ============================================================
