@@ -1088,7 +1088,10 @@ footer .logo{font-size:1rem}
       if(analyser || !actx || actx.state !== 'running') return;
       try{
         const an = actx.createAnalyser();
-        an.fftSize = 2048;
+        // 4096 halves the bin width to ~12 Hz, which the log axis needs at the
+        // bottom end. Going further would widen the analysis window enough to
+        // smear the transients sideways.
+        an.fftSize = 4096;
         // Little smoothing: the app's look lives on sharp vertical
         // transients, heavy smoothing smears them into horizontal bands.
         an.smoothingTimeConstant = 0.25;
@@ -1123,7 +1126,8 @@ footer .logo{font-size:1rem}
   }
 
   /* --- Geometry -------------------------------------------- */
-  let rowLo = null, rowHi = null, rowVal = null, prevVal = null;
+  let rowLo = null, rowHi = null, rowPos = null, rowVal = null, prevVal = null;
+  let nBins = 1024;
   let colCanvas = null, colCtx = null, colData = null;
   // One FFT read per animation frame, but a frame can be worth several pixels
   // of scroll on a slow device. Widest slab we'll interpolate across.
@@ -1136,14 +1140,16 @@ footer .logo{font-size:1rem}
     if(h < 4) return;
     rowLo = new Int32Array(h);
     rowHi = new Int32Array(h);
+    rowPos = new Float32Array(h);
     rowVal = new Float32Array(h);
     const nyq = sampleRate / 2;
-    const nBins = analyser ? analyser.frequencyBinCount : 1024;
+    nBins = analyser ? analyser.frequencyBinCount : 1024;
     const ratio = Math.log(F_MAX / F_MIN);
     for(let y = 0; y < h; y++){
       // y = 0 is the top row = F_MAX
       const uTop = (h - (y - 0.5)) / h;
       const uBot = (h - (y + 0.5)) / h;
+      const uMid = (h - y) / h;
       const fTop = F_MIN * Math.exp(ratio * uTop);
       const fBot = F_MIN * Math.exp(ratio * uBot);
       let lo = Math.floor(fBot / nyq * nBins);
@@ -1151,6 +1157,10 @@ footer .logo{font-size:1rem}
       lo = Math.max(0, Math.min(nBins - 1, lo));
       hi = Math.max(lo + 1, Math.min(nBins, hi));
       rowLo[y] = lo; rowHi[y] = hi;
+      // Fractional bin position of the row centre. Low on a log axis, one bin
+      // covers many rows, and picking the nearest one draws them as a
+      // staircase — these rows read between neighbours instead.
+      rowPos[y] = (F_MIN * Math.exp(ratio * uMid)) / nyq * nBins;
     }
   }
 
@@ -1198,11 +1208,21 @@ footer .logo{font-size:1rem}
     if(live){
       let fMax = 0, fMin = 255;
       for(let y = 0; y < h; y++){
-        // Peak-hold across every FFT bin that lands on this row, so the
-        // sparse high-frequency rows don't drop detail.
-        let peak = 0;
         const lo = rowLo[y], hi = rowHi[y];
-        for(let b = lo; b < hi; b++){ if(bins[b] > peak) peak = bins[b]; }
+        let peak;
+        if(hi - lo > 1){
+          // Several bins land on this row: peak-hold, so the sparse
+          // high-frequency rows don't drop detail.
+          peak = 0;
+          for(let b = lo; b < hi; b++){ if(bins[b] > peak) peak = bins[b]; }
+        }else{
+          // Fewer than one bin per row: read between the two neighbours.
+          const p = rowPos[y];
+          const i0 = p < 0 ? 0 : (p > nBins - 2 ? nBins - 2 : p | 0);
+          const t = p - i0;
+          const a = bins[i0], b = bins[i0 + 1];
+          peak = a + (b - a) * (t < 0 ? 0 : (t > 1 ? 1 : t));
+        }
         rowVal[y] = peak;
         if(peak > fMax) fMax = peak;
         if(peak < fMin) fMin = peak;
