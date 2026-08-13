@@ -216,6 +216,7 @@ nav{
 }
 .logo{font-weight:800;font-size:1.1rem;color:var(--c-text);text-decoration:none;letter-spacing:-.02em}
 .logo span{color:var(--c-cyan)}
+.logo .rtm{font-size:.48em;font-weight:600;letter-spacing:0;line-height:0;margin-left:.12em;color:var(--c-text-mute)}
 nav .links{display:flex;gap:1rem;align-items:center}
 nav a.nl{
   color:var(--c-text-mute);text-decoration:none;
@@ -780,7 +781,7 @@ footer .logo{font-size:1rem}
 <div id="bg"></div>
 
 <nav>
-  <a href="#hero" class="logo">OCEAN<span>EAR</span></a>
+  <a href="#hero" class="logo">Ocean<span>Ear</span><sup class="rtm">&reg;</sup></a>
   <div class="links">
     <a href="#reserve" class="nl cta">Reserve Kit</a>
     <a href="about.html" class="nl">About</a>
@@ -808,7 +809,7 @@ footer .logo{font-size:1rem}
     <div class="hero-phone-col reveal reveal-2">
       <div class="phone">
         <div class="phone-notch"></div>
-        <div class="phone-head">OCEAN <span>EAR</span></div>
+        <div class="phone-head">Ocean<span>Ear</span></div>
         <div class="phone-status">
           <div class="phone-status-pill">
             <span class="dot"></span>
@@ -953,7 +954,7 @@ footer .logo{font-size:1rem}
       <div class="reveal" style="text-align:center;margin-bottom:2.5rem">
         <span class="eyebrow">Inside</span>
         <h2 style="font-size:clamp(2rem,4.5vw,3rem)">Connect it. Share it.<br>Find it <span style="color:var(--c-cyan)">again.</span></h2>
-        <p class="lede" style="margin:1rem auto 0">The rest of the app, in three screens. Everything local, everything private.</p>
+        <p class="lede" style="margin:1rem auto 0">The rest of the app, in four screens. Everything local, everything private.</p>
         <div class="pills" style="justify-content:center;margin-top:1.6rem">
           <span class="pill">Plug and play</span>
           <span class="pill coral">One-tap share</span>
@@ -979,6 +980,11 @@ footer .logo{font-size:1rem}
                  alt="Library screen: recordings list with search, favourites, storage total and GPS metadata badges"
                  loading="lazy" decoding="async">
           </button>
+          <button type="button" class="shots-card" aria-label="Show recording details screen">
+            <img src="screen-details.jpg" width="900" height="1857"
+                 alt="Details screen: the recording pinned on a map, with altitude, duration, file size, coordinates, sample rate and start time"
+                 loading="lazy" decoding="async">
+          </button>
         </div>
 
         <div class="shots-caps" aria-live="polite">
@@ -997,6 +1003,11 @@ footer .logo{font-size:1rem}
             <h3>Every take, still findable.</h3>
             <p>Search by name, location or date. Favourites, GPS and metadata on every file. Storage at a glance. iCloud keeps them when your phone doesn&rsquo;t.</p>
           </div>
+          <div class="shots-cap" aria-hidden="true">
+            <span class="shots-kicker">Details</span>
+            <h3>Pinned to the spot.</h3>
+            <p>Every take carries its own map. Coordinates, altitude, duration, sample rate and start time, written into the file and still readable a season later.</p>
+          </div>
         </div>
 
         <div class="shots-ctrl">
@@ -1007,6 +1018,7 @@ footer .logo{font-size:1rem}
             <button type="button" class="shots-tab" aria-current="true" aria-label="Show connected screen"></button>
             <button type="button" class="shots-tab" aria-label="Show share clip screen"></button>
             <button type="button" class="shots-tab" aria-label="Show library screen"></button>
+            <button type="button" class="shots-tab" aria-label="Show recording details screen"></button>
           </div>
           <button type="button" class="shots-arrow" data-shots-dir="1" aria-label="Next screen">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1103,7 +1115,7 @@ footer .logo{font-size:1rem}
 </div>
 
 <footer>
-  <a href="#hero" class="logo">OCEAN<span>EAR</span></a>
+  <a href="#hero" class="logo">Ocean<span>Ear</span><sup class="rtm">&reg;</sup></a>
   <div class="foot-links">
     <a href="#reserve">Reserve Kit</a>
     <a href="#specs">Specs</a>
@@ -1115,7 +1127,7 @@ footer .logo{font-size:1rem}
     <a href="mailto:hello@oceanear.co.nz">Contact</a>
   </div>
   <p class="foot-recording">All sample recordings on this page were captured with the OceanEar kit on the south coast of Wellington.</p>
-  <p class="foot-meta">&copy; 2026 OceanEar.<br><span class="foot-loc">Wellington &middot; New Zealand</span></p>
+  <p class="foot-meta">&copy; 2026 OceanEar&reg;.<br><span class="foot-loc">Wellington &middot; New Zealand</span></p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
