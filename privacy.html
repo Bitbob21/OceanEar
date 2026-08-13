@@ -13,6 +13,21 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
+<link rel="preload" as="font" type="font/woff2" href="fonts/nunito.woff2" crossorigin>
+<style>
+/* Nunito, self-hosted and subset to what the site actually uses.
+   SIL Open Font License 1.1 -- see fonts/OFL.txt.
+   One variable file covers 400 through 900, and carries the macron in
+   Owhiro Bay. No unicode-range split: a single face always loads, so no
+   character can quietly fall back to a different typeface. */
+@font-face{
+  font-family:'Nunito';
+  font-style:normal;
+  font-weight:200 1000;
+  font-display:swap;
+  src:url(fonts/nunito.woff2) format('woff2');
+}
+</style>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
 html{scroll-behavior:smooth}
@@ -20,7 +35,7 @@ body{
   background:linear-gradient(180deg,#0c6179 0%,#0a2236 100%);
   background-attachment:fixed;
   color:#fff;line-height:1.65;min-height:100vh;
-  font-family:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,sans-serif;
+  font-family:'Nunito',ui-rounded,'SF Pro Rounded',system-ui,-apple-system,sans-serif;
   overflow-x:hidden;
 }
 

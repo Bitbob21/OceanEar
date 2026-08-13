@@ -88,6 +88,21 @@
 }
 </script>
 
+<link rel="preload" as="font" type="font/woff2" href="fonts/nunito.woff2" crossorigin>
+<style>
+/* Nunito, self-hosted and subset to what the site actually uses.
+   SIL Open Font License 1.1 -- see fonts/OFL.txt.
+   One variable file covers 400 through 900, and carries the macron in
+   Owhiro Bay. No unicode-range split: a single face always loads, so no
+   character can quietly fall back to a different typeface. */
+@font-face{
+  font-family:'Nunito';
+  font-style:normal;
+  font-weight:200 1000;
+  font-display:swap;
+  src:url(fonts/nunito.woff2) format('woff2');
+}
+</style>
 <style>
 /* ==========================================================================
    OCEANEAR
@@ -107,7 +122,7 @@
   --c-text-mono:rgba(160,196,203,.45);
   --c-line:rgba(76,193,212,.14);
   --c-glass:rgba(255,255,255,.04);
-  --f-rounded:ui-rounded,'SF Pro Rounded',system-ui,-apple-system,sans-serif;
+  --f-rounded:'Nunito',ui-rounded,'SF Pro Rounded',system-ui,-apple-system,sans-serif;
   --f-mono:ui-monospace,'SF Mono',Menlo,monospace;
   --r-sm:12px;
   --r-md:18px;
