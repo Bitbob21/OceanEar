@@ -132,7 +132,8 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
-html{scroll-behavior:smooth}
+/* The nav floats over the page, so every anchor keeps its distance from it */
+html{scroll-behavior:smooth;scroll-padding-top:7rem}
 body{
   font-family:var(--f-rounded);
   background:#06151f;
@@ -489,7 +490,8 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 }
 @media(min-width:1024px){.app-shot{max-width:340px}}
 @media(min-width:1300px){.app-shot{max-width:380px}}
-.app-shot img{width:100%;display:block}
+/* height:auto so the width/height attributes only reserve the space, never stretch */
+.app-shot img{width:100%;height:auto;display:block}
 
 .dual{
   display:flex;gap:1.5rem;justify-content:center;align-items:center;
@@ -669,7 +671,7 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 }
 
 .kit-image{
-  width:100%;border-radius:var(--r-lg);
+  width:100%;height:auto;border-radius:var(--r-lg);
   border:1px solid var(--c-line);
   display:block;
   box-shadow:0 30px 80px rgba(0,0,0,.5);
@@ -902,8 +904,8 @@ footer .logo{font-size:1rem}
       </div>
       <div class="reveal reveal-2">
         <div class="dual">
-          <div class="app-shot"><img src="screen-live.jpg" alt="Live monitoring with noise reduction on and the spectrogram running" loading="lazy"></div>
-          <div class="app-shot"><img src="screen-meter.jpg" alt="Live sound meter with spectrum and peak hold" loading="lazy"></div>
+          <div class="app-shot"><img src="screen-live.jpg" width="1206" height="2436" alt="Live monitoring with noise reduction on and the spectrogram running" loading="lazy"></div>
+          <div class="app-shot"><img src="screen-meter.jpg" width="900" height="1806" alt="Live sound meter with spectrum and peak hold" loading="lazy"></div>
         </div>
       </div>
     </div>
@@ -925,7 +927,7 @@ footer .logo{font-size:1rem}
         </div>
       </div>
       <div class="reveal reveal-2">
-        <div class="app-shot"><img src="screen-spatial.jpg" alt="Spatial render with stereo width control, ready to export" loading="lazy"></div>
+        <div class="app-shot"><img src="screen-spatial.jpg" width="1206" height="2477" alt="Spatial render with stereo width control, ready to export" loading="lazy"></div>
       </div>
     </div>
   </section>
@@ -941,7 +943,7 @@ footer .logo{font-size:1rem}
         <p class="lede">Ambience mode turns the live hydrophone into a generative soundscape. Run it through a speaker at home, the studio, the bach.</p>
       </div>
       <div class="reveal reveal-2">
-        <div class="app-shot"><img src="screen-ambience.jpg" alt="Ambience" loading="lazy"></div>
+        <div class="app-shot"><img src="screen-ambience.jpg" width="1206" height="2436" alt="Ambience" loading="lazy"></div>
       </div>
     </div>
   </section>
@@ -1062,7 +1064,7 @@ footer .logo{font-size:1rem}
   <!-- ==================================================================
        RESERVE
        ================================================================== -->
-  <section class="section" id="reserve">
+  <section class="section" id="reserve-top">
     <div class="reserve">
       <div class="reveal" style="text-align:center;margin-bottom:3rem">
         <span class="eyebrow coral">Early Access</span>
@@ -1070,9 +1072,10 @@ footer .logo{font-size:1rem}
         <p class="lede" style="margin:1rem auto 0">First batch ships from Wellington. App invite goes out as soon as your spot opens.</p>
       </div>
 
-      <div class="reserve-grid">
+      <!-- The Reserve Kit links target the kit and the offer, not the headline above them -->
+      <div class="reserve-grid" id="reserve">
         <div class="reveal reveal-2">
-          <img src="kit-marketing-web.jpg" alt="OceanEar Kit, hydrophone, USB-C cable, app on iPhone, Bluetooth earbuds" class="kit-image" loading="lazy">
+          <img src="kit-marketing-web.jpg" width="1200" height="1600" alt="OceanEar Kit, hydrophone, USB-C cable, app on iPhone, Bluetooth earbuds" class="kit-image" loading="lazy">
         </div>
         <div class="reserve-card reveal reveal-3">
           <div class="price-row">
