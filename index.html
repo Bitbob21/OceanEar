@@ -495,30 +495,59 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 .shots{max-width:760px;margin:0 auto}
 .shots-box{display:flex;flex-direction:column;align-items:center}
 
-/* One frame the screens swap inside, not three stacked .app-shot */
-.shots-stage{
+/* Three phones side by side: the middle one in focus, its neighbours
+   pushed back in space. Turning the deck slides them through. */
+.shots-deck{
+  --card-w:190px;
+  --card-shift:62%;
   position:relative;
-  width:100%;max-width:320px;
+  width:100%;
+  height:calc(var(--card-w) * 2436 / 1206);
+  perspective:1400px;
+  touch-action:pan-y;
+}
+@media(min-width:640px){.shots-deck{--card-w:230px}}
+@media(min-width:1024px){.shots-deck{--card-w:270px;--card-shift:66%}}
+@media(min-width:1300px){.shots-deck{--card-w:300px;--card-shift:70%}}
+
+.shots-card{
+  position:absolute;left:50%;top:0;
+  width:var(--card-w);
   aspect-ratio:1206/2436;
-  display:grid;
+  padding:0;
   border:3px solid rgba(76,193,212,.28);
   border-radius:38px;
   overflow:hidden;
-  box-shadow:0 40px 100px rgba(0,0,0,.55);
   background:#0d3d4f;
-  touch-action:pan-y;
+  cursor:pointer;
+  transform:translateX(-50%);
+  transition:transform .55s var(--ease),opacity .55s var(--ease),
+             filter .55s var(--ease),box-shadow .55s var(--ease);
 }
-@media(min-width:1024px){.shots-stage{max-width:340px}}
-@media(min-width:1300px){.shots-stage{max-width:380px}}
+.shots-card img{width:100%;height:100%;object-fit:cover;display:block}
 
-.shots-img{
-  grid-area:1/1;
-  width:100%;height:100%;
-  object-fit:cover;display:block;
-  opacity:0;transform:scale(1.015);
-  transition:opacity .45s var(--ease),transform .45s var(--ease);
+.shots-card.is-cur{
+  z-index:3;opacity:1;
+  filter:none;
+  box-shadow:0 40px 100px rgba(0,0,0,.55);
+  transform:translateX(-50%) translateZ(0) scale(1);
 }
-.shots-img.on{opacity:1;transform:none}
+.shots-card.is-prev,
+.shots-card.is-next{
+  z-index:2;opacity:.92;
+  filter:brightness(.45) saturate(.75);
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+}
+.shots-card.is-prev:hover,
+.shots-card.is-next:hover{filter:brightness(.7) saturate(.9)}
+.shots-card.is-prev{
+  transform:translateX(-50%) translateX(calc(var(--card-shift) * -1)) scale(.82) rotateY(24deg);
+}
+.shots-card.is-next{
+  transform:translateX(-50%) translateX(var(--card-shift)) scale(.82) rotateY(-24deg);
+}
+/* Anything further back than a neighbour stays out of the way */
+.shots-card.is-off{z-index:1;opacity:0;pointer-events:none;transform:translateX(-50%) scale(.7)}
 
 /* Captions share one grid cell, so the wrapper is as tall as the longest */
 .shots-caps{
@@ -570,12 +599,13 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
   background:var(--c-cyan);
   box-shadow:0 0 12px rgba(76,193,212,.45);
 }
-.shots-stage:focus-visible,
+.shots-deck:focus-visible,
+.shots-card:focus-visible,
 .shots-arrow:focus-visible,
 .shots-tab:focus-visible{outline:2px solid var(--c-cyan);outline-offset:4px}
 
 @media(prefers-reduced-motion:reduce){
-  .shots-img,.shots-cap{transition-duration:.01ms}
+  .shots-card,.shots-cap{transition-duration:.01ms}
 }
 
 /* ==========================================================================
@@ -847,15 +877,18 @@ footer .logo{font-size:1rem}
       <div class="section-text reveal">
         <span class="eyebrow">Live</span>
         <h2>Real-time.<br>Real <span>direction.</span></h2>
-        <p class="lede">Live hydrophone audio, binaural-rendered in real time. Head-tracked, so the source stays put when you move.</p>
+        <p class="lede">Live hydrophone audio, binaural-rendered in real time. Head-tracked, so the source stays put when you move. Peak, RMS and crest on screen while you listen.</p>
         <div class="pills">
           <span class="pill">Live monitoring</span>
           <span class="pill coral">Head-tracked</span>
-          <span class="pill">2-channel stereo</span>
+          <span class="pill">Sound meter</span>
         </div>
       </div>
       <div class="reveal reveal-2">
-        <div class="app-shot"><img src="screen-live.jpg" alt="Live monitoring with noise reduction on and the spectrogram running" loading="lazy"></div>
+        <div class="dual">
+          <div class="app-shot"><img src="screen-live.jpg" alt="Live monitoring with noise reduction on and the spectrogram running" loading="lazy"></div>
+          <div class="app-shot"><img src="screen-meter.jpg" alt="Live sound meter with spectrum and peak hold" loading="lazy"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -904,34 +937,40 @@ footer .logo{font-size:1rem}
     <div class="shots">
       <div class="reveal" style="text-align:center;margin-bottom:2.5rem">
         <span class="eyebrow">Inside</span>
-        <h2 style="font-size:clamp(2rem,4.5vw,3rem)">Measure it. Share it.<br>Find it <span style="color:var(--c-cyan)">again.</span></h2>
+        <h2 style="font-size:clamp(2rem,4.5vw,3rem)">Connect it. Share it.<br>Find it <span style="color:var(--c-cyan)">again.</span></h2>
         <p class="lede" style="margin:1rem auto 0">The rest of the app, in three screens. Everything local, everything private.</p>
         <div class="pills" style="justify-content:center;margin-top:1.6rem">
-          <span class="pill">Sound meter</span>
+          <span class="pill">Plug and play</span>
           <span class="pill coral">One-tap share</span>
           <span class="pill">Searchable library</span>
         </div>
       </div>
 
       <div class="shots-box reveal reveal-2" id="shotsBox">
-        <div class="shots-stage" id="shotsStage" tabindex="0"
+        <div class="shots-deck" id="shotsStage" tabindex="0"
              role="group" aria-roledescription="carousel" aria-label="OceanEar app screens">
-          <img class="shots-img on" src="screen-meter.jpg" width="900" height="1806"
-               alt="Sound meter screen: live spectrum with peak hold, and peak, RMS and crest values in dBFS"
-               loading="lazy" decoding="async" aria-hidden="false">
-          <img class="shots-img" src="screen-share.jpg" width="900" height="1818"
-               alt="Share screen: a coastal photo above a live spectrogram, with 15 second story and binaural video options"
-               loading="lazy" decoding="async" aria-hidden="true">
-          <img class="shots-img" src="screen-library.jpg" width="900" height="1818"
-               alt="Library screen: recordings list with search, favourites, storage total and GPS metadata badges"
-               loading="lazy" decoding="async" aria-hidden="true">
+          <button type="button" class="shots-card" aria-label="Show connected screen">
+            <img src="screen-home.jpg" width="1206" height="2454"
+                 alt="Connected screen: hydrophone linked, Bluetooth headphones confirmed, library one tap away"
+                 loading="lazy" decoding="async">
+          </button>
+          <button type="button" class="shots-card" aria-label="Show share clip screen">
+            <img src="screen-share.jpg" width="900" height="1818"
+                 alt="Share screen: a coastal photo above a live spectrogram, with 15 second story and binaural video options"
+                 loading="lazy" decoding="async">
+          </button>
+          <button type="button" class="shots-card" aria-label="Show library screen">
+            <img src="screen-library.jpg" width="900" height="1818"
+                 alt="Library screen: recordings list with search, favourites, storage total and GPS metadata badges"
+                 loading="lazy" decoding="async">
+          </button>
         </div>
 
         <div class="shots-caps" aria-live="polite">
           <div class="shots-cap on" aria-hidden="false">
-            <span class="shots-kicker">Sound meter</span>
-            <h3>Levels, not guesswork.</h3>
-            <p>Peak, RMS and crest, live. Spectrum from 100&nbsp;Hz to 10&nbsp;kHz with peak hold. Simple for a number, Pro for the whole picture. dBFS, uncalibrated &mdash; relative, not SPL.</p>
+            <span class="shots-kicker">Connected</span>
+            <h3>Plug in. It knows.</h3>
+            <p>Hydrophone on USB-C, earbuds over Bluetooth. The app confirms both before you hit record, so you find out on the wharf and not in the edit.</p>
           </div>
           <div class="shots-cap" aria-hidden="true">
             <span class="shots-kicker">Share clip</span>
@@ -950,9 +989,9 @@ footer .logo{font-size:1rem}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <div class="shots-tabs">
-            <button type="button" class="shots-tab" aria-current="true" aria-label="Show sound meter"></button>
-            <button type="button" class="shots-tab" aria-label="Show share clip"></button>
-            <button type="button" class="shots-tab" aria-label="Show library"></button>
+            <button type="button" class="shots-tab" aria-current="true" aria-label="Show connected screen"></button>
+            <button type="button" class="shots-tab" aria-label="Show share clip screen"></button>
+            <button type="button" class="shots-tab" aria-label="Show library screen"></button>
           </div>
           <button type="button" class="shots-arrow" data-shots-dir="1" aria-label="Next screen">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1504,32 +1543,42 @@ footer .logo{font-size:1rem}
   const box = document.getElementById('shotsBox');
   if(!box) return;
   const stage = document.getElementById('shotsStage');
-  const imgs  = Array.from(box.querySelectorAll('.shots-img'));
+  const cards = Array.from(box.querySelectorAll('.shots-card'));
   const caps  = Array.from(box.querySelectorAll('.shots-cap'));
   const tabs  = Array.from(box.querySelectorAll('.shots-tab'));
-  if(!stage || imgs.length < 2) return;
+  const N = cards.length;
+  if(!stage || N < 2) return;
 
-  let idx = imgs.findIndex(el => el.classList.contains('on'));
-  if(idx < 0) idx = 0;
+  let idx = 0;
 
-  function mark(list, n){
-    list.forEach((el, i) => {
-      el.classList.toggle('on', i === n);
-      el.setAttribute('aria-hidden', i === n ? 'false' : 'true');
+  /* Where does card i sit relative to the one in front? 0, -1, +1, else off. */
+  function place(){
+    cards.forEach((el, i) => {
+      const d = ((i - idx) % N + N) % N;
+      const rel = d === 0 ? 'is-cur' : (d === 1 ? 'is-next' : (d === N - 1 ? 'is-prev' : 'is-off'));
+      el.className = 'shots-card ' + rel;
+      el.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
+      el.tabIndex = d === 0 ? -1 : 0;
+    });
+    caps.forEach((el, i) => {
+      el.classList.toggle('on', i === idx);
+      el.setAttribute('aria-hidden', i === idx ? 'false' : 'true');
+    });
+    tabs.forEach((el, i) => {
+      if(i === idx) el.setAttribute('aria-current', 'true');
+      else el.removeAttribute('aria-current');
     });
   }
 
   function show(next){
-    const n = (next % imgs.length + imgs.length) % imgs.length;
+    const n = (next % N + N) % N;
     if(n === idx) return;
     idx = n;
-    mark(imgs, n);
-    mark(caps, n);
-    tabs.forEach((el, i) => {
-      if(i === n) el.setAttribute('aria-current', 'true');
-      else el.removeAttribute('aria-current');
-    });
+    place();
   }
+
+  place();
+  cards.forEach((el, i) => el.addEventListener('click', () => show(i)));
 
   /* Hover over the frame and it turns by itself; leave and it stays put.
      Pointer devices only -- a tap must never trigger this. */
