@@ -1534,6 +1534,24 @@ footer .logo{font-size:1rem}
     });
   }
 
+  /* Hover over the frame and it turns by itself; leave and it stays put.
+     Pointer devices only -- a tap must never trigger this. */
+  const canHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  let spin = null;
+  function startSpin(){
+    if(!canHover || spin) return;
+    spin = setInterval(() => show(idx + 1), 2500);
+  }
+  function stopSpin(){
+    clearInterval(spin);
+    spin = null;
+  }
+  if(canHover){
+    stage.addEventListener('mouseenter', startSpin);
+    stage.addEventListener('mouseleave', stopSpin);
+    document.addEventListener('visibilitychange', () => { if(document.hidden) stopSpin(); });
+  }
+
   box.querySelectorAll('[data-shots-dir]').forEach(btn => {
     btn.addEventListener('click', () => show(idx + Number(btn.dataset.shotsDir)));
   });
