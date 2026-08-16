@@ -395,14 +395,14 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 .player-hint strong{color:var(--c-coral);font-weight:700}
 .player-tracks{
   flex:1;min-height:0;
-  display:flex;flex-direction:column;gap:2px;
+  display:flex;flex-direction:column;gap:5px;
   overflow-y:auto;
   scrollbar-width:none;
 }
 .player-tracks::-webkit-scrollbar{display:none}
 .track{
   display:flex;align-items:center;gap:11px;
-  padding:9px 10px;border-radius:12px;
+  padding:10px;border-radius:12px;
   background:none;border:none;color:var(--c-text);
   cursor:pointer;text-align:left;width:100%;
   font-family:inherit;
@@ -420,8 +420,12 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 }
 .track.active .track-icon{background:var(--c-cyan);border-color:var(--c-cyan);color:#000}
 .track-info{flex:1;min-width:0}
-.track-title{font-size:.83rem;font-weight:600;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.track-meta{font-size:.62rem;color:rgba(160,196,203,.55);margin-top:2px}
+/* Both are spans: without display:block the title and meta run together in one
+   inline flow, and the nowrap/ellipsis below never applies. The title's
+   line-height then has to clear the macron in Ōwhiro Bay, since overflow:hidden
+   crops whatever sticks out of the line box and 1.2 ate the bar. */
+.track-title{display:block;font-size:.83rem;font-weight:600;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.track-meta{display:block;font-size:.62rem;color:rgba(160,196,203,.55);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .track.active .track-meta{color:rgba(76,193,212,.7)}
 @media(max-width:640px){.src-word{display:none}}
 
@@ -1422,8 +1426,13 @@ footer .logo{font-size:1rem}
   }
 
   let dpr = 1;
+  // Bottom strip the canvas keeps clear of labels: the transport row sits on
+  // top of it, and a tick landing there reads as part of the volume line.
+  let axisInset = 0;
   function resize(){
     dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const foot = document.querySelector('.player-foot');
+    axisInset = ((foot ? foot.offsetHeight : 44) + 22) * dpr;
     const w = c.offsetWidth, h = c.offsetHeight;
     if(w < 1 || h < 1) return;
     const cw = Math.round(w * dpr), ch = Math.round(h * dpr);
@@ -1548,11 +1557,14 @@ footer .logo{font-size:1rem}
     ctx.fillStyle = 'rgba(160,196,203,.45)';
     for(const [f, label] of TICKS){
       if(f <= F_MIN || f >= F_MAX) continue;
+      // Ticks keep the frequency they actually mark, so the ones that fall
+      // behind the transport are dropped rather than nudged into a lie
       const y = h - (Math.log(f / F_MIN) / ratio) * h;
+      if(y > h - axisInset) continue;
       ctx.fillText(label, 6 * dpr, y);
     }
     ctx.textAlign = 'right';
-    ctx.fillText('← ' + WINDOW_S + 's', w - 6 * dpr, h - 8 * dpr);
+    ctx.fillText('← ' + WINDOW_S + 's', w - 6 * dpr, h - axisInset - 4 * dpr);
     ctx.textAlign = 'left';
     ctx.shadowBlur = 0;
   }
