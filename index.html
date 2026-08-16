@@ -302,6 +302,14 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
   border:1px solid transparent;
 }
 .btn.ghost:hover{color:var(--c-cyan)}
+/* Apple's official badge, unmodified: no recolouring, no cropping, clear space via padding */
+.badge-appstore{
+  display:inline-flex;line-height:0;padding:5px;
+  border-radius:12px;
+  transition:transform .25s var(--ease),box-shadow .25s;
+}
+.badge-appstore img{display:block;height:48px;width:auto}
+.badge-appstore:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(0,0,0,.45)}
 
 @media(max-width:1023px){
   .hero{text-align:center}
@@ -693,6 +701,14 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 }
 .kit-line{color:var(--c-text-soft);font-size:.95rem;margin-top:.5rem;line-height:1.55}
 .kit-line strong{color:var(--c-text);font-weight:600}
+.kit-app{
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  margin-top:1.1rem;padding-top:1.1rem;
+  border-top:1px solid var(--c-line);
+  font-size:.88rem;
+}
+.kit-app .badge-appstore{padding:0;flex:none}
+.badge-appstore.badge-sm img{height:40px}
 
 .form{display:flex;flex-direction:column;gap:.7rem;margin-top:1.6rem}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
@@ -803,6 +819,9 @@ footer .logo{font-size:1rem}
       <div class="hero-cta reveal reveal-3">
         <a href="#reserve" class="btn primary">Reserve Kit
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="https://apps.apple.com/app/id6771672044" class="badge-appstore" target="_blank" rel="noopener">
+          <img src="appstore-badge.svg" width="144" height="48" alt="Download OceanEar on the App Store">
         </a>
         <a href="#live" class="btn ghost">See how it works &darr;</a>
       </div>
@@ -1069,7 +1088,7 @@ footer .logo{font-size:1rem}
       <div class="reveal" style="text-align:center;margin-bottom:3rem">
         <span class="eyebrow coral">Early Access</span>
         <h2 style="font-size:clamp(2rem,4.5vw,3.2rem)">Want to hear it<br>for <span style="color:var(--c-cyan)">yourself?</span></h2>
-        <p class="lede" style="margin:1rem auto 0">First batch ships from Wellington. App invite goes out as soon as your spot opens.</p>
+        <p class="lede" style="margin:1rem auto 0">First batch ships from Wellington. The app is already on the App Store &mdash; your kit ships with a code that unlocks the full version.</p>
       </div>
 
       <!-- The Reserve Kit links target the kit and the offer, not the headline above them -->
@@ -1084,7 +1103,12 @@ footer .logo{font-size:1rem}
             <span class="price-pill">EARLY BIRD &middot; LOCKED IN</span>
           </div>
           <p class="kit-line">No payment now. We'll send a payment link when your kit ships.</p>
-          <p class="kit-line">Includes <strong>Hydrophone</strong> &middot; <strong>USB-C Adapter</strong> &middot; <strong>OceanEar App</strong> (TestFlight)</p>
+          <p class="kit-line">Includes <strong>Hydrophone</strong> &middot; <strong>USB-C Adapter</strong> &middot; <strong>redeem code</strong> for the full OceanEar App</p>
+          <p class="kit-line kit-app">Don't want to wait? The app is free on the App Store, seven days with every feature unlocked.
+            <a href="https://apps.apple.com/app/id6771672044" class="badge-appstore badge-sm" target="_blank" rel="noopener">
+              <img src="appstore-badge.svg" width="120" height="40" alt="Download OceanEar on the App Store">
+            </a>
+          </p>
 
           <form id="betaForm" action="https://formspree.io/f/xjgprdqz" method="POST" class="form">
             <div class="form-row">
@@ -1100,13 +1124,13 @@ footer .logo{font-size:1rem}
               <option value="other">Other</option>
             </select>
             <button type="submit" id="betaSubmitBtn">Reserve my spot &rarr;</button>
-            <p class="form-note">No spam. One email when your TestFlight invite is ready, one when your kit is.</p>
+            <p class="form-note">No spam. One email when your kit ships, with the code that unlocks the full app.</p>
           </form>
 
           <div id="betaSuccess" class="success">
             <div class="wave">&#127754;</div>
             <h3>You're on the list.</h3>
-            <p>We'll send your TestFlight invite when your spot opens up.</p>
+            <p>We'll email you when your kit is ready to ship, with the code for the full app.</p>
           </div>
 
           <p class="kit-foot">Limited first batch &middot; Built in Wellington &middot; Ships internationally</p>
