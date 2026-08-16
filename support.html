@@ -19,6 +19,11 @@
 <meta name="robots" content="noindex,follow">
 <link rel="canonical" href="https://oceanear.co.nz/support.html">
 
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<!-- Safari on iOS turns this into Apple's own install banner above the page -->
+<meta name="apple-itunes-app" content="app-id=6771672044">
 <link rel="preload" as="font" type="font/woff2" href="fonts/nunito.woff2" crossorigin>
 <style>
 /* Nunito, self-hosted and subset to what the site actually uses.
@@ -160,6 +165,17 @@ nav a.nl:hover,nav a.nl.active{color:#fff}
   .page{padding:7rem 1rem 3rem}
   .policy h2{font-size:1.15rem}
 }
+/* Four items overflow the pill on a phone. Services is the one that gives
+   way: it stays in every footer, and the buying links keep the nav. */
+@media(max-width:640px){nav a.nl-alt{display:none}}
+/* Below 420 only the two things a visitor can act on fit. About and
+   Services are reachable from every footer. */
+@media(max-width:420px){
+  nav{padding:.6rem .8rem}
+  nav .logo{font-size:1.05rem}
+  nav a.nl{font-size:.72rem;padding:5px 8px;white-space:nowrap}
+  nav a.nl-alt2{display:none}
+}
 </style>
 </head>
 <body>
@@ -175,8 +191,9 @@ nav a.nl:hover,nav a.nl.active{color:#fff}
   <a href="index.html" class="logo">Ocean<span>Ear</span><sup class="rtm">&reg;</sup></a>
   <div style="display:flex;gap:1.2rem;align-items:center">
     <a href="index.html#reserve" class="nl nc">Reserve Kit</a>
-    <a href="about.html" class="nl">About</a>
-    <a href="services.html" class="nl">Services</a>
+    <a href="https://apps.apple.com/app/id6771672044?ct=site-nav" class="nl" target="_blank" rel="noopener">App Store</a>
+    <a href="about.html" class="nl nl-alt2">About</a>
+    <a href="services.html" class="nl nl-alt">Services</a>
     <a href="support.html" class="nl active">Support</a>
   </div>
 </nav>
@@ -224,7 +241,7 @@ nav a.nl:hover,nav a.nl.active{color:#fff}
     <a href="privacy.html">Privacy</a>
     <a href="mailto:hello@oceanear.co.nz">Contact</a>
   </div>
-  <a href="https://apps.apple.com/app/id6771672044" class="footer-appstore" target="_blank" rel="noopener">
+  <a href="https://apps.apple.com/app/id6771672044?ct=site-footer" class="footer-appstore" target="_blank" rel="noopener">
     <img src="appstore-badge.svg" width="108" height="36" alt="Download OceanEar on the App Store">
   </a>
   <p class="site-footer-meta">&copy; 2026 OceanEar&reg;.<br><span class="loc">Wellington &middot; New Zealand</span></p>
