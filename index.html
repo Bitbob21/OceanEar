@@ -726,6 +726,10 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 .kit-line strong{color:var(--c-text);font-weight:600}
 .kit-req{font-size:.85rem;color:var(--c-text-mute)}
 .kit-btc strong{color:var(--c-coral)}
+.price-from{
+  font-size:1rem;font-weight:600;color:var(--c-text-mute);
+  margin-right:.45rem;align-self:center;
+}
 .kit-line a{color:var(--c-cyan);text-decoration:none;border-bottom:1px solid rgba(76,193,212,.35)}
 .kit-line a:hover{border-bottom-color:var(--c-cyan)}
 .kit-app{
@@ -859,9 +863,10 @@ footer .logo{font-size:1rem}
       "description": "Aquarian Audio H2d hydrophone, USB-C adapter and a redeem code for the full OceanEar app. Ships worldwide from Wellington, New Zealand.",
       "brand": { "@type": "Brand", "name": "OceanEar" },
       "offers": {
-        "@type": "Offer",
-        "price": "449",
+        "@type": "AggregateOffer",
+        "lowPrice": "449",
         "priceCurrency": "NZD",
+        "offerCount": "2",
         "availability": "https://schema.org/InStock",
         "url": "https://oceanear.co.nz/#reserve"
       }
@@ -1177,12 +1182,12 @@ footer .logo{font-size:1rem}
         </div>
         <div class="reserve-card reveal reveal-3">
           <div class="price-row">
-            <span class="price">$449</span>
+            <span class="price-from">from</span><span class="price">$449</span>
             <span class="price-cur">NZD</span>
             <span class="price-pill">IN STOCK</span>
           </div>
-          <p class="kit-line">Plus flat-rate shipping, quoted with your payment link. Ships worldwide from Wellington.</p>
-          <p class="kit-line kit-btc"><strong>Paying in Bitcoin? 10% off, $404.10.</strong> Say so when you order and you get a BTC invoice instead of a card link.</p>
+          <p class="kit-line">The total depends on the cable length you pick. That and flat-rate shipping are confirmed in your payment link, before you pay anything. Ships worldwide from Wellington.</p>
+          <p class="kit-line kit-btc"><strong>Paying in Bitcoin? 10% off the total.</strong> Pick it in the form and you get a BTC invoice instead of a card link.</p>
           <p class="kit-line">Includes an <strong><a href="hydrophone.html">Aquarian Audio H2d</a></strong> hydrophone on a <strong>3&nbsp;m or 6&nbsp;m cable</strong> &middot; <strong>USB-C interface</strong> &middot; <strong>redeem code</strong> for the full OceanEar App. Other cable lengths on request.</p>
           <p class="kit-line kit-req">Needs an iPhone 12 or later on iOS 17.6. The kit does not work with Android.</p>
           <p class="kit-line kit-req">12-month warranty &middot; 14-day returns &middot; <a href="terms.html">sale terms</a></p>
@@ -1211,8 +1216,8 @@ footer .logo{font-size:1rem}
             </select>
             <select name="payment" required>
               <option value="" disabled selected>Paying by&hellip;</option>
-              <option value="card">Card or bank transfer &mdash; $449</option>
-              <option value="bitcoin">Bitcoin &mdash; $404.10, 10% off</option>
+              <option value="card">Card or bank transfer</option>
+              <option value="bitcoin">Bitcoin &mdash; 10% off</option>
             </select>
             <button type="submit" id="betaSubmitBtn">Order the kit &rarr;</button>
             <p class="form-note">No spam. You get a payment link, then your kit and the app code.</p>
