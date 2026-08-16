@@ -725,6 +725,7 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 .kit-line{color:var(--c-text-soft);font-size:.95rem;margin-top:.5rem;line-height:1.55}
 .kit-line strong{color:var(--c-text);font-weight:600}
 .kit-req{font-size:.85rem;color:var(--c-text-mute)}
+.kit-prices strong{color:var(--c-cyan)}
 .kit-btc strong{color:var(--c-coral)}
 .price-from{
   font-size:1rem;font-weight:600;color:var(--c-text-mute);
@@ -864,9 +865,10 @@ footer .logo{font-size:1rem}
       "brand": { "@type": "Brand", "name": "OceanEar" },
       "offers": {
         "@type": "AggregateOffer",
-        "lowPrice": "449",
+        "lowPrice": "595",
+        "highPrice": "645",
         "priceCurrency": "NZD",
-        "offerCount": "2",
+        "offerCount": "3",
         "availability": "https://schema.org/InStock",
         "url": "https://oceanear.co.nz/#reserve"
       }
@@ -1183,13 +1185,14 @@ footer .logo{font-size:1rem}
         </div>
         <div class="reserve-card reveal reveal-3">
           <div class="price-row">
-            <span class="price-from">from</span><span class="price">$449</span>
+            <span class="price-from">from</span><span class="price">$595</span>
             <span class="price-cur">NZD</span>
             <span class="price-pill">IN STOCK</span>
           </div>
-          <p class="kit-line">The total depends on the cable length you pick, and is confirmed in your payment link before you pay anything. Shipping is <strong>$20</strong> within New Zealand and Australia. <strong>Pickup in Wellington is free.</strong> Anywhere else, ask and we&rsquo;ll quote it.</p>
+          <p class="kit-line kit-prices"><strong>$595</strong> with 3&nbsp;m of cable &middot; <strong>$635</strong> with 6&nbsp;m &middot; <strong>$645</strong> with 9&nbsp;m</p>
+          <p class="kit-line">Shipping is <strong>$20</strong> within New Zealand and Australia. <strong>Pickup in Wellington is free.</strong> Anywhere else, ask and we&rsquo;ll quote it.</p>
           <p class="kit-line kit-btc"><strong>Paying in Bitcoin? 10% off the total.</strong> Pick it in the form and you get a BTC invoice instead of a card link.</p>
-          <p class="kit-line">Includes an <strong><a href="hydrophone.html">Aquarian Audio H2d</a></strong> hydrophone on a <strong>3&nbsp;m or 6&nbsp;m cable</strong> &middot; <strong>USB-C interface</strong> &middot; <strong>redeem code</strong> for the full OceanEar App. Other cable lengths on request.</p>
+          <p class="kit-line">Includes an <strong><a href="hydrophone.html">Aquarian Audio H2d</a></strong> hydrophone &middot; <strong>USB-C interface</strong> &middot; <strong>redeem code</strong> for the full OceanEar App. Longer cable than 9&nbsp;m on request.</p>
           <p class="kit-line kit-req">Needs an iPhone 12 or later on iOS 17.6. The kit does not work with Android.</p>
           <p class="kit-line kit-req">12-month warranty &middot; 14-day returns &middot; <a href="terms.html">sale terms</a></p>
           <p class="kit-line kit-app">
@@ -1218,9 +1221,10 @@ footer .logo{font-size:1rem}
             </select>
             <select name="cable" required>
               <option value="" disabled selected>Cable length&hellip;</option>
-              <option value="3m">3 m</option>
-              <option value="6m">6 m</option>
-              <option value="other">Another length &mdash; get in touch</option>
+              <option value="3m">3 m &mdash; $595</option>
+              <option value="6m">6 m &mdash; $635</option>
+              <option value="9m">9 m &mdash; $645</option>
+              <option value="other">Longer &mdash; get in touch</option>
             </select>
             <select name="payment" required>
               <option value="" disabled selected>Paying by&hellip;</option>
