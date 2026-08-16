@@ -471,6 +471,14 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
   mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 100%);
   -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 100%);
 }
+/* The scale rides on its own layer. The mask above fades the top third of the
+   image out behind the track list, and 10k sits in that fade by construction,
+   so a scale drawn into the same canvas is unreadable exactly where the axis
+   needs to be legible. The labels live in the gutter left of the play buttons. */
+.phone-axis{
+  mask-image:none;-webkit-mask-image:none;
+  opacity:1;z-index:1;
+}
 
 /* Press-play hint (under phone) -------------------------------------------- */
 .hint{
@@ -908,6 +916,7 @@ footer .logo{font-size:1rem}
         </div>
 
         <canvas id="phoneSpec" class="phone-spec" aria-hidden="true"></canvas>
+        <canvas id="phoneAxis" class="phone-spec phone-axis" aria-hidden="true"></canvas>
       </div>
 
     </div>
@@ -1299,6 +1308,9 @@ footer .logo{font-size:1rem}
   const c = document.getElementById('phoneSpec');
   if(!c) return;
   const ctx = c.getContext('2d');
+  // Unmasked twin, same box, carries the frequency scale only
+  const axc = document.getElementById('phoneAxis');
+  const axCtx = axc ? axc.getContext('2d') : null;
 
   const WINDOW_S = 5;      // seconds of history across the full width
   const F_MIN = 45;        // Hz at the bottom edge
@@ -1438,6 +1450,7 @@ footer .logo{font-size:1rem}
     const cw = Math.round(w * dpr), ch = Math.round(h * dpr);
     if(cw === c.width && ch === c.height) return;
     c.width = cw; c.height = ch;
+    if(axc){ axc.width = cw; axc.height = ch; }
     front.width = cw; front.height = ch;
     back.width  = cw; back.height  = ch;
     colCanvas = document.createElement('canvas');
@@ -1544,29 +1557,31 @@ footer .logo{font-size:1rem}
     colCtx.putImageData(colData, 0, 0);
   }
 
-  /* --- Axis furniture, drawn on top of the scrolling image -- */
-  const TICKS = [[10000,'10k'],[5000,'5k'],[1000,'1k'],[500,'500'],[100,'100']];
+  /* --- Axis furniture, on the unmasked layer above the image -- */
+  const TICKS = [[10000,'10k'],[5000,'5k'],[2000,'2k'],[1000,'1k'],[500,'500'],[100,'100']];
   function drawAxis(){
-    const w = c.width, h = c.height;
+    if(!axCtx) return;
+    const w = axc.width, h = axc.height;
     const ratio = Math.log(F_MAX / F_MIN);
-    ctx.font = `${Math.round(8 * dpr)}px ui-monospace, SFMono-Regular, Menlo, monospace`;
-    ctx.textBaseline = 'middle';
+    axCtx.clearRect(0, 0, w, h);
+    axCtx.font = `${Math.round(8 * dpr)}px ui-monospace, SFMono-Regular, Menlo, monospace`;
+    axCtx.textBaseline = 'middle';
     // Faint halo so the scale stays readable over bright spectrogram bands
-    ctx.shadowColor = 'rgba(3,18,25,.85)';
-    ctx.shadowBlur = 3 * dpr;
-    ctx.fillStyle = 'rgba(160,196,203,.45)';
+    axCtx.shadowColor = 'rgba(3,18,25,.85)';
+    axCtx.shadowBlur = 3 * dpr;
+    axCtx.fillStyle = 'rgba(160,196,203,.55)';
     for(const [f, label] of TICKS){
       if(f <= F_MIN || f >= F_MAX) continue;
       // Ticks keep the frequency they actually mark, so the ones that fall
       // behind the transport are dropped rather than nudged into a lie
       const y = h - (Math.log(f / F_MIN) / ratio) * h;
       if(y > h - axisInset) continue;
-      ctx.fillText(label, 6 * dpr, y);
+      axCtx.fillText(label, 6 * dpr, y);
     }
-    ctx.textAlign = 'right';
-    ctx.fillText('← ' + WINDOW_S + 's', w - 6 * dpr, h - axisInset - 4 * dpr);
-    ctx.textAlign = 'left';
-    ctx.shadowBlur = 0;
+    axCtx.textAlign = 'right';
+    axCtx.fillText('← ' + WINDOW_S + 's', w - 6 * dpr, h - axisInset - 4 * dpr);
+    axCtx.textAlign = 'left';
+    axCtx.shadowBlur = 0;
   }
 
   /* --- Loop ------------------------------------------------- */
