@@ -725,6 +725,9 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 .kit-line{color:var(--c-text-soft);font-size:.95rem;margin-top:.5rem;line-height:1.55}
 .kit-line strong{color:var(--c-text);font-weight:600}
 .kit-req{font-size:.85rem;color:var(--c-text-mute)}
+.kit-btc strong{color:var(--c-coral)}
+.kit-req a{color:var(--c-cyan);text-decoration:none;border-bottom:1px solid rgba(76,193,212,.35)}
+.kit-req a:hover{border-bottom-color:var(--c-cyan)}
 .kit-app{
   display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
   margin-top:1.1rem;padding-top:1.1rem;
@@ -859,7 +862,7 @@ footer .logo{font-size:1rem}
         "@type": "Offer",
         "price": "449",
         "priceCurrency": "NZD",
-        "availability": "https://schema.org/PreOrder",
+        "availability": "https://schema.org/InStock",
         "url": "https://oceanear.co.nz/#reserve"
       }
     }
@@ -874,7 +877,7 @@ footer .logo{font-size:1rem}
 <nav>
   <a href="#hero" class="logo">Ocean<span>Ear</span><sup class="rtm">&reg;</sup></a>
   <div class="links">
-    <a href="#reserve" class="nl cta">Reserve Kit</a>
+    <a href="#reserve" class="nl cta">Buy Kit</a>
     <a href="https://apps.apple.com/app/id6771672044?ct=site-nav" class="nl" target="_blank" rel="noopener">App Store</a>
     <a href="about.html" class="nl nl-alt2">About</a>
     <a href="services.html" class="nl nl-alt">Services</a>
@@ -894,7 +897,7 @@ footer .logo{font-size:1rem}
         <a href="https://apps.apple.com/app/id6771672044?ct=site-hero" class="badge-appstore" target="_blank" rel="noopener">
           <img src="appstore-badge.svg" width="144" height="48" alt="Download OceanEar on the App Store">
         </a>
-        <a href="#reserve" class="btn primary">Reserve Kit
+        <a href="#reserve" class="btn primary">Buy Kit
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <a href="#live" class="btn ghost">See how it works &darr;</a>
@@ -1162,12 +1165,12 @@ footer .logo{font-size:1rem}
   <section class="section" id="reserve-top">
     <div class="reserve">
       <div class="reveal" style="text-align:center;margin-bottom:3rem">
-        <span class="eyebrow coral">Early Access</span>
+        <span class="eyebrow coral">In stock</span>
         <h2 style="font-size:clamp(2rem,4.5vw,3.2rem)">Want to hear it<br>for <span style="color:var(--c-cyan)">yourself?</span></h2>
-        <p class="lede" style="margin:1rem auto 0">First batch ships from Wellington. The app is already on the App Store &mdash; your kit ships with a code that unlocks the full version.</p>
+        <p class="lede" style="margin:1rem auto 0">Built in Wellington and ready to ship. Every kit comes with a code that unlocks the full app.</p>
       </div>
 
-      <!-- The Reserve Kit links target the kit and the offer, not the headline above them -->
+      <!-- The Buy Kit links target the kit and the offer, not the headline above them -->
       <div class="reserve-grid" id="reserve">
         <div class="reveal reveal-2">
           <img src="kit-marketing-web.jpg" width="1200" height="1600" alt="OceanEar Kit, hydrophone, USB-C cable, app on iPhone, Bluetooth earbuds" class="kit-image" loading="lazy">
@@ -1176,11 +1179,13 @@ footer .logo{font-size:1rem}
           <div class="price-row">
             <span class="price">$449</span>
             <span class="price-cur">NZD</span>
-            <span class="price-pill">EARLY BIRD &middot; LOCKED IN</span>
+            <span class="price-pill">IN STOCK</span>
           </div>
-          <p class="kit-line">No payment now. We'll send a payment link when your kit ships.</p>
+          <p class="kit-line">Plus flat-rate shipping, quoted with your payment link. Ships worldwide from Wellington.</p>
+          <p class="kit-line kit-btc"><strong>Paying in Bitcoin? 10% off, $404.10.</strong> Say so when you order and you get a BTC invoice instead of a card link.</p>
           <p class="kit-line">Includes <strong>Hydrophone</strong> &middot; <strong>USB-C Adapter</strong> &middot; <strong>redeem code</strong> for the full OceanEar App</p>
           <p class="kit-line kit-req">Needs an iPhone 12 or later on iOS 17.6. The kit does not work with Android.</p>
+          <p class="kit-line kit-req">12-month warranty &middot; 14-day returns &middot; <a href="terms.html">sale terms</a></p>
           <p class="kit-line kit-app">
             <span>Don't want to wait? The app is free on the App Store: seven days with every feature unlocked, then <strong>$19.99 once</strong>. No subscription, no auto-renewal.</span>
             <a href="https://apps.apple.com/app/id6771672044?ct=site-reserve" class="badge-appstore badge-sm" target="_blank" rel="noopener">
@@ -1198,17 +1203,22 @@ footer .logo{font-size:1rem}
               <option value="enthusiast">Ocean enthusiast</option>
               <option value="other">Other</option>
             </select>
-            <button type="submit" id="betaSubmitBtn">Reserve my spot &rarr;</button>
-            <p class="form-note">No spam. One email when your kit ships, with the code that unlocks the full app.</p>
+            <select name="payment" required>
+              <option value="" disabled selected>Paying by&hellip;</option>
+              <option value="card">Card or bank transfer &mdash; $449</option>
+              <option value="bitcoin">Bitcoin &mdash; $404.10, 10% off</option>
+            </select>
+            <button type="submit" id="betaSubmitBtn">Order the kit &rarr;</button>
+            <p class="form-note">No spam. You get a payment link, then your kit and the app code.</p>
           </form>
 
           <div id="betaSuccess" class="success">
             <div class="wave">&#127754;</div>
-            <h3>You're on the list.</h3>
-            <p>We'll email you when your kit is ready to ship, with the code for the full app.</p>
+            <h3>Order received.</h3>
+            <p>Your payment link is on its way. The kit ships from Wellington as soon as it's paid, with the code for the full app.</p>
           </div>
 
-          <p class="kit-foot">Limited first batch &middot; Built in Wellington &middot; Ships internationally</p>
+          <p class="kit-foot">In stock &middot; Built in Wellington &middot; Ships internationally</p>
         </div>
       </div>
     </div>
@@ -1219,7 +1229,7 @@ footer .logo{font-size:1rem}
 <footer>
   <a href="#hero" class="logo">Ocean<span>Ear</span><sup class="rtm">&reg;</sup></a>
   <div class="foot-links">
-    <a href="#reserve">Reserve Kit</a>
+    <a href="#reserve">Buy Kit</a>
     <a href="#specs">Specs</a>
     <a href="services.html">Services</a>
     <a href="about.html">About</a>
