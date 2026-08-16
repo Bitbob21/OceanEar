@@ -682,7 +682,8 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
   margin-top:1.4rem;text-align:center;font-size:.85rem;
   color:var(--c-text-mute);
 }
-.specs-note a{color:var(--c-cyan);text-decoration:none;border-bottom:1px solid rgba(76,193,212,.3)}
+.specs-note a{color:#fff;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;text-decoration-color:rgba(255,255,255,.45)}
+.specs-note a:hover{text-decoration-color:#fff}
 @media(max-width:640px){
   .specs-card{padding:1.4rem 1.5rem}
   .specs-table td{padding:11px 0;font-size:.85rem}
@@ -725,14 +726,19 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 .kit-line{color:var(--c-text-soft);font-size:.95rem;margin-top:.5rem;line-height:1.55}
 .kit-line strong{color:var(--c-text);font-weight:600}
 .kit-req{font-size:.85rem;color:var(--c-text-mute)}
-.kit-prices strong{color:var(--c-cyan)}
+.kit-prices strong{color:#fff}
 .kit-btc strong{color:var(--c-coral)}
 .price-from{
   font-size:1rem;font-weight:600;color:var(--c-text-mute);
   margin-right:.45rem;align-self:center;
 }
-.kit-line a{color:var(--c-cyan);text-decoration:none;border-bottom:1px solid rgba(76,193,212,.35)}
-.kit-line a:hover{border-bottom-color:var(--c-cyan)}
+/* Cyan links vanish against the petrol card, so links read white and underlined */
+.kit-line a{
+  color:#fff;text-decoration:underline;
+  text-underline-offset:3px;text-decoration-thickness:1px;
+  text-decoration-color:rgba(255,255,255,.45);
+}
+.kit-line a:hover{text-decoration-color:#fff}
 .kit-app{
   display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
   margin-top:1.1rem;padding-top:1.1rem;
