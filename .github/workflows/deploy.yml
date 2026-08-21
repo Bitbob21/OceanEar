@@ -70,13 +70,17 @@ jobs:
           done
           exit $fail
 
-      # Advisory until the DNS records point here. Once they do, a failure means
-      # Cloudflare is misconfigured even though the origin is fine.
+      # The records point here now, so this is no longer advisory. The origin check above
+      # is the real gate on what this job changed; this one catches the case where the
+      # deploy is fine and the public site is not, which means Cloudflare is in the way.
+      # It runs after the site is already published, so it reports rather than prevents.
       - name: Check the public site
-        continue-on-error: true
         run: |
+          fail=0
           for path in / /edu/; do
             code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 \
               "https://oceanear.co.nz${path}")
             echo "  ${code}  https://oceanear.co.nz${path}"
+            [ "$code" = "200" ] || { echo "::error::public ${path} returned ${code}"; fail=1; }
           done
+          exit $fail
