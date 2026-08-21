@@ -1,0 +1,82 @@
+# Publish oceanear.co.nz to the origin server.
+#
+# The site used to be served by GitHub Pages straight from this repository. It is now
+# served by nginx on 204.168.190.201, behind Cloudflare, so that oceanear.co.nz/edu can
+# be proxied to the OceanEar EDU service. This workflow keeps the old convenience: push
+# to main and the site updates.
+#
+# The deploy key is locked down on the server side. It cannot open a shell, cannot read
+# anything back, cannot forward a port, and can only write into the web root. Even if the
+# secret leaked, the worst it buys is the ability to overwrite the public site.
+#
+# Secrets this needs:
+#   DEPLOY_SSH_KEY      the private key generated on the server for the oe-deploy user
+#   DEPLOY_KNOWN_HOSTS  the server's host key, so the runner is not trusting on first use
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up the deploy key
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          # Pinned rather than accepted on first use: without this the runner would trust
+          # whatever answers on port 22, which is the whole attack this key is worth.
+          printf '%s\n' "${{ secrets.DEPLOY_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Publish
+        run: |
+          # The destination is / because the server's forced command confines this key to
+          # the web root; it can address nothing outside it.
+          #
+          # /.git/ is excluded to protect the clone on the server, which is the manual
+          # fallback if this workflow is ever broken. Excluded paths are also protected
+          # from --delete, so it survives.
+          rsync -rlpt --delete --compress --human-readable \
+            --exclude '/.git/' \
+            --exclude '/.github/' \
+            -e 'ssh -i ~/.ssh/deploy -o IdentitiesOnly=yes' \
+            ./ oe-deploy@204.168.190.201:/
+
+      # Checked against the origin directly rather than through DNS, so this means the
+      # same thing before and after the cutover and tests what this job actually changed
+      # rather than what Cloudflare happens to be serving. -k is expected: the origin
+      # certificate is issued by Cloudflare and trusted by Cloudflare, not by curl.
+      - name: Check the origin answers
+        run: |
+          fail=0
+          for path in / /about.html /services.html /edu/ /edu/dive/the-masking-experiment; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -k --max-time 20 \
+              --resolve "oceanear.co.nz:443:204.168.190.201" \
+              "https://oceanear.co.nz${path}")
+            echo "  ${code}  ${path}"
+            [ "$code" = "200" ] || { echo "::error::origin ${path} returned ${code}"; fail=1; }
+          done
+          exit $fail
+
+      # Advisory until the DNS records point here. Once they do, a failure means
+      # Cloudflare is misconfigured even though the origin is fine.
+      - name: Check the public site
+        continue-on-error: true
+        run: |
+          for path in / /edu/; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 \
+              "https://oceanear.co.nz${path}")
+            echo "  ${code}  https://oceanear.co.nz${path}"
+          done
