@@ -168,6 +168,10 @@ nav a.nl:hover,nav a.nl.active{color:#fff}
 /* Four items overflow the pill on a phone. Services is the one that gives
    way: it stays in every footer, and the buying links keep the nav. */
 @media(max-width:640px){nav a.nl-alt{display:none}}
+/* Schools is the first to give way. It is the one nav item a buyer is not looking
+   for, and unlike the others it is a whole separate site, so the footer link is a
+   fair substitute. Above this width five items still fit the pill. */
+@media(max-width:780px){nav a.nl-edu{display:none}}
 /* Below 420 only the two things a visitor can act on fit. About and
    Services are reachable from every footer. */
 @media(max-width:420px){
@@ -210,6 +214,7 @@ nav a.nl:hover,nav a.nl.active{color:#fff}
   <div style="display:flex;gap:1.2rem;align-items:center">
     <a href="index.html#reserve" class="nl nc">Buy Kit</a>
     <a href="https://apps.apple.com/app/id6771672044?ct=site-nav" class="nl" target="_blank" rel="noopener">App Store</a>
+    <a href="/edu/" class="nl nl-edu">Schools</a>
     <a href="about.html" class="nl nl-alt2">About</a>
     <a href="services.html" class="nl nl-alt">Services</a>
     <a href="support.html" class="nl">Support</a>
@@ -272,6 +277,7 @@ nav a.nl:hover,nav a.nl.active{color:#fff}
     <a href="hydrophone.html">Hydrophone</a>
     <a href="about.html">About</a>
     <a href="services.html">Services</a>
+    <a href="/edu/">Schools</a>
     <a href="support.html">Support</a>
     <a href="terms.html">Terms</a>
     <a href="privacy.html">Privacy</a>
