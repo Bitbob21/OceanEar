@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Video · Bitcoin Self-Custody</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background:#06151f;
+      color:#cbd5e1;
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      min-height:100vh;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      padding:24px 16px;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% 0%,rgba(76,193,212,.06),transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 100%,rgba(247,147,26,.04),transparent 60%);
+    }
+    .wrap{max-width:420px;width:100%;display:flex;flex-direction:column;gap:18px}
+    .player{
+      width:100%;aspect-ratio:9/16;
+      border-radius:14px;overflow:hidden;
+      background:#000;
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.04) inset,
+        0 20px 60px -20px rgba(0,0,0,.7),
+        0 0 0 1px rgba(76,193,212,.08);
+    }
+    video{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+    h1{
+      font-size:15px;font-weight:600;
+      color:#e2e8f0;letter-spacing:-.01em;
+    }
+    .meta{font-size:13px;line-height:1.55;color:#64748b;text-align:center}
+    .meta a{color:#64748b;text-decoration:underline;text-decoration-color:#1e3a4a;text-underline-offset:3px;transition:color .2s}
+    .meta a:hover{color:#94a3b8}
+    .pill{
+      display:inline-flex;align-items:center;gap:6px;
+      font-size:11px;font-weight:600;
+      color:#f7931a;
+      padding:3px 9px;border-radius:999px;
+      background:rgba(247,147,26,.08);
+      border:1px solid rgba(247,147,26,.22);
+      margin-bottom:6px;
+    }
+    .download{margin-top:8px;font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="player">
+      <video controls preload="metadata" playsinline>
+        <source src="bitcoin-self-custody.mp4" type="video/mp4">
+        Your browser does not support embedded video.
+      </video>
+    </div>
+    <div class="meta">
+      <span class="pill">&#8383; Privacy-first hosting</span>
+      <h1>Bitcoin Self-Custody</h1>
+      <p>
+        Hosted on <a href="https://oceanear.co.nz">oceanear.co.nz</a>.
+        No cookies, no trackers, no analytics.
+      </p>
+      <p class="download">
+        <a href="bitcoin-self-custody.mp4">Direct file</a>
+        &middot;
+        <a href="https://oceanear.co.nz">oceanear.co.nz</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
