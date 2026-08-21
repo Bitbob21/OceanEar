@@ -799,6 +799,48 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 }
 
 /* ==========================================================================
+   BITCOIN ACCEPTED
+   ========================================================================== */
+.btc-accepted{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:var(--r-pill);
+  background:rgba(247,147,26,.08);
+  border:1px solid rgba(247,147,26,.32);
+  color:#f7931a;
+  font-size:.82rem;font-weight:600;
+  letter-spacing:.01em;
+  transition:background .25s,border-color .25s,transform .25s var(--ease);
+}
+.btc-accepted:hover{
+  background:rgba(247,147,26,.14);
+  border-color:rgba(247,147,26,.5);
+  transform:translateY(-1px);
+}
+.btc-accepted .btc-sym{font-weight:800;font-size:1.05rem;line-height:1}
+.btc-accepted .btc-off{color:var(--c-coral);font-weight:700;margin-left:2px}
+.btc-price{
+  display:inline-flex;align-items:baseline;gap:5px;
+  padding:6px 13px;border-radius:var(--r-pill);
+  background:rgba(247,147,26,.08);
+  border:1px solid rgba(247,147,26,.28);
+  cursor:help;
+}
+.btc-price .btc-sym{color:#f7931a;font-weight:800;font-size:1rem}
+.btc-price .btc-val{color:#f7931a;font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+.btc-price .btc-cur{color:rgba(247,147,26,.65);font-size:.7rem;font-weight:600}
+.btc-price .btc-save{
+  margin-left:4px;padding:2px 7px;border-radius:var(--r-pill);
+  background:rgba(244,123,98,.12);
+  border:1px solid rgba(244,123,98,.32);
+  color:var(--c-coral);font-size:.6rem;font-weight:700;
+  letter-spacing:.05em;
+}
+@media(max-width:640px){
+  .btc-accepted{font-size:.74rem;padding:7px 13px}
+  .btc-price .btc-save{display:none}
+}
+
+/* ==========================================================================
    FOOTER
    ========================================================================== */
 footer{
@@ -809,6 +851,16 @@ footer{
   background:rgba(6,21,31,.6);
 }
 footer .logo{font-size:1rem}
+.foot-btc{
+  margin:1.6rem auto 1rem;
+  display:flex;justify-content:center;align-items:center;
+}
+.foot-btc img{
+  height:54px;width:auto;display:block;
+  opacity:.94;
+  transition:opacity .25s,transform .25s var(--ease);
+}
+.foot-btc img:hover{opacity:1;transform:translateY(-1px)}
 .foot-links{
   display:flex;gap:1.6rem;justify-content:center;flex-wrap:wrap;
   margin:1.4rem 0 1rem;
@@ -921,6 +973,10 @@ footer .logo{font-size:1rem}
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <a href="#live" class="btn ghost">See how it works &darr;</a>
+        <span class="btc-accepted" title="Pay with Bitcoin and save 10%">
+          <span class="btc-sym">₿</span>
+          <span>Bitcoin accepted<span class="btc-off">· 10% off</span></span>
+        </span>
       </div>
       <p class="cta-req reveal reveal-3">Free for seven days with every feature, then $19.99 once. No subscription. iPhone 12 or later, iOS 17.6.</p>
     </div>
@@ -1216,6 +1272,12 @@ footer .logo{font-size:1rem}
             <span class="price-from">from</span><span class="price">$745</span>
             <span class="price-cur">NZD</span>
             <span class="price-pill">IN STOCK</span>
+            <span class="btc-price" title="10% off when paying with Bitcoin">
+              <span class="btc-sym">₿</span>
+              <span class="btc-val">$671</span>
+              <span class="btc-cur">NZD</span>
+              <span class="btc-save">10% OFF</span>
+            </span>
           </div>
           <p class="kit-line kit-prices"><strong>$745</strong> with 6&nbsp;m of cable &middot; <strong>$775</strong> with 9&nbsp;m</p>
           <p class="kit-line">Shipping is <strong>$20</strong> within New Zealand and Australia. <strong>Pickup in Wellington is free.</strong> Anywhere else, ask and we&rsquo;ll quote it.</p>
@@ -1272,6 +1334,9 @@ footer .logo{font-size:1rem}
 
 <footer>
   <a href="#hero" class="logo">Ocean<span>Ear</span><sup class="rtm">&reg;</sup></a>
+  <div class="foot-btc">
+    <img src="assets/bitcoin-accepted.png" alt="Bitcoin Accepted Here" width="216" height="129">
+  </div>
   <div class="foot-links">
     <a href="#reserve">Buy Kit</a>
     <a href="#specs">Specs</a>
