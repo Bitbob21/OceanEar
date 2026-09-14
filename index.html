@@ -21,10 +21,26 @@
 {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://oceanear.co.nz/#organization",
   "name": "OceanEar",
+  "alternateName": ["OceanEar NZ", "OceanEar hydrophone", "OceanEar app"],
+  "disambiguatingDescription": "New Zealand maker of a hydrophone kit and an iPhone app for listening to underwater sound in 3D spatial audio. A hardware and software company, not a music act.",
   "url": "https://oceanear.co.nz/",
-  "logo": "https://oceanear.co.nz/assets/og-image.jpg",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://oceanear.co.nz/assets/icon-512.png",
+    "width": 512,
+    "height": 512
+  },
+  "image": "https://oceanear.co.nz/assets/og-image.jpg",
   "description": "Hydrophone-based spatial audio experiences. Live underwater listening in 3D audio, rendered with OceanEar Precision HRTF, plus metering, recording and sharing on your iPhone. Made in Wellington, New Zealand.",
+  "email": "hello@oceanear.co.nz",
+  "foundingDate": "2025",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Wellington",
+    "addressCountry": "NZ"
+  },
   "founder": {
     "@type": "Person",
     "name": "Sebastian Voss",
@@ -33,10 +49,22 @@
       "@type": "Place",
       "addressLocality": "Wellington",
       "addressCountry": "NZ"
-    }
+    },
+    "sameAs": "https://www.linkedin.com/in/sebvoss/"
   },
+  "knowsAbout": [
+    "Underwater acoustics",
+    "Hydrophones",
+    "Spatial audio",
+    "Binaural audio",
+    "Head-related transfer function",
+    "Marine bioacoustics"
+  ],
   "areaServed": "Worldwide",
-  "sameAs": []
+  "sameAs": [
+    "https://apps.apple.com/app/id6771672044",
+    "https://www.instagram.com/oceanear.nz/"
+  ]
 }
 </script>
 <script type="application/ld+json">
@@ -912,8 +940,10 @@ footer .logo{font-size:1rem}
   "@graph": [
     {
       "@type": "SoftwareApplication",
+      "@id": "https://oceanear.co.nz/#app",
       "name": "OceanEar",
       "url": "https://apps.apple.com/app/id6771672044",
+      "publisher": { "@id": "https://oceanear.co.nz/#organization" },
       "applicationCategory": "MultimediaApplication",
       "operatingSystem": "iOS 17.6 or later",
       "description": "Underwater and field recording with true 3D spatial audio, rendered with OceanEar Precision HRTF. Record binaural soundscapes above and below the surface from an iPhone, with a hydrophone or the built-in mic.",
@@ -925,11 +955,12 @@ footer .logo{font-size:1rem}
     },
     {
       "@type": "Product",
+      "@id": "https://oceanear.co.nz/#kit",
       "name": "OceanEar Kit",
       "url": "https://oceanear.co.nz/#reserve",
       "image": "https://oceanear.co.nz/kit-marketing-web.jpg",
       "description": "Aquarian Audio H2d hydrophone, USB-C interface and a redeem code for the full OceanEar app. Ships from Wellington, New Zealand, or collect in person.",
-      "brand": { "@type": "Brand", "name": "OceanEar" },
+      "brand": { "@type": "Brand", "name": "OceanEar", "url": "https://oceanear.co.nz/" },
       "offers": {
         "@type": "AggregateOffer",
         "lowPrice": "745",
