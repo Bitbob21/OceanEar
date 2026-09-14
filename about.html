@@ -34,6 +34,8 @@
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
 <!-- Safari on iOS turns this into Apple's own install banner above the page -->
 <meta name="apple-itunes-app" content="app-id=6771672044">
 <link rel="preload" as="font" type="font/woff2" href="fonts/nunito.woff2" crossorigin>
@@ -50,6 +52,9 @@
   font-display:swap;
   src:url(fonts/nunito.woff2) format('woff2');
 }
+
+/* <picture> is a wrapper only; without this it is an inline box and shifts layout */
+picture{display:contents}
 </style>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased}
@@ -245,7 +250,7 @@ nav a.nl:hover,nav a.nl.active{color:#fff}
 
   <div class="about-grid">
     <div class="about-photo-wrap">
-      <img src="sebastian.png" alt="Sebastian, founder of OceanEar" class="about-photo" loading="lazy">
+      <picture><source srcset="sebastian.webp" type="image/webp"><img src="sebastian.png" alt="Sebastian, founder of OceanEar" class="about-photo" loading="lazy"></picture>
     </div>
     <div class="about-text">
       <h2>Hi, I'm Sebastian.</h2>
@@ -291,5 +296,7 @@ nav a.nl:hover,nav a.nl.active{color:#fff}
   <p class="site-footer-meta">&copy; 2026 OceanEar&reg;.<br><span class="loc">Wellington &middot; New Zealand</span></p>
 </footer>
 
+<script data-goatcounter="https://oceanear.co.nz/stats/count"
+        async src="https://oceanear.co.nz/stats/count.js"></script>
 </body>
 </html>

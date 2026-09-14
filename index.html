@@ -99,6 +99,8 @@
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
 <!-- Safari on iOS turns this into Apple's own install banner above the page -->
 <meta name="apple-itunes-app" content="app-id=6771672044">
 <link rel="preload" as="font" type="font/woff2" href="fonts/nunito.woff2" crossorigin>
@@ -115,6 +117,9 @@
   font-display:swap;
   src:url(fonts/nunito.woff2) format('woff2');
 }
+
+/* <picture> is a wrapper only; without this it is an inline box and shifts layout */
+picture{display:contents}
 </style>
 <style>
 /* ==========================================================================
@@ -766,6 +771,25 @@ nav a.cta:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(244,123,98,
 }
 .form input::placeholder{color:rgba(160,196,203,.4)}
 .form input:focus,.form select:focus{border-color:var(--c-cyan)}
+/* Field-level validation. Colours are driven by :user-invalid so a field only
+   turns red after the visitor has actually interacted with it, never on load. */
+.form input:user-invalid,.form select:user-invalid{
+  border-color:rgba(244,123,98,.75);
+}
+.form input:user-invalid:focus,.form select:user-invalid:focus{border-color:var(--c-coral)}
+.form-err{
+  font-size:.76rem;color:#f9a894;margin:-.35rem 0 0;
+  min-height:0;line-height:1.4;
+  display:none;
+}
+.form-err.show{display:block}
+.form button .spin{
+  display:inline-block;width:.85em;height:.85em;margin-right:.5em;
+  vertical-align:-.1em;
+  border:2px solid rgba(255,255,255,.35);border-top-color:#fff;
+  border-radius:50%;animation:spin .7s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
 .form select{
   background:#0d3d4f;
   appearance:none;-webkit-appearance:none;
@@ -853,6 +877,32 @@ footer .logo{font-size:1rem}
   nav a.nl{font-size:.72rem;padding:5px 8px;white-space:nowrap}
   nav a.nl-alt2{display:none}
 }
+
+/* Sticky buy bar, phones only ----------------------------------------------- */
+.buy-bar{
+  position:fixed;left:0;right:0;bottom:0;z-index:120;
+  display:none;align-items:center;gap:.8rem;
+  padding:.7rem .9rem calc(.7rem + env(safe-area-inset-bottom));
+  background:rgba(10,22,40,.94);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-top:1px solid var(--c-line);
+  transform:translateY(110%);
+  transition:transform .4s var(--ease);
+}
+.buy-bar.show{transform:none}
+.buy-bar .bb-price{font-weight:800;font-size:1rem;color:var(--c-text);line-height:1.2}
+.buy-bar .bb-price .cur{font-size:.72rem;color:var(--c-text-mute);font-weight:600}
+.buy-bar .bb-sub{font-size:.7rem;color:var(--c-text-mute);margin-top:.1rem}
+.buy-bar .bb-cta{
+  flex:none;margin-left:auto;background:var(--c-coral);color:#fff;text-decoration:none;
+  font-weight:700;font-size:.9rem;padding:.7rem 1.15rem;border-radius:var(--r-pill);
+  box-shadow:0 8px 24px rgba(244,123,98,.35);
+}
+/* The bar exists only where the nav has already shed items, and only up to
+   the point where the tablet layout has room to keep Buy Kit in the nav. */
+@media(max-width:820px){.buy-bar{display:flex}}
+@media(max-width:820px){body{padding-bottom:5rem}}
 </style>
 <!-- The app and the kit as sellable things. Organization and FAQ markup
      already sit above; this adds what a launched product needs. -->
@@ -1042,8 +1092,8 @@ footer .logo{font-size:1rem}
       </div>
       <div class="reveal reveal-2">
         <div class="dual">
-          <div class="app-shot"><img src="screen-live.jpg" width="1206" height="2436" alt="Live monitoring with noise reduction on and the spectrogram running" loading="lazy"></div>
-          <div class="app-shot"><img src="screen-meter.jpg" width="900" height="1806" alt="Live sound meter with spectrum and peak hold" loading="lazy"></div>
+          <div class="app-shot"><picture><source srcset="screen-live.webp" type="image/webp"><img src="screen-live.jpg" width="1206" height="2436" alt="Live monitoring with noise reduction on and the spectrogram running" loading="lazy"></picture></div>
+          <div class="app-shot"><picture><source srcset="screen-meter.webp" type="image/webp"><img src="screen-meter.jpg" width="900" height="1806" alt="Live sound meter with spectrum and peak hold" loading="lazy"></picture></div>
         </div>
       </div>
     </div>
@@ -1065,7 +1115,7 @@ footer .logo{font-size:1rem}
         </div>
       </div>
       <div class="reveal reveal-2">
-        <div class="app-shot"><img src="screen-spatial.jpg" width="1206" height="2477" alt="Spatial render with stereo width control, ready to export" loading="lazy"></div>
+        <div class="app-shot"><picture><source srcset="screen-spatial.webp" type="image/webp"><img src="screen-spatial.jpg" width="1206" height="2477" alt="Spatial render with stereo width control, ready to export" loading="lazy"></picture></div>
       </div>
     </div>
   </section>
@@ -1082,7 +1132,7 @@ footer .logo{font-size:1rem}
         <p class="lede">Ambience mode does the same thing at home: the live hydrophone as a generative soundscape, through a speaker in the studio or the bach.</p>
       </div>
       <div class="reveal reveal-2">
-        <div class="app-shot"><img src="screen-ambience.jpg" width="1206" height="2436" alt="Ambience" loading="lazy"></div>
+        <div class="app-shot"><picture><source srcset="screen-ambience.webp" type="image/webp"><img src="screen-ambience.jpg" width="1206" height="2436" alt="Ambience" loading="lazy"></picture></div>
       </div>
     </div>
   </section>
@@ -1107,24 +1157,24 @@ footer .logo{font-size:1rem}
         <div class="shots-deck" id="shotsStage" tabindex="0"
              role="group" aria-roledescription="carousel" aria-label="OceanEar app screens">
           <button type="button" class="shots-card" aria-label="Show connected screen">
-            <img src="screen-home.jpg" width="1206" height="2454"
+            <picture><source srcset="screen-home.webp" type="image/webp"><img src="screen-home.jpg" width="1206" height="2454"
                  alt="Connected screen: hydrophone linked, Bluetooth headphones confirmed, library one tap away"
-                 loading="lazy" decoding="async">
+                 loading="lazy" decoding="async"></picture>
           </button>
           <button type="button" class="shots-card" aria-label="Show share clip screen">
-            <img src="screen-share.jpg" width="900" height="1818"
+            <picture><source srcset="screen-share.webp" type="image/webp"><img src="screen-share.jpg" width="900" height="1818"
                  alt="Share screen: a coastal photo above a live spectrogram, with 15 second story and binaural video options"
-                 loading="lazy" decoding="async">
+                 loading="lazy" decoding="async"></picture>
           </button>
           <button type="button" class="shots-card" aria-label="Show library screen">
-            <img src="screen-library.jpg" width="900" height="1818"
+            <picture><source srcset="screen-library.webp" type="image/webp"><img src="screen-library.jpg" width="900" height="1818"
                  alt="Library screen: recordings list with search, favourites, storage total and GPS metadata badges"
-                 loading="lazy" decoding="async">
+                 loading="lazy" decoding="async"></picture>
           </button>
           <button type="button" class="shots-card" aria-label="Show recording details screen">
-            <img src="screen-details.jpg" width="900" height="1857"
+            <picture><source srcset="screen-details.webp" type="image/webp"><img src="screen-details.jpg" width="900" height="1857"
                  alt="Details screen: the recording pinned on a map, with altitude, duration, file size, coordinates, sample rate and start time"
-                 loading="lazy" decoding="async">
+                 loading="lazy" decoding="async"></picture>
           </button>
         </div>
 
@@ -1214,7 +1264,7 @@ footer .logo{font-size:1rem}
       <!-- The Buy Kit links target the kit and the offer, not the headline above them -->
       <div class="reserve-grid" id="reserve">
         <div class="reveal reveal-2">
-          <img src="kit-marketing-web.jpg" width="1200" height="1600" alt="OceanEar Kit, hydrophone, USB-C cable, app on iPhone, Bluetooth earbuds" class="kit-image" loading="lazy">
+          <picture><source srcset="kit-marketing-web.webp" type="image/webp"><img src="kit-marketing-web.jpg" width="1200" height="1600" alt="OceanEar Kit, hydrophone, USB-C cable, app on iPhone, Bluetooth earbuds" class="kit-image" loading="lazy"></picture>
         </div>
         <div class="reserve-card reveal reveal-3">
           <div class="price-row">
@@ -1257,6 +1307,7 @@ footer .logo{font-size:1rem}
               <option value="9m">9 m &middot; $775</option>
               <option value="other">Longer &middot; get in touch</option>
             </select>
+            <p class="form-err" id="betaError" role="alert" aria-live="assertive"></p>
             <button type="submit" id="betaSubmitBtn">Order the kit &rarr;</button>
             <p class="form-note">No spam. You get a payment link, then your kit and the app code.</p>
           </form>
@@ -1401,10 +1452,50 @@ footer .logo{font-size:1rem}
   if(!form) return;
   const btn = document.getElementById('betaSubmitBtn');
   const success = document.getElementById('betaSuccess');
+  const errBox = document.getElementById('betaError');
+  const label = btn.innerHTML;
+
+  function showError(msg){
+    errBox.textContent = msg;
+    errBox.classList.add('show');
+  }
+  function clearError(){
+    errBox.textContent = '';
+    errBox.classList.remove('show');
+  }
+  function setLoading(on){
+    if(on){
+      btn.innerHTML = '<span class="spin" aria-hidden="true"></span>Sending&hellip;';
+      btn.disabled = true;
+      btn.setAttribute('aria-busy','true');
+    } else {
+      btn.innerHTML = label;
+      btn.disabled = false;
+      btn.removeAttribute('aria-busy');
+    }
+  }
+
+  // Clear a field's error state as soon as the visitor fixes it.
+  form.addEventListener('input', e => {
+    if(e.target.matches('input,select')) e.target.removeAttribute('aria-invalid');
+  });
+
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    btn.textContent = 'Sending…';
-    btn.disabled = true;
+    clearError();
+
+    // Native constraint check first, so we never fire a request for an empty field.
+    if(!form.checkValidity()){
+      const bad = form.querySelector(':invalid');
+      if(bad){
+        bad.setAttribute('aria-invalid','true');
+        bad.focus();
+      }
+      showError('Please fill in every field before sending.');
+      return;
+    }
+
+    setLoading(true);
     try{
       const res = await fetch(form.action, {
         method:'POST',
@@ -1415,12 +1506,12 @@ footer .logo{font-size:1rem}
         form.style.display = 'none';
         success.classList.add('show');
       } else {
-        btn.textContent = 'Try again';
-        btn.disabled = false;
+        setLoading(false);
+        showError('That did not go through. Please try again, or email hello@oceanear.co.nz.');
       }
     } catch(err){
-      btn.textContent = 'Try again';
-      btn.disabled = false;
+      setLoading(false);
+      showError('No connection right now. Please try again, or email hello@oceanear.co.nz.');
     }
   });
 })();
@@ -1938,5 +2029,40 @@ footer .logo{font-size:1rem}
 })();
 </script>
 
+<!-- Sticky buy bar. Shown once the kit offer has scrolled past and hidden
+     again while the order form itself is on screen, so it never competes
+     with the thing it points at. Phones only, via the CSS above. -->
+<div class="buy-bar" id="buyBar" aria-hidden="true">
+  <div>
+    <div class="bb-price">Kit from $745 <span class="cur">NZD</span></div>
+    <div class="bb-sub">In stock &middot; ships from Wellington</div>
+  </div>
+  <a href="#reserve" class="bb-cta">Buy Kit</a>
+</div>
+
+<script>
+(function(){
+  const bar = document.getElementById('buyBar');
+  const offer = document.getElementById('reserve');
+  if(!bar || !offer) return;
+  const hero = document.getElementById('hero');
+  const wide = matchMedia('(min-width:821px)');
+  function upd(){
+    if(wide.matches){ bar.classList.remove('show'); bar.setAttribute('aria-hidden','true'); return; }
+    const r = offer.getBoundingClientRect();
+    const onForm = r.top < innerHeight && r.bottom > 0;
+    const pastHero = (hero ? hero.getBoundingClientRect().bottom : 0) < 0;
+    const show = pastHero && !onForm;
+    bar.classList.toggle('show', show);
+    bar.setAttribute('aria-hidden', String(!show));
+  }
+  addEventListener('scroll', upd, {passive:true});
+  addEventListener('resize', upd);
+  upd();
+})();
+</script>
+
+<script data-goatcounter="https://oceanear.co.nz/stats/count"
+        async src="https://oceanear.co.nz/stats/count.js"></script>
 </body>
 </html>
